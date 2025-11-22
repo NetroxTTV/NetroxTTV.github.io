@@ -1,1209 +1,39 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucas DUPERRAY - Game Developer Portfolio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #000000;
-            --bg-secondary: #111111;
-            --accent-primary: #FFFFFF;
-            --accent-secondary: #CCCCCC;
-            --text-primary: #FFFFFF;
-            --text-secondary: #CCCCCC;
-            --text-muted: #888888;
-            --card-bg: rgba(17, 17, 17, 0.8);
-            --glow: 0 0 20px rgba(255, 255, 255, 0.1);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="white" stroke-width="1" opacity="0.8"/><circle cx="10" cy="10" r="2" fill="white" opacity="0.8"/></svg>'), auto;
-        }
-
-        /* Smooth scroll enhancement */
-        * {
-            scroll-behavior: smooth !important;
-        }
-
-        /* Sections transition */
-        section:not(#home) {
-            transition: transform 0.3s ease;
-        }
-
-        /* Particles canvas */
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--text-primary);
-            border-radius: 4px;
-        }
-
-        /* Custom cursor effects */
-        a, button, .clickable-emoji, .project-link {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="2" opacity="0.9"/><circle cx="12" cy="12" r="3" fill="white" opacity="0.9"/></svg>'), pointer;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            40% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-            60% {
-                transform: translateX(-50%) translateY(-5px);
-            }
-        }
-
-        /* Back to top button */
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--text-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            text-decoration: none;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(100px);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .back-to-top:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1rem 2rem;
-            backdrop-filter: blur(10px);
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        nav.scrolled {
-            box-shadow: var(--glow);
-        }
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent-primary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: absolute;
-            left: 0;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            margin: 0 auto;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .language-selector-nav {
-            position: absolute;
-            right: 0;
-        }
-
-        .mobile-menu-toggle {
-            position: absolute;
-            right: 0;
-        }
-
-        .logo:hover {
-            text-shadow: 0 0 10px var(--text-primary);
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--text-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 2rem;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23FFFFFF" stroke-width="0.5" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            animation: float 20s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .hero-content {
-            max-width: 800px;
-            text-align: center;
-            z-index: 2;
-            position: relative;
-        }
-
-        .hero-greeting {
-            color: var(--text-primary);
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.2s forwards;
-        }
-
-        .hero-name {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--text-primary), var(--text-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.4s forwards;
-        }
-
-        .hero-title {
-            font-size: clamp(2rem, 5vw, 4rem);
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.6s forwards;
-        }
-
-        .hero-description {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.8s forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes sectionSlideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0.8;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        section:not(#home) {
-            animation: sectionSlideUp 0.6s ease-out;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            opacity: 0;
-            animation: fadeInUp 1s ease 1s forwards;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: 2px solid var(--text-primary);
-            background: transparent;
-            color: var(--text-primary);
-            text-decoration: none;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            font-weight: 600;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--text-primary);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-
-        .btn:hover::before {
-            left: 0;
-        }
-
-        .btn:hover {
-            color: var(--bg-primary);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            border-color: var(--text-secondary);
-            color: var(--text-secondary);
-        }
-
-        .btn-secondary::before {
-            background: var(--text-secondary);
-        }
-
-        /* Sections */
-        section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        section:not(#home) {
-            z-index: 10;
-            position: relative;
-            margin-top: -5rem;
-            padding-top: 8rem;
-            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
-            background: rgb(0, 0, 0);
-        }
-
-        section:not(#home):before {
-            content: '';
-            position: absolute;
-            top: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--text-primary), transparent);
-            opacity: 0.2;
-        }
-
-        section:not(#home):after {
-            content: '◆';
-            position: absolute;
-            top: 2.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--text-primary);
-            opacity: 0.3;
-            font-size: 0.8rem;
-            z-index: 1;
-        }
-
-        section:last-child {
-            padding-bottom: 2rem;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            text-align: center;
-            color: var(--text-primary);
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: var(--text-primary);
-            border-radius: 2px;
-        }
-
-        /* Projects Grid */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .project-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .project-card:hover::before {
-            left: 100%;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-            border-color: var(--text-secondary);
-        }
-
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .project-title {
-            font-size: 1.5rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .project-link {
-            color: var(--text-primary);
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .project-link:hover {
-            color: var(--text-secondary);
-            transform: translateY(-2px);
-        }
-
-        .project-description {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            width: 100%;
-            max-width: none;
-        }
-
-        .tech-tag {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .project-featured {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, var(--card-bg), rgba(255, 255, 255, 0.05));
-            border-color: var(--text-secondary);
-        }
-
-        .project-featured .project-title {
-            color: var(--text-primary);
-            font-size: 2rem;
-        }
-
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-text {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .about-text p {
-            margin-bottom: 1.5rem;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-        }
-
-        .skill-item {
-            background: var(--card-bg);
-            padding: 1rem;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .skill-item:hover {
-            border-color: var(--text-primary);
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
-        }
-
-        .skill-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .skill-icon:hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
-        }
-
-        /* Project images */
-        .project-image {
-            width: 100%;
-            max-width: 300px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin: 1rem 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        .project-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Emoji clickable style */
-        .clickable-emoji {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin-right: 0.5rem;
-        }
-
-        .clickable-emoji:hover {
-            transform: scale(1.2) rotate(5deg);
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
-        }
-
-        /* Enhanced animations for smooth scrolling */
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInFromRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Smooth transitions for all interactive elements */
-        .project-card, .skill-item, .btn, .nav-links a {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Hero section parallax enhancement */
-        .hero {
-            transition: transform 0.1s ease-out;
-        }
-
-        /* Contact Section */
-        .contact-content {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .contact-description {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 1rem 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .contact-link:hover {
-            color: var(--text-primary);
-            border-color: var(--text-primary);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
-        }
-
-        /* Project simplification for mobile */
-        .project-card.project-featured .mobile-simplified {
-            display: none;
-        }
-
-        .project-card.project-featured .mobile-tech {
-            display: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .logo {
-                display: none;
-            }
-
-            .navbar{
-                display: none;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .language-selector-nav {
-                display: none;
-            }
-
-            .mobile-menu-toggle {
-                display: flex;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-featured {
-                grid-column: 1;
-            }
-
-            /* Mobile simplification for PaperStrike */
-            .project-card.project-featured .project-description:not(.mobile-simplified) {
-                display: none !important;
-            }
-
-            .project-card.project-featured .mobile-simplified {
-                display: block !important;
-            }
-
-            .project-card.project-featured .desktop-details {
-                display: none;
-            }
-
-            .project-card.project-featured .project-tech:not(.mobile-tech) {
-                display: none !important;
-            }
-
-            .project-card.project-featured .mobile-tech {
-                display: flex !important;
-            }
-
-            .project-card.project-featured .project-thumbnails {
-                display: none;
-            }
-
-            .contact-links {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        /* Smooth scroll indicator */
-        .scroll-indicator {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
-            z-index: 2000;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            justify-content: center;
-            align-items: center;
-        }
-        .image-modal.active {
-            display: flex;
-        }
-        .image-modal .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.3);
-        }
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: #fff;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .close-modal:hover {
-            transform: scale(1.1);
-            opacity: 0.8;
-        }
-
-        /* Modal navigation arrows */
-        .modal-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            font-size: 1.5rem;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            z-index: 2001;
-        }
-
-        .modal-nav:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-50%) scale(1.1);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-
-        .prev-btn {
-            left: 30px;
-        }
-
-        .next-btn {
-            right: 30px;
-        }
-
-        .modal-nav:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .modal-nav:disabled:hover {
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: none;
-        }
-
-        /* Image counter */
-        .image-counter {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Language selector */
-        .language-selector-nav {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .language-btn {
-            width: 35px;
-            height: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            background: rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .language-btn:hover {
-            transform: scale(1.1);
-            border-color: rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .language-btn:active {
-            transform: scale(0.95);
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-        }
-
-        .language-btn.active {
-            border-color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Project thumbnails */
-        .project-thumbnails {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .project-thumbnail {
-            width: 80px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .project-thumbnail:hover {
-            transform: scale(1.1);
-            border-color: var(--text-primary);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Hidden class for language switching */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Mobile menu hamburger */
-        .mobile-menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 10px;
-            z-index: 1001;
-            border: 2px solid var(--accent-primary);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--text-primary);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-        }
-
-        .mobile-menu-toggle span {
-            width: 28px;
-            height: 3px;
-            background: var(--accent-primary);
-            margin: 3px 0;
-            transition: all 0.3s ease;
-            border-radius: 3px;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-        }
-
-        .mobile-menu-toggle.active {
-            border-color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .mobile-menu-toggle.active span {
-            background: var(--text-primary);
-        }
-
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            right: -100%; /* Commence hors écran à droite */
-            width: 100%;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.8); /* 80% d'opacité */
-            backdrop-filter: blur(20px); /* Plus de flou */
-            z-index: 1400;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Animation fluide */
-            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .mobile-menu.active {
-            right: 0; /* Glisse vers la position finale */
-        }
-
-        .mobile-menu-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            margin-top: 2rem;
-            opacity: 0;
-            transform: translateX(50px);
-            transition: all 0.6s ease 0.2s; /* Délai pour apparaître après l'ouverture */
-        }
-
-        .mobile-menu.active .mobile-menu-header {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .mobile-menu-title {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--accent-primary);
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .mobile-menu-nav {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
-            opacity: 0;
-            transform: translateX(50px);
-            transition: all 0.6s ease 0.4s; /* Délai plus long */
-        }
-
-        .mobile-menu.active .mobile-menu-nav {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .mobile-menu-nav li {
-            margin: 2rem 0;
-        }
-
-        .mobile-menu a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .mobile-menu a:hover {
-            color: var(--text-secondary);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(-5px);
-        }
-
-        .mobile-menu a:active {
-            transform: scale(0.95) translateX(-5px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-        }
-
-        .mobile-language-selector {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            opacity: 0;
-            transform: translateX(50px);
-            transition: all 0.6s ease 0.3s; /* Délai intermédiaire */
-        }
-
-        .mobile-menu.active .mobile-language-selector {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Bouton de fermeture du menu mobile */
-        .mobile-menu-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            z-index: 1600;
-            padding: 10px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: rotate(0deg) scale(0.8);
-        }
-
-        .mobile-menu.active .mobile-menu-close {
-            opacity: 1;
-            transform: rotate(0deg) scale(1);
-            transition-delay: 0.3s; /* Apparaît après l'ouverture du menu */
-        }
-
-        .mobile-menu-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(90deg) scale(1.1);
-            color: var(--accent-primary);
-        }
-
-        .mobile-menu-close:active {
-            transform: rotate(90deg) scale(0.9);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Mobile menu button */
-        .mobile-menu-button {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1500;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid var(--accent-primary);
-            border-radius: 8px;
-            color: var(--accent-primary);
-            font-size: 1.5rem;
-            padding: 10px 15px;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .mobile-menu-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--text-primary);
-            color: var(--text-primary);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-
-        .mobile-menu-button:active {
-            transform: scale(0.95);
-        }
-
-        /* Show mobile menu button on mobile screens */
-        @media (max-width: 768px) {
-            .mobile-menu-button {
-                display: block;
-            }
-        }
-
-        /* Project simplification for mobile */
-        .project-card.project-featured .mobile-simplified {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-
-<!-- Image Modal -->
-<div id="imageModal" class="image-modal" onclick="closeImageModal()">
-    <span class="close-modal" onclick="closeImageModal()">&times;</span>
-    <button class="modal-nav prev-btn" onclick="event.stopPropagation(); previousImage()">❮</button>
-    <button class="modal-nav next-btn" onclick="event.stopPropagation(); nextImage()">❯</button>
-    <img class="modal-content" id="modalImage" onclick="event.stopPropagation()">
-    <div class="image-counter" id="imageCounter"></div>
-</div>
-    <body>
-        <!-- Canvas pour les particules -->
-        <canvas id="particles-canvas"></canvas>    <!-- Scroll indicator -->
+<body>
+    <!-- Canvas for particles -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <!-- Scroll indicator -->
     <div class="scroll-indicator"></div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <span class="close-modal" onclick="closeImageModal()">&times;</span>
+        <button class="modal-nav prev-btn" onclick="event.stopPropagation(); previousImage()">❮</button>
+        <button class="modal-nav next-btn" onclick="event.stopPropagation(); nextImage()">❯</button>
+        <img class="modal-content" id="modalImage" onclick="event.stopPropagation()">
+        <div class="image-counter" id="imageCounter"></div>
+    </div>
 
     <!-- Navigation -->
     <nav id="navbar" class="navbar">
         <div class="nav-container">
             <a href="#home" class="logo">Lucas DUPERRAY</a>
             <ul class="nav-links">
-                <li><a href="#home" data-fr="Accueil" data-en="Home">Accueil</a></li>
-                <li><a href="#projects" data-fr="Projets" data-en="Projects">Projets</a></li>
-                <li><a href="#about" data-fr="À Propos" data-en="About">À Propos</a></li>
-                <li><a href="#contact" data-fr="Contact" data-en="Contact">Contact</a></li>
+                <li><a href="#home" data-en="Home" data-fr="Accueil">Home</a></li>
+                <li><a href="#projects" data-en="Projects" data-fr="Projets">Projects</a></li>
+                <li><a href="#about" data-en="About" data-fr="À Propos">About</a></li>
+                <li><a href="#contact" data-en="Contact" data-fr="Contact">Contact</a></li>
             </ul>
             <div class="language-selector-nav">
-                <button class="language-btn active" id="fr-btn" onclick="setLanguage('fr')">🇫🇷</button>
-                <button class="language-btn" id="en-btn" onclick="setLanguage('en')">🇺🇸</button>
+                <button class="language-btn" id="lang-btn">FR</button>
             </div>
             <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
                 <span></span>
@@ -1220,270 +50,373 @@
         <div class="mobile-menu-header">
             <h2 class="mobile-menu-title">Lucas DUPERRAY</h2>
             <div class="mobile-language-selector">
-                <button class="language-btn active" id="fr-btn-mobile" onclick="setLanguage('fr')">🇫🇷</button>
-                <button class="language-btn" id="en-btn-mobile" onclick="setLanguage('en')">🇺🇸</button>
+                <button class="language-btn" id="lang-btn-mobile">FR</button>
             </div>
         </div>
         <ul class="mobile-menu-nav">
-            <li><a href="#home" data-fr="Accueil" data-en="Home" onclick="closeMobileMenu()">Accueil</a></li>
-            <li><a href="#projects" data-fr="Projets" data-en="Projects" onclick="closeMobileMenu()">Projets</a></li>
-            <li><a href="#about" data-fr="À Propos" data-en="About" onclick="closeMobileMenu()">À Propos</a></li>
-            <li><a href="#contact" data-fr="Contact" data-en="Contact" onclick="closeMobileMenu()">Contact</a></li>
+            <li><a href="#home" data-en="Home" data-fr="Accueil" onclick="closeMobileMenu()">Home</a></li>
+            <li><a href="#projects" data-en="Projects" data-fr="Projets" onclick="closeMobileMenu()">Projects</a></li>
+            <li><a href="#about" data-en="About" data-fr="À Propos" onclick="closeMobileMenu()">About</a></li>
+            <li><a href="#contact" data-en="Contact" data-fr="Contact" onclick="closeMobileMenu()">Contact</a></li>
         </ul>
     </div>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <p class="hero-greeting" data-fr="Salut, je suis" data-en="Hi, I'm">Salut, je suis</p>
+            <p class="hero-greeting" data-en="Hi, I'm" data-fr="Salut, je suis">Hi, I'm</p>
             <h1 class="hero-name">Lucas DUPERRAY</h1>
             <h2 class="hero-title">Game Developer</h2>
-            <p class="hero-description" data-fr="Développeur passionné spécialisé dans la création de jeux vidéo innovants. De Unity aux moteurs custom en C++, je transforme des idées créatives en expériences interactives captivantes." data-en="Passionate developer specialized in creating innovative video games. From Unity to custom C++ engines, I transform creative ideas into captivating interactive experiences.">
-                Développeur passionné spécialisé dans la création de jeux vidéo innovants. 
-                De Unity aux moteurs custom en C++, je transforme des idées créatives en expériences interactives captivantes.
+            <p class="hero-description" data-en="Passionate developer specialized in creating innovative video games. From Unity to custom C++ engines, I transform creative ideas into captivating interactive experiences." data-fr="Développeur passionné spécialisé dans la création de jeux vidéo innovants. De Unity aux moteurs custom en C++, je transforme des idées créatives en expériences interactives captivantes.">
+                Passionate developer specialized in creating innovative video games. 
+                From Unity to custom C++ engines, I transform creative ideas into captivating interactive experiences.
             </p>
             <div class="cta-buttons">
-                <a href="#projects" class="btn" data-fr="Voir mes projets" data-en="View my projects">Voir mes projets</a>
-                <a href="#contact" class="btn btn-secondary" data-fr="Me contacter" data-en="Contact me">Me contacter</a>
+                <a href="#projects" class="btn" data-en="View my projects" data-fr="Voir mes projets">View my projects</a>
+                <a href="#contact" class="btn btn-secondary" data-en="Contact me" data-fr="Me contacter">Contact me</a>
             </div>
         </div>
     </section>
 
     <!-- Projects Section -->
     <section id="projects">
-        <h2 class="section-title" data-fr="Mes Projets" data-en="My Projects">Mes Projets</h2>
+        <h2 class="section-title" data-en="My Projects" data-fr="Mes Projets">My Projects</h2>
         <div class="projects-grid">
-            <!-- Featured Project: PaperStrike -->
+            <!-- Featured Project: Drowned -->
             <div class="project-card project-featured">
                 <div class="project-header">
                     <div>
-                        <h3 class="project-title">
-                            <span class="clickable-emoji" onclick="openImageGallery('paperstrike', 0)">⚔️</span>
-                            PaperStrike
-                        </h3>
-                        <p style="color: var(--text-primary); font-weight: 600;" data-fr="🚀 ALPHA DISPONIBLE MAINTENANT" data-en="🚀 ALPHA AVAILABLE NOW">🚀 ALPHA DISPONIBLE MAINTENANT</p>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;" data-fr="Sword Battle Royale Mobile - 5 héros s'affrontent dans des arènes dynamiques" data-en="Mobile Sword Battle Royale - 5 heroes fight in dynamic arenas">Sword Battle Royale Mobile - 5 héros s'affrontent dans des arènes dynamiques</p>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://play.google.com/store/apps/details?id=com.PaperStrike" class="project-link" title="Google Play Store" target="_blank">📱</a>
-                        <a href="https://paper-strike.com/" class="project-link" title="Site officiel" target="_blank">🌐</a>
-                        <a href="#" onclick="openImageGallery('paperstrike', 0); return false;" class="project-link" title="Voir image">📸</a>
+                        <h3 class="project-title">🌊 Drowned</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;" data-en="Procedural Ocean Horror - Fishing meets Survival" data-fr="Horreur Océanique Procédurale - La Pêche rencontre la Survie">Procedural Ocean Horror - Fishing meets Survival</p>
                     </div>
                 </div>
-                <p class="project-description" data-fr="<strong>Stage de 2 mois chez PaperStrike (Juin-Août 2025)</strong><br>Développement complet d'un jeu mobile battle royale sur Unity. J'ai travaillé sur l'architecture complète du projet : <strong>interfaces utilisateur responsive</strong>, <strong>système d'authentification Firebase</strong> (Google Auth, Discord), <strong>base de données temps réel</strong>, <strong>système de particules</strong> et <strong>optimisation mobile</strong>. Création de nouvelles arènes de jeu (désert, ville), implémentation des <strong>contrôles tactiles</strong>, <strong>animations UI fluides</strong> et <strong>intégration audio</strong>. Développement web pour le système de concours et parrainage.<br><br><strong>🛠️ Compétences principales :</strong> Unity, C#, Firebase, UI/UX Mobile, Optimisation Performance, Architecture BDD, API Integration" data-en="<strong>2-month internship at PaperStrike (June-August 2025)</strong><br>Complete development of a mobile battle royale game on Unity. I worked on the complete project architecture: <strong>responsive user interfaces</strong>, <strong>Firebase authentication system</strong> (Google Auth, Discord), <strong>real-time database</strong>, <strong>particle system</strong> and <strong>mobile optimization</strong>. Creation of new game arenas (desert, city), implementation of <strong>touch controls</strong>, <strong>smooth UI animations</strong> and <strong>audio integration</strong>. Web development for contest and sponsorship system.<br><br><strong>🛠️ Main Skills:</strong> Unity, C#, Firebase, Mobile UI/UX, Performance Optimization, Database Architecture, API Integration">
-                    <strong>Stage de 2 mois chez PaperStrike (Juin-Août 2025)</strong><br>
-                    Développement complet d'un jeu mobile battle royale sur Unity. J'ai travaillé sur l'architecture complète du projet : 
-                    <strong>interfaces utilisateur responsive</strong>, <strong>système d'authentification Firebase</strong> (Google Auth, Discord), 
-                    <strong>base de données temps réel</strong>, <strong>système de particules</strong> et <strong>optimisation mobile</strong>. 
-                    Création de nouvelles arènes de jeu (désert, ville), implémentation des <strong>contrôles tactiles</strong>, 
-                    <strong>animations UI fluides</strong> et <strong>intégration audio</strong>. Développement web pour le système de concours et parrainage.
-                    <br><br><strong>🛠️ Compétences principales :</strong> Unity, C#, Firebase, UI/UX Mobile, Optimisation Performance, Architecture BDD, API Integration
-                </p>
-                <!-- Mobile simplified version -->
-                <p class="project-description mobile-simplified" data-fr="<strong>Stage PaperStrike (2025)</strong><br>Jeu mobile battle royale développé sur Unity. Travail sur Firebase, interfaces utilisateur responsive, et optimisation mobile.<br><br><strong>Principales réalisations :</strong> Authentification Google/Discord, UI tactile fluide, nouvelles arènes de jeu." data-en="<strong>PaperStrike Internship (2025)</strong><br>Mobile battle royale game developed on Unity. Work on Firebase, responsive user interfaces, and mobile optimization.<br><br><strong>Main achievements:</strong> Google/Discord authentication, smooth touch UI, new game arenas.">
-                    <strong>Stage PaperStrike (2025)</strong><br>
-                    Jeu mobile battle royale développé sur Unity. Travail sur Firebase, interfaces utilisateur responsive, et optimisation mobile.
-                    <br><br><strong>Principales réalisations :</strong> Authentification Google/Discord, UI tactile fluide, nouvelles arènes de jeu.
-                </p>
-                <!-- Mobile tech tags (max 5) -->
-                <div class="project-tech mobile-tech">
-                    <span class="tech-tag">Unity</span>
-                    <span class="tech-tag">C#</span>
-                    <span class="tech-tag">Firebase</span>
-                    <span class="tech-tag">Mobile UI/UX</span>
-                    <span class="tech-tag">Google Auth</span>
+                
+                <!-- Project Image Gallery -->
+                <div class="project-image-container">
+                    <span class="engine-tag">Unity</span>
+                    <img class="project-main-image-featured" id="drowned-image" 
+                         src="resources/logoDrowned.png" 
+                         alt="Drowned Screenshot">
                 </div>
-                <div style="margin: 1rem 0; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid var(--text-primary);" class="desktop-details">
-                    <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);" data-fr="💼 Responsabilités techniques principales :" data-en="💼 Main technical responsibilities:">💼 Responsabilités techniques principales :</h4>
-                    <ul style="color: var(--text-secondary); margin-left: 1rem; line-height: 1.6;" data-fr="<li><strong>Architecture Firebase :</strong> Configuration complète BDD, authentification multi-plateforme</li><li><strong>UI/UX Development :</strong> Menus responsive, animations, système de sélection personnages</li><li><strong>Gameplay Programming :</strong> Contrôles joystick, caméra interactive, physique mobile</li><li><strong>Optimisation Mobile :</strong> Performance multi-device, gestion mémoire, adaptabilité écrans</li><li><strong>Intégration APIs :</strong> Google Sign-In, Discord Auth, systèmes de parrainage</li>" data-en="<li><strong>Firebase Architecture:</strong> Complete DB configuration, multi-platform authentication</li><li><strong>UI/UX Development:</strong> Responsive menus, animations, character selection system</li><li><strong>Gameplay Programming:</strong> Joystick controls, interactive camera, mobile physics</li><li><strong>Mobile Optimization:</strong> Multi-device performance, memory management, screen adaptability</li><li><strong>API Integration:</strong> Google Sign-In, Discord Auth, sponsorship systems</li>">
-                        <li><strong>Architecture Firebase :</strong> Configuration complète BDD, authentification multi-plateforme</li>
-                        <li><strong>UI/UX Development :</strong> Menus responsive, animations, système de sélection personnages</li>
-                        <li><strong>Gameplay Programming :</strong> Contrôles joystick, caméra interactive, physique mobile</li>
-                        <li><strong>Optimisation Mobile :</strong> Performance multi-device, gestion mémoire, adaptabilité écrans</li>
-                        <li><strong>Intégration APIs :</strong> Google Sign-In, Discord Auth, systèmes de parrainage</li>
-                    </ul>
+
+                <p class="project-description" data-en="Dive into a procedurally generated ocean world where fishing meets survival horror. Navigate treacherous waters to catch exotic fish while fending off nightmarish sea monsters that lurk beneath the waves. Explore mysterious islands to discover hidden treasure chests, encounter enigmatic NPCs who offer quests, trade your catch, or purchase essential gear. But beware—the deeper you venture, the darker the waters become. Will you survive long enough to uncover the ocean's sinister secrets?" data-fr="Plongez dans un monde océanique généré procéduralement où la pêche rencontre l'horreur de survie. Naviguez dans des eaux traîtresses pour attraper des poissons exotiques tout en repoussant des monstres marins cauchemardesques qui se cachent sous les vagues. Explorez des îles mystérieuses pour découvrir des coffres au trésor cachés, rencontrez des PNJ énigmatiques qui offrent des quêtes, échangez vos prises ou achetez du matériel essentiel. Mais attention—plus vous vous aventurez profondément, plus les eaux deviennent sombres. Survivrez-vous assez longtemps pour découvrir les secrets sinistres de l'océan ?">
+                    Dive into a procedurally generated ocean world where fishing meets survival horror. Navigate treacherous waters to catch exotic fish while fending off nightmarish sea monsters that lurk beneath the waves. Explore mysterious islands to discover hidden treasure chests, encounter enigmatic NPCs who offer quests, trade your catch, or purchase essential gear. But beware—the deeper you venture, the darker the waters become. Will you survive long enough to uncover the ocean's sinister secrets?
+                </p>
+                <div class="project-actions">
+                    <a href="https://lootchy.itch.io/drowned" class="project-btn" target="_blank">
+                        <span data-en="Play on itch.io" data-fr="Jouer sur itch.io">Play on itch.io</span> ↗
+                    </a>
                 </div>
                 <div class="project-tech">
-                    <span class="tech-tag">Unity 2022.3</span>
-                    <span class="tech-tag">C# Advanced</span>
-                    <span class="tech-tag">Firebase Realtime DB</span>
-                    <span class="tech-tag">Google Authentication</span>
-                    <span class="tech-tag">Discord API</span>
-                    <span class="tech-tag">Mobile Optimization</span>
-                    <span class="tech-tag">UI/UX Responsive</span>
-                    <span class="tech-tag">Particle Systems</span>
-                    <span class="tech-tag">Timeline & Animator</span>
-                    <span class="tech-tag">Cross-Platform</span>
-                    <span class="tech-tag">ClickUp Project Management</span>
-                    <span class="tech-tag">Git Collaboration</span>
-                </div>
-                <!-- Project thumbnails -->
-                <div class="project-thumbnails">
-                    <img src="https://lucasdportfolio.carrd.co/assets/images/gallery04/46737350_original.jpg" 
-                         alt="PaperStrike Screenshot 1" 
-                         class="project-thumbnail" 
-                         onclick="openImageGallery('paperstrike', 0)">
-                    <img src="https://lucasdportfolio.carrd.co/assets/images/gallery04/3bbdbdf8_original.jpg" 
-                         alt="PaperStrike Screenshot 2" 
-                         class="project-thumbnail" 
-                         onclick="openImageGallery('paperstrike', 1)">
-                    <img src="https://lucasdportfolio.carrd.co/assets/images/gallery04/688a0f51_original.jpg" 
-                         alt="PaperStrike Screenshot 3" 
-                         class="project-thumbnail" 
-                         onclick="openImageGallery('paperstrike', 2)">
+                    <span class="tech-tag">Exploration</span>
+                    <span class="tech-tag">Fishing</span>
+                    <span class="tech-tag">Horror</span>
+                    <span class="tech-tag">Procedural Generation</span>
+                    <span class="tech-tag">Survival</span>
+                    <span class="tech-tag">3D</span>
                 </div>
             </div>
 
-            <!-- Beat'n Hit -->
+            <!-- Dust 2 -->
             <div class="project-card">
-                <div class="project-header">
-                    <div>
-                        <h3 class="project-title">
-                            <span class="clickable-emoji" onclick="openImageGallery('beatnhit', 0)">🎵</span>
-                            Beat'n Hit
-                        </h3>
-                    </div>
-                    <div class="project-links">
-                        <a href="#" onclick="openImageGallery('beatnhit', 0); return false;" class="project-link" title="Voir image">📸</a>
-                    </div>
+                <!-- Project Image Gallery -->
+                <div class="project-image-container">
+                    <span class="engine-tag">Unity</span>
+                    <button class="image-nav-btn prev" onclick="changeProjectImage('dust2', -1, event)">❮</button>
+                    <img class="project-main-image" id="dust2-image" 
+                         src="resources/dust2_1.png" 
+                         alt="Dust 2 Screenshot"
+                         onclick="openImageGallery('dust2', 0)">
+                    <button class="image-nav-btn next" onclick="changeProjectImage('dust2', 1, event)">❯</button>
+                    <div class="image-indicator" id="dust2-indicator">1 / 2</div>
                 </div>
-                <p class="project-description" data-fr="Jeu de rythme/aventure entièrement développé en C++. Notre équipe de 3 développeurs a créé notre propre moteur de jeu from scratch, incluant le système de rendu, la gestion audio synchronisée et la physique de jeu." data-en="Rhythm/adventure game fully developed in C++. Our team of 3 developers created our own game engine from scratch, including rendering system, synchronized audio management and game physics.">
-                    Jeu de rythme/aventure entièrement développé en C++. Notre équipe de 3 développeurs a créé 
-                    notre propre moteur de jeu from scratch, incluant le système de rendu, la gestion audio 
-                    synchronisée et la physique de jeu.
-                </p>
-                <div class="project-tech">
-                    <span class="tech-tag">C++</span>
-                    <span class="tech-tag">Custom Engine</span>
-                    <span class="tech-tag">OpenGL</span>
-                    <span class="tech-tag">Audio Programming</span>
-                    <span class="tech-tag">Team Project</span>
-                </div>
-            </div>
 
-            <!-- DirectX12 Engine -->
-            <div class="project-card">
                 <div class="project-header">
                     <div>
-                        <h3 class="project-title">
-                            <span class="clickable-emoji" onclick="openImageModal('https://via.placeholder.com/800x600/1a1a1a/FFFFFF?text=DirectX12+Rendering+Engine')">⚡</span>
-                            DirectX12 Rendering Engine
-                        </h3>
+                        <h3 class="project-title">🎯 Dust 2</h3>
                     </div>
                     <div class="project-links">
-                        <a href="#" class="project-link" title="Privé (École)">🔒</a>
+                        <!-- Links will be added -->
                     </div>
                 </div>
-                <p class="project-description" data-fr="Moteur de rendu avancé développé en C++ avec DirectX 12. Implémentation des techniques modernes de rendu, optimisation GPU et gestion des ressources pour des performances maximales." data-en="Advanced rendering engine developed in C++ with DirectX 12. Implementation of modern rendering techniques, GPU optimization and resource management for maximum performance.">
-                    Moteur de rendu avancé développé en C++ avec DirectX 12. Implémentation des techniques 
-                    modernes de rendu, optimisation GPU et gestion des ressources pour des performances maximales.
+
+                <p class="project-description" data-en="The project is a simple low polish FPS! Fight Enemies in different levels and have Fun! Multiplayer will be added in the future." data-fr="Le projet est un FPS simple à faible polish ! Combattez des ennemis dans différents niveaux et amusez-vous ! Le multijoueur sera ajouté à l'avenir.">
+                    The project is a simple low polish FPS! Fight Enemies in different levels and have Fun! Multiplayer will be added in the future.
                 </p>
+
+                <div class="project-actions">
+                    <a href="https://maxancef.itch.io/fpsgame" class="project-btn" target="_blank">
+                        <span data-en="Play on itch.io" data-fr="Jouer sur itch.io">Play on itch.io</span> ↗
+                    </a>
+                </div>
+
                 <div class="project-tech">
-                    <span class="tech-tag">C++</span>
-                    <span class="tech-tag">DirectX12</span>
-                    <span class="tech-tag">Team Project</span>
-                    <span class="tech-tag">GPU/CPU Programming</span>
+                    <span class="tech-tag">FPS</span>
+                    <span class="tech-tag">Shooter</span>
+                    <span class="tech-tag">Action</span>
+                    <span class="tech-tag">3D</span>
                 </div>
             </div>
 
             <!-- Simpson Breakout -->
             <div class="project-card">
+                <!-- Project Image Gallery -->
+                <div class="project-image-container">
+                    <span class="engine-tag">C++</span>
+                    <button class="image-nav-btn prev" onclick="changeProjectImage('simpson', -1, event)">❮</button>
+                    <img class="project-main-image" id="simpson-image" 
+                         src="resources/simpson1.jpg" 
+                         alt="Simpson Breakout Screenshot"
+                         onclick="openImageGallery('simpson', 0)">
+                    <button class="image-nav-btn next" onclick="changeProjectImage('simpson', 1, event)">❯</button>
+                    <div class="image-indicator" id="simpson-indicator">1 / 2</div>
+                </div>
+
                 <div class="project-header">
                     <div>
-                        <h3 class="project-title">
-                            <span class="clickable-emoji" onclick="openImageGallery('simpson', 0)">🟡</span>
-                            Simpson Breakout
-                        </h3>
+                        <h3 class="project-title">🟡 Simpson Breakout</h3>
                     </div>
                     <div class="project-links">
                         <a href="https://github.com/Quest-Education-Group/lyo-t2-atari-p2-01" class="project-link" title="GitHub" target="_blank">🔗</a>
-                        <a href="#" onclick="openImageGallery('simpson', 0); return false;" class="project-link" title="Voir image">📸</a>
                     </div>
                 </div>
-                <p class="project-description" data-fr="Remake du classique Breakout avec l'univers des Simpson. Développé en C++ avec une architecture orientée objet robuste et des mécaniques de jeu fluides." data-en="Remake of the classic Breakout with the Simpsons universe. Developed in C++ with robust object-oriented architecture and smooth game mechanics.">
-                    Remake du classique Breakout avec l'univers des Simpson. Développé en C++ avec une 
-                    architecture orientée objet robuste et des mécaniques de jeu fluides.
+
+                <p class="project-description" data-en="Remake of the classic Breakout with the Simpsons universe. Developed in C++ with robust object-oriented architecture and smooth game mechanics." data-fr="Remake du classique Breakout avec l'univers des Simpson. Développé en C++ avec une architecture orientée objet robuste et des mécaniques de jeu fluides.">
+                    Remake of the classic Breakout with the Simpsons universe. Developed in C++ with 
+                    robust object-oriented architecture and smooth game mechanics.
                 </p>
+
                 <div class="project-tech">
-                    <span class="tech-tag">C++</span>
+                    <span class="tech-tag">Arcade</span>
                     <span class="tech-tag">Game Mechanics</span>
                     <span class="tech-tag">OOP</span>
                     <span class="tech-tag">Team Project</span>
+                    <span class="tech-tag">2D</span>
+                </div>
+            </div>
+
+            <!-- PaperStrike (Simplified) -->
+            <div class="project-card">
+                <!-- Project Image Gallery -->
+                <div class="project-image-container">
+                    <span class="engine-tag">Unity</span>
+                    <button class="image-nav-btn prev" onclick="changeProjectImage('paperstrike', -1, event)">❮</button>
+                    <img class="project-main-image" id="paperstrike-image" 
+                         src="resources/paper1.jpg" 
+                         alt="PaperStrike Screenshot"
+                         onclick="openImageGallery('paperstrike', 0)">
+                    <button class="image-nav-btn next" onclick="changeProjectImage('paperstrike', 1, event)">❯</button>
+                    <div class="image-indicator" id="paperstrike-indicator">1 / 3</div>
+                </div>
+
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">⚔️ PaperStrike</h3>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.PaperStrike" class="project-link" title="Google Play Store" target="_blank">📱</a>
+                        <a href="https://paper-strike.com/" class="project-link" title="Official Website" target="_blank">🌐</a>
+                    </div>
+                </div>
+
+                <p class="project-description" data-en="Mobile Sword Battle Royale game developed during my 2-month internship at PaperStrike. Complete development on Unity with Firebase integration, responsive UI/UX design, mobile optimization, and cross-platform deployment." data-fr="Jeu mobile Sword Battle Royale développé pendant mon stage de 2 mois chez PaperStrike. Développement complet sur Unity avec intégration Firebase, conception UI/UX responsive, optimisation mobile et déploiement cross-platform.">
+                    Mobile Sword Battle Royale game developed during my 2-month internship at PaperStrike. Complete development on Unity with Firebase integration, responsive UI/UX design, mobile optimization, and cross-platform deployment.
+                </p>
+
+                <div class="project-tech">
+                    <span class="tech-tag">Battle Royale</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">Mobile</span>
+                    <span class="tech-tag">Multiplayer</span>
+                    <span class="tech-tag">UI/UX</span>
+                </div>
+            </div>
+
+            <!-- Beat'n Hit -->
+            <div class="project-card project-hidden">
+                <!-- Project Image Gallery -->
+                <div class="project-image-container">
+                    <span class="engine-tag">C++ Engine</span>
+                    <button class="image-nav-btn prev" onclick="changeProjectImage('beatnhit', -1, event)">❮</button>
+                    <img class="project-main-image" id="beatnhit-image" 
+                         src="resources/beat1.jpg" 
+                         alt="Beat'n Hit Screenshot"
+                         onclick="openImageGallery('beatnhit', 0)">
+                    <button class="image-nav-btn next" onclick="changeProjectImage('beatnhit', 1, event)">❯</button>
+                    <div class="image-indicator" id="beatnhit-indicator">1 / 3</div>
+                </div>
+
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">🎵 Beat'n Hit</h3>
+                    </div>
+                </div>
+
+                <p class="project-description" data-en="Rhythm/adventure game fully developed in C++. Our team of 3 developers created our own game engine from scratch, including rendering system, synchronized audio management and game physics." data-fr="Jeu de rythme/aventure entièrement développé en C++. Notre équipe de 3 développeurs a créé notre propre moteur de jeu from scratch, incluant le système de rendu, la gestion audio synchronisée et la physique de jeu.">
+                    Rhythm/adventure game fully developed in C++. Our team of 3 developers created 
+                    our own game engine from scratch, including rendering system, synchronized audio 
+                    management and game physics.
+                </p>
+
+                <div class="project-tech">
+                    <span class="tech-tag">Rhythm Game</span>
+                    <span class="tech-tag">Custom Engine</span>
+                    <span class="tech-tag">OpenGL</span>
+                    <span class="tech-tag">Audio Programming</span>
+                    <span class="tech-tag">Team Project</span>
+                    <span class="tech-tag">2D</span>
                 </div>
             </div>
 
             <!-- Aniseeds -->
-            <div class="project-card">
+            <div class="project-card project-hidden">
+                <!-- Single Project Image -->
+                <div class="project-image-container single">
+                    <span class="engine-tag">Unity</span>
+                    <img class="project-main-image" 
+                         src="resources/aniseed.jpg" 
+                         alt="Aniseeds Screenshot"
+                         onclick="openImageModal('resources/aniseed.jpg')">
+                </div>
+
                 <div class="project-header">
                     <div>
-                        <h3 class="project-title">
-                            <span class="clickable-emoji" onclick="openImageModal('https://lucasdportfolio.carrd.co/assets/images/gallery02/0a0f1f0b.jpg')">🌱</span>
-                            Aniseeds
-                        </h3>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://strickster.itch.io/aniseeds" class="project-link" title="Itch.io" target="_blank">🎮</a>
-                        <a href="#" onclick="openImageModal('https://lucasdportfolio.carrd.co/assets/images/gallery02/0a0f1f0b.jpg'); return false;" class="project-link" title="Voir image">📸</a>
+                        <h3 class="project-title">🌱 Aniseeds</h3>
                     </div>
                 </div>
-                <p class="project-description" data-fr="Jeu de farming original où vous plantez... des animaux ! Un concept unique développé en C# sur Unity avec des mécaniques de jeu innovantes et un style artistique distinctif." data-en="Original farming game where you plant... animals! A unique concept developed in C# on Unity with innovative game mechanics and distinctive artistic style.">
-                    Jeu de farming original où vous plantez... des animaux ! Un concept unique développé 
-                    en C# sur Unity avec des mécaniques de jeu innovantes et un style artistique distinctif.
+
+                <p class="project-description" data-en="Original farming game where you plant... animals! A unique concept developed in C# on Unity with innovative game mechanics and distinctive artistic style." data-fr="Jeu de farming original où vous plantez... des animaux ! Un concept unique développé en C# sur Unity avec des mécaniques de jeu innovantes et un style artistique distinctif.">
+                    Original farming game where you plant... animals! A unique concept developed 
+                    in C# on Unity with innovative game mechanics and distinctive artistic style.
                 </p>
+
+                <div class="project-actions">
+                    <a href="https://strickster.itch.io/aniseeds" class="project-btn" target="_blank">
+                        <span data-en="Play on itch.io" data-fr="Jouer sur itch.io">Play on itch.io</span> ↗
+                    </a>
+                </div>
+
                 <div class="project-tech">
-                    <span class="tech-tag">Unity</span>
-                    <span class="tech-tag">C#</span>
+                    <span class="tech-tag">Farming</span>
                     <span class="tech-tag">Game Design</span>
                     <span class="tech-tag">Creative Concept</span>
+                    <span class="tech-tag">2D</span>
+                </div>
+            </div>
+
+            <!-- DirectX12 Engine -->
+            <div class="project-card project-hidden">
+                <div class="project-image-container single">
+                    <span class="engine-tag">DirectX12</span>
+                    <img class="project-main-image" 
+                         src="resources/directx.gif" 
+                         alt="DirectX12 Engine">
+                </div>
+
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">⚡ DirectX12 Rendering Engine</h3>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link" title="Private (School)">🔒</a>
+                    </div>
+                </div>
+
+                <p class="project-description" data-en="Advanced rendering engine developed in C++ with DirectX 12. Implementation of modern rendering techniques, GPU optimization and resource management for maximum performance." data-fr="Moteur de rendu avancé développé en C++ avec DirectX 12. Implémentation des techniques modernes de rendu, optimisation GPU et gestion des ressources pour des performances maximales.">
+                    Advanced rendering engine developed in C++ with DirectX 12. Implementation of modern 
+                    rendering techniques, GPU optimization and resource management for maximum performance.
+                </p>
+
+                <div class="project-tech">
+                    <span class="tech-tag">Graphics Programming</span>
+                    <span class="tech-tag">Team Project</span>
+                    <span class="tech-tag">GPU/CPU Programming</span>
+                    <span class="tech-tag">3D Rendering</span>
                 </div>
             </div>
 
             <!-- AI Rugby Match -->
-            <div class="project-card">
+            <div class="project-card project-hidden">
+                <!-- Single Project Image -->
+                <div class="project-image-container single">
+                    <span class="engine-tag">C++</span>
+                    <img class="project-main-image" 
+                         src="https://lucasdportfolio.carrd.co/assets/images/gallery05/cd94226a_original.jpg" 
+                         alt="AI Rugby Match Screenshot"
+                         onclick="openImageModal('https://lucasdportfolio.carrd.co/assets/images/gallery05/cd94226a_original.jpg')">
+                </div>
+
                 <div class="project-header">
                     <div>
-                        <h3 class="project-title">
-                            <span class="clickable-emoji" onclick="openImageModal('https://lucasdportfolio.carrd.co/assets/images/gallery05/cd94226a_original.jpg')">🤖</span>
-                            AI Rugby Match
-                        </h3>
+                        <h3 class="project-title">🤖 AI Rugby Match</h3>
                     </div>
                     <div class="project-links">
                         <a href="https://github.com/Quest-Education-Group/lyo-t2-atari-p3-10" class="project-link" title="GitHub" target="_blank">🔗</a>
-                        <a href="#" onclick="openImageModal('https://lucasdportfolio.carrd.co/assets/images/gallery05/cd94226a_original.jpg'); return false;" class="project-link" title="Voir image">📸</a>
                     </div>
                 </div>
-                <p class="project-description" data-fr="Simulation de match de rugby avec IA avancée. Les joueurs sont entièrement autonomes et prennent leurs décisions based sur des algorithmes de comportement complexes." data-en="Rugby match simulation with advanced AI. Players are fully autonomous and make their decisions based on complex behavior algorithms.">
-                    Simulation de match de rugby avec IA avancée. Les joueurs sont entièrement autonomes 
-                    et prennent leurs décisions based sur des algorithmes de comportement complexes.
+
+                <p class="project-description" data-en="Rugby match simulation with advanced AI. Players are fully autonomous and make their decisions based on complex behavior algorithms." data-fr="Simulation de match de rugby avec IA avancée. Les joueurs sont entièrement autonomes et prennent leurs décisions based sur des algorithmes de comportement complexes.">
+                    Rugby match simulation with advanced AI. Players are fully autonomous 
+                    and make their decisions based on complex behavior algorithms.
                 </p>
+
                 <div class="project-tech">
-                    <span class="tech-tag">C++</span>
                     <span class="tech-tag">AI Programming</span>
                     <span class="tech-tag">Behavior Trees</span>
                     <span class="tech-tag">Simulation</span>
+                    <span class="tech-tag">2D</span>
                 </div>
             </div>
+
+            <!-- Coming Soon -->
+            <div class="project-card project-hidden">
+                <div class="project-image-container single">
+                    <img class="project-main-image" 
+                         src="resources/buh.gif" 
+                         alt="Coming Soon">
+                </div>
+
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">Coming Soon</h3>
+                    </div>
+                </div>
+
+                <p class="project-description" data-en="More exciting projects on the way..." data-fr="Plus de projets excitants en cours...">
+                    More exciting projects on the way...
+                </p>
+
+                <div class="project-tech">
+                    <span class="tech-tag">buh</span>
+                </div>
+            </div>
+        </div>
+        <div class="show-more-container">
+            <button class="show-more-btn" id="showMoreBtn" onclick="toggleProjects()">
+                <span data-en="Show More Projects" data-fr="Voir Plus de Projets">Show More Projects</span>
+                <span class="show-more-icon">▼</span>
+            </button>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about">
-        <h2 class="section-title" data-fr="À Propos" data-en="About">À Propos</h2>
+        <h2 class="section-title" data-en="About" data-fr="À Propos">About</h2>
         <div class="about-content">
             <div class="about-text">
-                <p data-fr="Étudiant en 2ème année à GTECH Gaming Campus, je suis passionné par le développement de jeux vidéo depuis plusieurs années. Mon parcours m'a permis d'explorer différentes facettes du game development, du scripting Unity aux moteurs custom en C++." data-en="2nd year student at GTECH Gaming Campus, I have been passionate about video game development for several years. My journey has allowed me to explore different facets of game development, from Unity scripting to custom C++ engines.">
-                    Étudiant en 2ème année à GTECH Gaming Campus, je suis passionné par le développement de jeux vidéo 
-                    depuis plusieurs années. Mon parcours m'a permis d'explorer différentes facettes du game development, 
-                    du scripting Unity aux moteurs custom en C++.
+                <p data-en="2nd year student at GTECH Gaming Campus, I have been passionate about video game development for several years. My journey has allowed me to explore different facets of game development, from Unity scripting to custom C++ engines." data-fr="Étudiant en 2ème année à GTECH Gaming Campus, je suis passionné par le développement de jeux vidéo depuis plusieurs années. Mon parcours m'a permis d'explorer différentes facettes du game development, du scripting Unity aux moteurs custom en C++.">
+                    2nd year student at GTECH Gaming Campus, I have been passionate about video game development 
+                    for several years. My journey has allowed me to explore different facets of game development, 
+                    from Unity scripting to custom C++ engines.
                 </p>
-                <p data-fr="Mon stage récent chez PaperStrike m'a donné l'opportunité de travailler sur un projet commercial complet, de la conception à la publication sur le Google Play Store. Cette expérience m'a appris l'importance de l'optimisation mobile et des contraintes du développement professionnel." data-en="My recent internship at PaperStrike gave me the opportunity to work on a complete commercial project, from conception to publication on the Google Play Store. This experience taught me the importance of mobile optimization and professional development constraints.">
-                    Mon stage récent chez PaperStrike m'a donné l'opportunité de travailler sur un projet commercial 
-                    complet, de la conception à la publication sur le Google Play Store. Cette expérience m'a appris 
-                    l'importance de l'optimisation mobile et des contraintes du développement professionnel.
+                <p data-en="My recent internship at PaperStrike gave me the opportunity to work on a complete commercial project, from conception to publication on the Google Play Store. This experience taught me the importance of mobile optimization and professional development constraints." data-fr="Mon stage récent chez PaperStrike m'a donné l'opportunité de travailler sur un projet commercial complet, de la conception à la publication sur le Google Play Store. Cette expérience m'a appris l'importance de l'optimisation mobile et des contraintes du développement professionnel.">
+                    My recent internship at PaperStrike gave me the opportunity to work on a complete commercial 
+                    project, from conception to publication on the Google Play Store. This experience taught me 
+                    the importance of mobile optimization and professional development constraints.
                 </p>
-                <p data-fr="Je suis toujours à la recherche de nouveaux défis techniques et créatifs, que ce soit dans l'optimisation de performances, l'implémentation d'IA ou la création d'expériences de jeu innovantes." data-en="I am always looking for new technical and creative challenges, whether in performance optimization, AI implementation or creating innovative gaming experiences.">
-                    Je suis toujours à la recherche de nouveaux défis techniques et créatifs, que ce soit dans 
-                    l'optimisation de performances, l'implémentation d'IA ou la création d'expériences de jeu innovantes.
+                <p data-en="I am always looking for new technical and creative challenges, whether in performance optimization, AI implementation or creating innovative gaming experiences." data-fr="Je suis toujours à la recherche de nouveaux défis techniques et créatifs, que ce soit dans l'optimisation de performances, l'implémentation d'IA ou la création d'expériences de jeu innovantes.">
+                    I am always looking for new technical and creative challenges, whether in 
+                    performance optimization, AI implementation or creating innovative gaming experiences.
                 </p>
             </div>
             <div class="skills-grid">
@@ -1525,23 +458,23 @@
 
     <!-- Contact Section -->
     <section id="contact">
-        <h2 class="section-title" data-fr="Contact" data-en="Contact">Contact</h2>
+        <h2 class="section-title" data-en="Contact" data-fr="Contact">Contact</h2>
         <div class="contact-content">
-            <p class="contact-description" data-fr="Vous avez un projet en tête ou vous souhaitez simplement discuter de développement de jeux ? N'hésitez pas à me contacter ! Je suis toujours ouvert aux nouvelles opportunités et collaborations." data-en="Do you have a project in mind or just want to discuss game development? Feel free to contact me! I am always open to new opportunities and collaborations.">
-                Vous avez un projet en tête ou vous souhaitez simplement discuter de développement de jeux ? 
-                N'hésitez pas à me contacter ! Je suis toujours ouvert aux nouvelles opportunités et collaborations.
+            <p class="contact-description" data-en="Do you have a project in mind or just want to discuss game development? Feel free to contact me! I am always open to new opportunities and collaborations." data-fr="Vous avez un projet en tête ou vous souhaitez simplement discuter de développement de jeux ? N'hésitez pas à me contacter ! Je suis toujours ouvert aux nouvelles opportunités et collaborations.">
+                Do you have a project in mind or just want to discuss game development? 
+                Feel free to contact me! I am always open to new opportunities and collaborations.
             </p>
             <div class="contact-links">
                 <a href="mailto:lucas.duperray15@gmail.com" class="contact-link">
                     📧 Email
                 </a>
-                <a href="https://www.linkedin.com/in/lucas-duperray-46b62b294/" class="contact-link">
+                <a href="https://www.linkedin.com/in/lucas-duperray-46b62b294/" class="contact-link" target="_blank">
                     💼 LinkedIn
                 </a>
-                <a href="#" class="contact-link" download data-fr="📄 Télécharger CV" data-en="📄 Download CV">
-                    📄 Télécharger CV
+                <a href="resources/CV_LUCAS_DUPERRAY.pdf" class="contact-link" download data-en="📄 Download CV" data-fr="📄 Télécharger CV">
+                    📄 Download CV
                 </a>
-                <a href="https://github.com/NetroxTTV" class="contact-link">
+                <a href="https://github.com/NetroxTTV" class="contact-link" target="_blank">
                     💻 GitHub
                 </a>
             </div>
@@ -1553,522 +486,6 @@
         ↑
     </a>
 
-    <script>
-        // Particle system
-        class ParticleSystem {
-            constructor() {
-                this.canvas = document.getElementById('particles-canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.particles = [];
-                this.particleCount = 50;
-                
-                this.resizeCanvas();
-                this.initParticles();
-                this.animate();
-                
-                window.addEventListener('resize', () => this.resizeCanvas());
-            }
-            
-            resizeCanvas() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-            
-            initParticles() {
-                for (let i = 0; i < this.particleCount; i++) {
-                    this.particles.push({
-                        x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height,
-                        vx: (Math.random() - 0.5) * 0.4,
-                        vy: (Math.random() - 0.5) * 0.4,
-                        size: Math.random() * 2.5 + 1,
-                        opacity: Math.random() * 0.6 + 0.3
-                    });
-                }
-            }
-            
-            animate() {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                this.particles.forEach(particle => {
-                    // Update position
-                    particle.x += particle.vx;
-                    particle.y += particle.vy;
-                    
-                    // Wrap around edges
-                    if (particle.x < 0) particle.x = this.canvas.width;
-                    if (particle.x > this.canvas.width) particle.x = 0;
-                    if (particle.y < 0) particle.y = this.canvas.height;
-                    if (particle.y > this.canvas.height) particle.y = 0;
-                    
-                    // Draw particle
-                    this.ctx.beginPath();
-                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                    this.ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
-                    this.ctx.fill();
-                });
-                
-                // Draw connections
-                this.particles.forEach((p1, i) => {
-                    this.particles.slice(i + 1).forEach(p2 => {
-                        const dx = p1.x - p2.x;
-                        const dy = p1.y - p2.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (distance < 120) {
-                            this.ctx.beginPath();
-                            this.ctx.moveTo(p1.x, p1.y);
-                            this.ctx.lineTo(p2.x, p2.y);
-                            const opacity = 0.15 * (1 - distance / 120);
-                            this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-                            this.ctx.lineWidth = 0.8;
-                            this.ctx.stroke();
-                        }
-                    });
-                });
-                
-                requestAnimationFrame(() => this.animate());
-            }
-        }
-
-        // Simple, error-free JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // Initialize particle system
-            new ParticleSystem();
-            
-            // Back to top button functionality
-            const backToTopButton = document.getElementById('backToTop');
-            
-            window.addEventListener('scroll', () => {
-                const scrolled = window.pageYOffset;
-                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollPercent = (scrolled / scrollHeight) * 100;
-                
-                // Update scroll indicator
-                const scrollIndicator = document.querySelector('.scroll-indicator');
-                if (scrollIndicator) {
-                    scrollIndicator.style.width = scrollPercent + '%';
-                }
-                
-                // Update navbar
-                const navbar = document.getElementById('navbar');
-                if (navbar) {
-                    if (scrolled > 100) {
-                        navbar.classList.add('scrolled');
-                    } else {
-                        navbar.classList.remove('scrolled');
-                    }
-                }
-                
-                // Show/hide back to top button
-                if (backToTopButton) {
-                    if (scrolled > 300) {
-                        backToTopButton.classList.add('visible');
-                    } else {
-                        backToTopButton.classList.remove('visible');
-                    }
-                }
-            });
-            
-            // Smooth scroll for navigation
-            const navLinks = document.querySelectorAll('a[href^="#"]');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId && targetId !== '#') {
-                        const target = document.querySelector(targetId);
-                        if (target) {
-                            target.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        }
-                    }
-                });
-            });
-
-            // Intersection Observer for animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
-                    }
-                });
-            }, observerOptions);
-
-            // Observe project cards and skill items
-            document.querySelectorAll('.project-card, .skill-item').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                observer.observe(el);
-            });
-
-            console.log('Portfolio Lucas DUPERRAY chargé avec succès !');
-        });
-
-        // Function for scroll down arrow
-        function scrollToSection(sectionId) {
-            const target = document.querySelector(sectionId);
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-
-        // Image galleries data
-        const imageGalleries = {
-            paperstrike: [
-                'https://lucasdportfolio.carrd.co/assets/images/gallery04/46737350_original.jpg',
-                'https://lucasdportfolio.carrd.co/assets/images/gallery04/3bbdbdf8_original.jpg',
-                'https://lucasdportfolio.carrd.co/assets/images/gallery04/688a0f51_original.jpg'
-            ],
-            simpson: [
-                'https://lucasdportfolio.carrd.co/assets/images/gallery03/08596be4_original.jpg',
-                'https://lucasdportfolio.carrd.co/assets/images/gallery03/e8eb98ea_original.jpg'
-            ],
-            beatnhit: [
-                'https://lucasdportfolio.carrd.co/assets/images/gallery04/35606bdd_original.jpg',
-                'https://lucasdportfolio.carrd.co/assets/images/gallery04/cbd68fa1_original.jpg',
-                'https://lucasdportfolio.carrd.co/assets/images/gallery04/cf39926f_original.jpg'
-            ]
-        };
-
-        let currentGallery = null;
-        let currentImageIndex = 0;
-
-        // Image gallery functions
-        function openImageGallery(galleryName, imageIndex = 0) {
-            const gallery = imageGalleries[galleryName];
-            if (!gallery || gallery.length === 0) return;
-
-            currentGallery = galleryName;
-            currentImageIndex = imageIndex;
-
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
-            const imageCounter = document.getElementById('imageCounter');
-            const prevBtn = document.querySelector('.prev-btn');
-            const nextBtn = document.querySelector('.next-btn');
-
-            if (modal && modalImage) {
-                modalImage.src = gallery[currentImageIndex];
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-
-                // Update counter
-                if (imageCounter) {
-                    imageCounter.textContent = `${currentImageIndex + 1} / ${gallery.length}`;
-                }
-
-                // Show/hide navigation buttons
-                if (prevBtn && nextBtn) {
-                    prevBtn.style.display = gallery.length > 1 ? 'block' : 'none';
-                    nextBtn.style.display = gallery.length > 1 ? 'block' : 'none';
-                    
-                    prevBtn.disabled = currentImageIndex === 0;
-                    nextBtn.disabled = currentImageIndex === gallery.length - 1;
-                }
-
-                // Smooth animation
-                modalImage.style.transform = 'scale(0.8)';
-                modalImage.style.opacity = '0';
-
-                setTimeout(() => {
-                    modalImage.style.transition = 'all 0.3s ease';
-                    modalImage.style.transform = 'scale(1)';
-                    modalImage.style.opacity = '1';
-                }, 10);
-            }
-        }
-
-        function nextImage() {
-            if (!currentGallery) return;
-            const gallery = imageGalleries[currentGallery];
-            if (currentImageIndex < gallery.length - 1) {
-                currentImageIndex++;
-                updateModalImage();
-            }
-        }
-
-        function previousImage() {
-            if (!currentGallery) return;
-            if (currentImageIndex > 0) {
-                currentImageIndex--;
-                updateModalImage();
-            }
-        }
-
-        function updateModalImage() {
-            const gallery = imageGalleries[currentGallery];
-            const modalImage = document.getElementById('modalImage');
-            const imageCounter = document.getElementById('imageCounter');
-            const prevBtn = document.querySelector('.prev-btn');
-            const nextBtn = document.querySelector('.next-btn');
-
-            if (modalImage && gallery) {
-                // Fade out
-                modalImage.style.opacity = '0';
-                modalImage.style.transform = 'scale(0.95)';
-
-                setTimeout(() => {
-                    modalImage.src = gallery[currentImageIndex];
-                    
-                    // Update counter
-                    if (imageCounter) {
-                        imageCounter.textContent = `${currentImageIndex + 1} / ${gallery.length}`;
-                    }
-
-                    // Update button states
-                    if (prevBtn && nextBtn) {
-                        prevBtn.disabled = currentImageIndex === 0;
-                        nextBtn.disabled = currentImageIndex === gallery.length - 1;
-                    }
-
-                    // Fade in
-                    modalImage.style.opacity = '1';
-                    modalImage.style.transform = 'scale(1)';
-                }, 150);
-            }
-        }
-
-        // Keep the old function for single images
-        // Image modal functions with smooth animations
-        function openImageModal(imageSrc) {
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
-            
-            if (modal && modalImage) {
-                modalImage.src = imageSrc;
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                
-                // Smooth animation
-                modalImage.style.transform = 'scale(0.8)';
-                modalImage.style.opacity = '0';
-                
-                setTimeout(() => {
-                    modalImage.style.transition = 'all 0.3s ease';
-                    modalImage.style.transform = 'scale(1)';
-                    modalImage.style.opacity = '1';
-                }, 10);
-            }
-        }
-
-        function closeImageModal() {
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
-            
-            if (modal && modalImage) {
-                modalImage.style.transform = 'scale(0.8)';
-                modalImage.style.opacity = '0';
-                
-                setTimeout(() => {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                    
-                    // Reset gallery state
-                    currentGallery = null;
-                    currentImageIndex = 0;
-                }, 300);
-            }
-        }
-
-        // Close modal with Escape key and arrow navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeImageModal();
-            } else if (e.key === 'ArrowLeft') {
-                previousImage();
-            } else if (e.key === 'ArrowRight') {
-                nextImage();
-            }
-        });
-
-        // Mouse movement parallax effect
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-            
-            const hero = document.querySelector('.hero');
-            if (hero) {
-                const offsetX = (mouseX - 0.5) * 10;
-                const offsetY = (mouseY - 0.5) * 10;
-                hero.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-            }
-        });
-
-        // Language switching functionality
-        let currentLanguage = 'fr';
-
-        function setLanguage(lang) {
-            currentLanguage = lang;
-            
-            // Update button states for both desktop and mobile
-            document.getElementById('fr-btn').classList.toggle('active', lang === 'fr');
-            document.getElementById('en-btn').classList.toggle('active', lang === 'en');
-            document.getElementById('fr-btn-mobile').classList.toggle('active', lang === 'fr');
-            document.getElementById('en-btn-mobile').classList.toggle('active', lang === 'en');
-            
-            // Update all elements with data-fr and data-en attributes
-            const elements = document.querySelectorAll('[data-fr][data-en]');
-            elements.forEach(element => {
-                const frText = element.getAttribute('data-fr');
-                const enText = element.getAttribute('data-en');
-                
-                // Check if the content contains HTML tags
-                const containsHTML = /<[^>]*>/.test(frText) || /<[^>]*>/.test(enText);
-                
-                if (lang === 'fr') {
-                    if (containsHTML) {
-                        element.innerHTML = frText;
-                    } else {
-                        element.textContent = frText;
-                    }
-                } else {
-                    if (containsHTML) {
-                        element.innerHTML = enText;
-                    } else {
-                        element.textContent = enText;
-                    }
-                }
-            });
-            
-            // Store language preference
-            localStorage.setItem('preferredLanguage', lang);
-        }
-
-        // Mobile menu functions
-        let isToggling = false; // Protection contre les appels multiples
-        function toggleMobileMenu() {
-            if (isToggling) {
-                console.log('Toggle already in progress, ignoring...');
-                return;
-            }
-            
-            isToggling = true;
-            console.log('toggleMobileMenu called'); // Debug
-            const mobileMenu = document.getElementById('mobileMenu');
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-            const mobileMenuButton = document.querySelector('.mobile-menu-button');
-            
-            console.log('mobileMenu:', mobileMenu); // Debug
-            
-            if (!mobileMenu) {
-                console.error('Mobile menu not found!');
-                isToggling = false;
-                return;
-            }
-            
-            mobileMenu.classList.toggle('active');
-            menuToggle?.classList.toggle('active');
-            
-            console.log('Menu active:', mobileMenu.classList.contains('active')); // Debug
-            
-            // Update button text based on menu state
-            if (mobileMenuButton) {
-                mobileMenuButton.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
-            }
-            
-            // Prevent body scroll when menu is open
-            if (mobileMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-            
-            // Libérer le verrou après un délai
-            setTimeout(() => {
-                isToggling = false;
-            }, 300);
-        }
-
-        function closeMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-            const mobileMenuButton = document.querySelector('.mobile-menu-button');
-            
-            mobileMenu.classList.remove('active');
-            menuToggle?.classList.remove('active');
-            
-            // Reset button text
-            if (mobileMenuButton) {
-                mobileMenuButton.textContent = '☰';
-            }
-            
-            document.body.style.overflow = 'auto';
-        }
-
-        // Load saved language preference
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedLang = localStorage.getItem('preferredLanguage') || 'fr';
-            setLanguage(savedLang);
-            
-            // Mobile menu event listeners
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-            const mobileMenuButton = document.querySelector('.mobile-menu-button');
-            const mobileMenuButtonById = document.getElementById('mobileMenuBtn');
-            const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
-            
-            console.log('Mobile menu button found:', mobileMenuButtonById); // Debug
-            
-            // Toggle menu on hamburger click (navbar)
-            if (menuToggle) {
-                menuToggle.addEventListener('click', toggleMobileMenu);
-            }
-            
-            // Toggle menu on mobile button click (SEULEMENT par ID pour éviter la duplication)
-            if (mobileMenuButtonById) {
-                mobileMenuButtonById.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    console.log('Button ID clicked - ONLY ONE!');
-                    setTimeout(() => {
-                        toggleMobileMenu();
-                    }, 10);
-                });
-            }
-            
-            // Close menu when clicking on a link
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', closeMobileMenu);
-            });
-            
-            // Pas d'event listener "click outside" pour l'instant - debug
-            // setTimeout(() => {
-            //     document.addEventListener('click', (e) => {
-            //         const mobileMenu = document.getElementById('mobileMenu');
-            //         const menuToggle = document.querySelector('.mobile-menu-toggle');
-            //         const mobileMenuButton = document.querySelector('.mobile-menu-button');
-            //         const mobileMenuButtonById = document.getElementById('mobileMenuBtn');
-            //         
-            //         // Ne fermer que si le menu est actif et le clic n'est pas sur un élément du menu ou bouton
-            //         if (mobileMenu && mobileMenu.classList.contains('active') && 
-            //             !mobileMenu.contains(e.target) && 
-            //             e.target !== menuToggle &&
-            //             e.target !== mobileMenuButton &&
-            //             e.target !== mobileMenuButtonById) {
-            //             console.log('Closing menu from outside click');
-            //             closeMobileMenu();
-            //         }
-            //     });
-            // }, 100);
-            
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                if (window.innerWidth > 768) {
-                    closeMobileMenu();
-                }
-            });
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
