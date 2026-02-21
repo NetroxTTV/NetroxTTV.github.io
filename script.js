@@ -77,6 +77,12 @@ class ParticleSystem {
 
 // Image galleries data
 const imageGalleries = {
+    gptsites: [
+        'resources/gpt1.png',
+        'resources/gpt2.png',
+        'resources/gpt3.png',
+        'resources/gpt4.png'
+    ],
     paperstrike: [
         'resources/paper1.jpg',
         'resources/paper2.jpg',
@@ -104,6 +110,7 @@ const imageGalleries = {
 
 // Track current image index for each project
 const currentProjectImages = {
+    gptsites: 0,
     paperstrike: 0,
     simpson: 0,
     beatnhit: 0,
