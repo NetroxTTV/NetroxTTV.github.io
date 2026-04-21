@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entraînement Coréen - Exam Lundi</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f0f4ff; color: #222; }
+  header { background: linear-gradient(135deg, #3b4cca, #c0392b); color: white; padding: 20px 24px; text-align: center; }
+  header h1 { font-size: 1.5rem; }
+  header p { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px; background: white; border-bottom: 2px solid #dde; justify-content: center; }
+  nav button { padding: 8px 14px; border: 2px solid #3b4cca; border-radius: 20px; background: white; color: #3b4cca; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.2s; }
+  nav button.active, nav button:hover { background: #3b4cca; color: white; }
+  .section { display: none; padding: 20px; max-width: 800px; margin: 0 auto; }
+  .section.active { display: block; }
+  h2 { font-size: 1.2rem; color: #3b4cca; margin-bottom: 16px; border-left: 4px solid #c0392b; padding-left: 10px; }
+  h3 { font-size: 1rem; color: #444; margin: 16px 0 8px; }
+
+  /* Vocab cards */
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .vocab-card { background: white; border-radius: 10px; padding: 12px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; }
+  .vocab-card:hover { transform: translateY(-2px); }
+  .vocab-card .korean { font-size: 1.2rem; font-weight: 700; color: #3b4cca; }
+  .vocab-card .french { font-size: 0.85rem; color: #555; margin-top: 5px; display: none; font-weight: 600; }
+  .vocab-card .romanization { font-size: 0.78rem; color: #e67e22; margin-top: 3px; display: none; font-style: italic; }
+  .vocab-card.revealed .french { display: block; }
+  .vocab-card.revealed .romanization { display: block; }
+  .vocab-card .hint { font-size: 0.7rem; color: #bbb; margin-top: 4px; }
+
+  /* Grammar boxes */
+  .grammar-box { background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+  .grammar-box .formula { background: #f0f4ff; border-left: 3px solid #3b4cca; padding: 10px 14px; border-radius: 6px; font-size: 1rem; margin: 8px 0; font-weight: 600; }
+  .grammar-box .example { color: #555; font-size: 0.9rem; margin: 4px 0; }
+  .grammar-box .translation { color: #888; font-size: 0.82rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { background: #3b4cca; color: white; padding: 8px; }
+  td { padding: 8px; border: 1px solid #dde; text-align: center; }
+  tr:nth-child(even) td { background: #f7f8ff; }
+
+  /* QCM */
+  .question-card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.09); }
+  .question-card .q-text { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: #222; }
+  .q-tag { display: inline-block; background: #eef0ff; color: #3b4cca; border-radius: 12px; font-size: 0.75rem; padding: 2px 8px; margin-bottom: 8px; font-weight: 600; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .option-btn { padding: 10px 12px; border: 2px solid #dde; border-radius: 8px; background: white; cursor: pointer; font-size: 0.9rem; text-align: left; transition: all 0.2s; }
+  .option-btn:hover:not(:disabled) { border-color: #3b4cca; background: #f0f4ff; }
+  .option-btn.correct { border-color: #27ae60; background: #eafaf1; color: #27ae60; font-weight: 700; }
+  .option-btn.wrong { border-color: #e74c3c; background: #fdf0ee; color: #e74c3c; }
+  .option-btn.reveal { border-color: #27ae60; background: #eafaf1; color: #27ae60; }
+  .feedback { margin-top: 10px; font-size: 0.88rem; padding: 8px 12px; border-radius: 6px; display: none; }
+  .feedback.show { display: block; }
+  .feedback.ok { background: #eafaf1; color: #27ae60; }
+  .feedback.ko { background: #fdf0ee; color: #c0392b; }
+
+  /* Score */
+  #score-display { text-align: center; background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.09); }
+  #score-display .score-num { font-size: 2.5rem; font-weight: 700; color: #3b4cca; }
+  .reset-btn { display: block; margin: 0 auto 20px; padding: 10px 28px; background: #c0392b; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 0.95rem; font-weight: 600; }
+  .reset-btn:hover { background: #a93226; }
+
+  /* Written */
+  .written-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.09); }
+  .written-box textarea { width: 100%; border: 2px solid #dde; border-radius: 8px; padding: 10px; font-size: 1rem; resize: vertical; min-height: 70px; }
+  .show-answer-btn { margin-top: 8px; padding: 7px 16px; background: #3b4cca; color: white; border: none; border-radius: 16px; cursor: pointer; font-size: 0.85rem; }
+  .answer-reveal { display: none; margin-top: 10px; background: #f0f4ff; border-left: 3px solid #3b4cca; padding: 10px; border-radius: 6px; font-size: 0.9rem; color: #3b4cca; font-weight: 600; }
+  .answer-reveal.show { display: block; }
+
+  .tip-box { background: #fff8e1; border-left: 4px solid #f39c12; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 0.88rem; color: #7d6608; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🇰🇷 Entraînement Coréen — Exam Lundi</h1>
+  <p>Vocabulaire • Grammaire • QCM • Exercices écrits</p>
+</header>
+
+<nav>
+  <button class="active" onclick="show('vocab')">📚 Vocabulaire</button>
+  <button onclick="show('grammar')">📖 Grammaire</button>
+  <button onclick="show('qcm')">✅ QCM</button>
+  <button onclick="show('written')">✏️ Écrit</button>
+</nav>
+
+<!-- VOCABULAIRE -->
+<div class="section active" id="vocab">
+  <h2>📚 Vocabulaire — Clique pour révéler traduction + prononciation</h2>
+  <div id="vocab-content"></div>
+</div>
+
+<script>
+const vocabData = [
+  {
+    title: "🛒 Marché / Supermarché",
+    words: [
+      { k: "마트", f: "supermarché", r: "ma-teu" },
+      { k: "과일", f: "fruit", r: "gwa-il" },
+      { k: "채소", f: "légume", r: "chae-so" },
+      { k: "음료수", f: "boisson", r: "eum-nyo-su" },
+      { k: "사과", f: "pomme", r: "sa-gwa" },
+      { k: "바나나", f: "banane", r: "ba-na-na" },
+      { k: "양파", f: "oignon", r: "yang-pa" },
+      { k: "감자", f: "pomme de terre", r: "gam-ja" },
+      { k: "당근", f: "carotte", r: "dang-geun" },
+      { k: "우유", f: "lait", r: "u-yu" },
+      { k: "콜라", f: "cola", r: "kol-la" },
+      { k: "주스", f: "jus", r: "ju-seu" },
+      { k: "딸기", f: "fraise", r: "ttal-gi" },
+      { k: "냉장고", f: "réfrigérateur", r: "naeng-jang-go" },
+      { k: "영수증", f: "reçu / ticket", r: "yeong-su-jeung" },
+      { k: "가격", f: "prix", r: "ga-gyeok" },
+      { k: "물건", f: "article / objet", r: "mul-geon" },
+    ]
+  },
+  {
+    title: "☕ Café / Activités",
+    words: [
+      { k: "좋아하다", f: "aimer", r: "jo-a-ha-da" },
+      { k: "자주", f: "souvent", r: "ja-ju" },
+      { k: "가끔", f: "parfois", r: "ga-kkeum" },
+      { k: "혼자", f: "seul(e)", r: "hon-ja" },
+      { k: "같이", f: "ensemble", r: "ga-chi" },
+      { k: "그래서", f: "donc / alors", r: "geu-rae-seo" },
+      { k: "책을 읽다", f: "lire un livre", r: "chae-geul ik-da" },
+      { k: "음악을 듣다", f: "écouter de la musique", r: "eu-ma-geul deut-da" },
+      { k: "커피를 마시다", f: "boire du café", r: "keo-pi-reul ma-si-da" },
+      { k: "자전거를 타다", f: "faire du vélo", r: "ja-jeon-geo-reul ta-da" },
+      { k: "운동을 하다", f: "faire du sport", r: "un-dong-eul ha-da" },
+      { k: "샌드위치를 먹다", f: "manger un sandwich", r: "saen-deu-wi-chi-reul meok-da" },
+      { k: "이야기하다", f: "discuter / parler", r: "i-ya-gi-ha-da" },
+    ]
+  },
+  {
+    title: "🎂 Fête / Anniversaire",
+    words: [
+      { k: "생일 파티", f: "fête d'anniversaire", r: "saeng-il pa-ti" },
+      { k: "초대하다", f: "inviter", r: "cho-dae-ha-da" },
+      { k: "케이크", f: "gâteau", r: "ke-i-keu" },
+      { k: "선물", f: "cadeau", r: "seon-mul" },
+      { k: "게임을 하다", f: "jouer à un jeu", r: "ge-im-eul ha-da" },
+      { k: "재미있다", f: "amusant / intéressant", r: "jae-mi-it-da" },
+      { k: "맛있다", f: "délicieux", r: "ma-sit-da" },
+      { k: "파티를 하다", f: "faire une fête", r: "pa-ti-reul ha-da" },
+    ]
+  },
+  {
+    title: "🌤️ Météo / Parc",
+    words: [
+      { k: "날씨", f: "météo / temps", r: "nal-ssi" },
+      { k: "좋다", f: "être bien / bon", r: "jo-ta" },
+      { k: "사진을 찍다", f: "prendre une photo", r: "sa-ji-neul jjik-da" },
+      { k: "유람선", f: "bateau de croisière", r: "yu-ram-seon" },
+      { k: "타다", f: "monter sur / prendre", r: "ta-da" },
+      { k: "라면", f: "ramyeon (nouilles)", r: "ra-myeon" },
+      { k: "저녁", f: "soir / dîner", r: "jeo-nyeok" },
+      { k: "사람", f: "personne / gens", r: "sa-ram" },
+      { k: "사진관", f: "studio photo", r: "sa-jin-gwan" },
+    ]
+  },
+  {
+    title: "📅 Jours de la semaine",
+    words: [
+      { k: "월요일", f: "lundi", r: "wo-ryo-il" },
+      { k: "화요일", f: "mardi", r: "hwa-yo-il" },
+      { k: "수요일", f: "mercredi", r: "su-yo-il" },
+      { k: "목요일", f: "jeudi", r: "mo-gyo-il" },
+      { k: "금요일", f: "vendredi", r: "geu-myo-il" },
+      { k: "토요일", f: "samedi", r: "to-yo-il" },
+      { k: "일요일", f: "dimanche", r: "i-ryo-il" },
+      { k: "이번 주", f: "cette semaine", r: "i-beon ju" },
+      { k: "주말", f: "week-end", r: "ju-mal" },
+    ]
+  },
+  {
+    title: "🔤 Adjectifs utiles",
+    words: [
+      { k: "비싸다", f: "être cher", r: "bi-ssa-da" },
+      { k: "깨끗하다", f: "être propre", r: "kkae-kkeu-ta-da" },
+      { k: "친절하다", f: "être gentil", r: "chin-jeol-ha-da" },
+      { k: "많다", f: "être nombreux / beaucoup", r: "man-ta" },
+      { k: "넓다", f: "être grand / spacieux", r: "neol-da" },
+      { k: "짧다", f: "être court", r: "jjal-da" },
+    ]
+  }
+];
+
+function buildVocab() {
+  const container = document.getElementById('vocab-content');
+  vocabData.forEach(section => {
+    const h3 = document.createElement('h3');
+    h3.textContent = section.title;
+    container.appendChild(h3);
+    const grid = document.createElement('div');
+    grid.className = 'vocab-grid';
+    section.words.forEach(w => {
+      const card = document.createElement('div');
+      card.className = 'vocab-card';
+      card.innerHTML = `
+        <div class="korean">${w.k}</div>
+        <div class="french">${w.f}</div>
+        <div class="romanization">🔊 ${w.r}</div>
+        <div class="hint">cliquer pour voir</div>
+      `;
+      card.onclick = () => {
+        card.classList.toggle('revealed');
+        card.querySelector('.hint').style.display = card.classList.contains('revealed') ? 'none' : 'block';
+      };
+      grid.appendChild(card);
+    });
+    container.appendChild(grid);
+  });
+}
+buildVocab();
+</script>
+
+<!-- GRAMMAIRE -->
+<div class="section" id="grammar">
+  <h2>📖 Points de grammaire clés</h2>
+
+  <div class="tip-box">💡 Astuce : Pour l'examen, retiens bien les 3 grands points : le présent poli, le passé, et le formel !</div>
+
+  <div class="grammar-box">
+    <h3>1. Présent poli — 아요 / 어요</h3>
+    <div class="formula">Verbe + 아요/어요</div>
+    <p class="example">가다 → <strong>가요</strong> (je vais)</p>
+    <p class="example">먹다 → <strong>먹어요</strong> (je mange)</p>
+    <p class="example">마시다 → <strong>마셔요</strong> (je bois)</p>
+    <p class="translation">Utilisé dans les situations informelles avec des gens qu'on connaît.</p>
+  </div>
+
+  <div class="grammar-box">
+    <h3>2. Passé — 았어요 / 었어요</h3>
+    <div class="formula">Verbe + 았어요 (si voyelle ㅏ/ㅗ) ou + 었어요 (autres)</div>
+    <p class="example">가다 → <strong>갔어요</strong> (je suis allé(e))</p>
+    <p class="example">먹다 → <strong>먹었어요</strong> (j'ai mangé)</p>
+    <p class="example">좋다 → <strong>좋았어요</strong> (c'était bien)</p>
+    <p class="example">재미있다 → <strong>재미있었어요</strong> (c'était amusant)</p>
+    <p class="translation">Pour les noms : N이었어요 / N였어요 = "c'était N"</p>
+  </div>
+
+  <div class="grammar-box">
+    <h3>3. Formel — ㅂ니다 / 습니다 (présent)</h3>
+    <div class="formula">Verbe (voyelle finale) + ㅂ니다 / Verbe (consonne finale) + 습니다</div>
+    <p class="example">가다 → <strong>갑니다</strong></p>
+    <p class="example">먹다 → <strong>먹습니다</strong></p>
+    <p class="example">비싸다 → <strong>비쌉니다</strong></p>
+    <p class="translation">Utilisé dans les situations formelles. Passé formel : + 았/었습니다</p>
+    <table style="margin-top:12px">
+      <tr><th>Verbe</th><th>Présent -아/어요</th><th>Passé -았/었어요</th><th>Formel présent</th><th>Formel passé</th></tr>
+      <tr><td>먹다</td><td>먹어요</td><td>먹었어요</td><td>먹습니다</td><td>먹었습니다</td></tr>
+      <tr><td>가다</td><td>가요</td><td>갔어요</td><td>갑니다</td><td>갔습니다</td></tr>
+      <tr><td>비싸다</td><td>비싸요</td><td>비쌌어요</td><td>비쌉니다</td><td>비쌌습니다</td></tr>
+      <tr><td>좋다</td><td>좋아요</td><td>좋았어요</td><td>좋습니다</td><td>좋았습니다</td></tr>
+    </table>
+  </div>
+
+  <div class="grammar-box">
+    <h3>4. Particule de lieu — 에서</h3>
+    <div class="formula">Lieu + 에서 + action</div>
+    <p class="example">카페<strong>에서</strong> 커피를 마셔요. → Je bois du café au café.</p>
+    <p class="example">공원<strong>에서</strong> 책을 읽어요. → Je lis un livre au parc.</p>
+    <p class="translation">에서 = "à (endroit où se passe l'action)" ≠ 에 = "à (direction / destination)"</p>
+  </div>
+
+  <div class="grammar-box">
+    <h3>5. Connecteur d'actions — 고</h3>
+    <div class="formula">Verbe 1 + 고 + Verbe 2 = "et puis"</div>
+    <p class="example">책을 읽<strong>고</strong> 커피를 마셔요. → Je lis un livre et bois un café.</p>
+    <p class="example">손을 씻<strong>고</strong> 저녁을 먹어요. → Je me lave les mains et mange le dîner.</p>
+  </div>
+
+  <div class="grammar-box">
+    <h3>6. N이에요 / 예요 vs N입니다</h3>
+    <div class="formula">N (consonne) + 이에요 / N (voyelle) + 예요</div>
+    <p class="example">학생<strong>이에요</strong>. → Je suis étudiant(e). (informel)</p>
+    <p class="example">요리사<strong>예요</strong>. → Je suis cuisinier(ère). (informel)</p>
+    <p class="example">학생<strong>입니다</strong>. → Je suis étudiant(e). (formel)</p>
+  </div>
+</div>
+
+<!-- QCM -->
+<div class="section" id="qcm">
+  <h2>✅ QCM — Entraînement</h2>
+  <div id="score-display">
+    Score : <span class="score-num" id="score">0</span> / <span id="total">0</span>
+  </div>
+  <button class="reset-btn" onclick="resetScore()">🔄 Réinitialiser le score</button>
+  <div id="qcm-container"></div>
+</div>
+
+<!-- ÉCRIT -->
+<div class="section" id="written">
+  <h2>✏️ Exercices écrits</h2>
+  <div class="tip-box">💡 Écris ta réponse, puis clique sur "Voir la réponse" pour vérifier !</div>
+
+  <div class="written-box">
+    <p><strong>1.</strong> Traduis en coréen : "J'aime les cafés. Donc je vais souvent au café."</p>
+    <textarea placeholder="Écris ici..."></textarea>
+    <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-reveal">저는 카페를 좋아해요. 그래서 카페에 자주 가요.</div>
+  </div>
+
+  <div class="written-box">
+    <p><strong>2.</strong> Traduis en coréen : "Hier, je suis allé(e) chez mon ami(e). Nous avons mangé du gâteau et joué à des jeux."</p>
+    <textarea placeholder="Écris ici..."></textarea>
+    <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-reveal">어제 친구 집에 갔어요. 같이 케이크를 먹고 게임을 했어요.</div>
+  </div>
+
+  <div class="written-box">
+    <p><strong>3.</strong> Mets au passé formel (습니다) : "날씨가 좋아요. 친구와 공원에 가요."</p>
+    <textarea placeholder="Écris ici..."></textarea>
+    <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-reveal">날씨가 좋았습니다. 친구와 공원에 갔습니다.</div>
+  </div>
+
+  <div class="written-box">
+    <p><strong>4.</strong> Complète : "Le matin, je bois de l'eau. Et je lis un livre." (utilise 고)</p>
+    <textarea placeholder="Écris ici..."></textarea>
+    <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-reveal">아침에 물을 마시고 책을 읽어요.</div>
+  </div>
+
+  <div class="written-box">
+    <p><strong>5.</strong> Traduis : "Le temps était beau. Donc j'ai pris des photos avec un ami."</p>
+    <textarea placeholder="Écris ici..."></textarea>
+    <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-reveal">날씨가 좋았어요. 그래서 친구와 같이 사진을 찍었어요.</div>
+  </div>
+
+  <div class="written-box">
+    <p><strong>6.</strong> Mets en formel : "바나나가 맛있어요." et "화장실이 깨끗해요."</p>
+    <textarea placeholder="Écris ici..."></textarea>
+    <button class="show-answer-btn" onclick="toggleAnswer(this)">Voir la réponse</button>
+    <div class="answer-reveal">바나나가 맛있습니다. / 화장실이 깨끗합니다.</div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleAnswer(btn) {
+  const rev = btn.nextElementSibling;
+  rev.classList.toggle('show');
+  btn.textContent = rev.classList.contains('show') ? 'Masquer' : 'Voir la réponse';
+}
+
+let score = 0;
+let total = 0;
+
+function updateScore() {
+  document.getElementById('score').textContent = score;
+  document.getElementById('total').textContent = total;
+}
+
+function resetScore() {
+  score = 0; total = 0;
+  updateScore();
+  document.querySelectorAll('.option-btn').forEach(b => {
+    b.disabled = false;
+    b.className = 'option-btn';
+  });
+  document.querySelectorAll('.feedback').forEach(f => f.classList.remove('show'));
+}
+
+const questions = [
+  { tag: "Vocabulaire", q: "Que signifie '감자' ?", options: ["pomme","banane","pomme de terre","oignon"], answer: 2 },
+  { tag: "Vocabulaire", q: "Comment dit-on 'carotte' en coréen ?", options: ["양파","당근","사과","바나나"], answer: 1 },
+  { tag: "Vocabulaire", q: "Que signifie '자주' ?", options: ["parfois","souvent","toujours","rarement"], answer: 1 },
+  { tag: "Vocabulaire", q: "Que signifie '혼자' ?", options: ["ensemble","seul(e)","avec un ami","souvent"], answer: 1 },
+  { tag: "Vocabulaire", q: "'좋아하다' signifie :", options: ["aller","manger","aimer","lire"], answer: 2 },
+  { tag: "Vocabulaire", q: "Que signifie '선물' ?", options: ["gâteau","fête","cadeau","invitation"], answer: 2 },
+  { tag: "Jours", q: "Quel jour est '금요일' ?", options: ["lundi","mercredi","jeudi","vendredi"], answer: 3 },
+  { tag: "Jours", q: "Quel jour est '수요일' ?", options: ["mardi","mercredi","jeudi","samedi"], answer: 1 },
+  { tag: "Jours", q: "Comment dit-on 'dimanche' en coréen ?", options: ["토요일","월요일","일요일","화요일"], answer: 2 },
+  { tag: "Grammaire", q: "Comment mettre '가다' au passé poli ?", options: ["가았어요","갔어요","갑니다","가어요"], answer: 1 },
+  { tag: "Grammaire", q: "Comment mettre '먹다' au passé poli ?", options: ["먹았어요","먹었어요","먹습니다","먹어요"], answer: 1 },
+  { tag: "Grammaire", q: "Comment mettre '좋다' au passé poli ?", options: ["좋었어요","좋았어요","좋습니다","좋아요"], answer: 1 },
+  { tag: "Grammaire", q: "Comment mettre '가다' au présent formel ?", options: ["가요","갔습니다","갑니다","가입니다"], answer: 2 },
+  { tag: "Grammaire", q: "Comment mettre '먹다' au présent formel ?", options: ["먹어요","먹입니다","먹습니다","먹었습니다"], answer: 2 },
+  { tag: "Grammaire", q: "Quelle phrase est correcte pour 'Je bois du café au café' ?", options: ["카페에 커피를 마셔요.","카페에서 커피를 마셔요.","카페가 커피를 마셔요.","카페를 커피가 마셔요."], answer: 1 },
+  { tag: "Grammaire", q: "Que signifie la terminaison '-고' dans '책을 읽고 커피를 마셔요' ?", options: ["mais","parce que","et puis","donc"], answer: 2 },
+  { tag: "Grammaire", q: "'학생이에요' en formel devient :", options: ["학생예요","학생이었어요","학생입니다","학생합니다"], answer: 2 },
+  { tag: "Compréhension", q: "Dans le texte du café : qu'est-ce que la personne fait SEULE au café ?", options: ["elle rencontre des amis","elle boit du café et lit un livre","elle joue à des jeux","elle fait du sport"], answer: 1 },
+  { tag: "Compréhension", q: "Dans le texte du parc (4-2), qu'est-ce que la personne a fait le soir ?", options: ["elle a pris des photos","elle a mangé du ramyeon","elle a fait du vélo","elle a joué à des jeux"], answer: 1 }, // 저녁에는 친구와 유람선을 탔습니다
+  { tag: "Compréhension", q: "À la fête d'anniversaire (3-2), la fête a lieu :", options: ["vendredi","samedi","dimanche","lundi"], answer: 1 },
+  { tag: "Vocabulaire", q: "Que signifie '날씨' ?", options: ["nourriture","météo","endroit","voyage"], answer: 1 },
+  { tag: "Vocabulaire", q: "Que signifie '사진을 찍다' ?", options: ["regarder un film","prendre une photo","écouter de la musique","lire un livre"], answer: 1 },
+  { tag: "Grammaire", q: "Comment dit-on 'C'était amusant' en coréen ?", options: ["재미있어요","재미있었어요","재미있습니다","재미없어요"], answer: 1 },
+  { tag: "Grammaire", q: "'비싸다' au présent formel donne :", options: ["비싸요","비쌌습니다","비쌉니다","비싸입니다"], answer: 2 },
+];
+
+function buildQCM() {
+  const container = document.getElementById('qcm-container');
+  questions.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.innerHTML = `
+      <div class="q-tag">${q.tag}</div>
+      <div class="q-text">Q${qi+1}. ${q.q}</div>
+      <div class="options" id="opts-${qi}">
+        ${q.options.map((o,oi) => `<button class="option-btn" onclick="answer(${qi},${oi})">${o}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${qi}"></div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function answer(qi, chosen) {
+  const q = questions[qi];
+  const opts = document.querySelectorAll(`#opts-${qi} .option-btn`);
+  const fb = document.getElementById(`fb-${qi}`);
+  opts.forEach(b => b.disabled = true);
+  if (chosen === q.answer) {
+    opts[chosen].classList.add('correct');
+    fb.textContent = '✅ Bonne réponse !';
+    fb.className = 'feedback ok show';
+    score++;
+  } else {
+    opts[chosen].classList.add('wrong');
+    opts[q.answer].classList.add('reveal');
+    fb.textContent = `❌ Mauvaise réponse. La bonne réponse était : "${q.options[q.answer]}"`;
+    fb.className = 'feedback ko show';
+  }
+  total++;
+  updateScore();
+}
+
+buildQCM();
+updateScore();
+</script>
+</body>
+</html>
