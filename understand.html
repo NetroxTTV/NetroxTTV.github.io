@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Entraînement Examen - Culture Coréenne</title>
+	<style>
+		:root {
+			--bg: #f2f5f8;
+			--card: #ffffff;
+			--text: #1f2a37;
+			--muted: #6b7280;
+			--primary: #1d4ed8;
+			--primary-dark: #1e40af;
+			--good: #15803d;
+			--bad: #b91c1c;
+			--border: #dbe3ea;
+			--shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: "Segoe UI", Tahoma, sans-serif;
+			color: var(--text);
+			background:
+				radial-gradient(circle at 15% 20%, #e8eef8 0%, transparent 40%),
+				radial-gradient(circle at 85% 10%, #e4f2ea 0%, transparent 35%),
+				var(--bg);
+			min-height: 100vh;
+			line-height: 1.45;
+		}
+
+		.container {
+			width: min(920px, 92%);
+			margin: 32px auto 48px;
+		}
+
+		.hero {
+			background: linear-gradient(120deg, #12356f, #1d4ed8 55%, #2a7de1);
+			color: #fff;
+			border-radius: 18px;
+			padding: 26px;
+			box-shadow: var(--shadow);
+			margin-bottom: 22px;
+		}
+
+		.hero h1 {
+			margin: 0 0 8px;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+			font-weight: 700;
+			letter-spacing: 0.2px;
+		}
+
+		.hero p {
+			margin: 0;
+			opacity: 0.95;
+		}
+
+		.panel {
+			background: var(--card);
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			box-shadow: var(--shadow);
+			padding: 22px;
+			margin-bottom: 16px;
+		}
+
+		.panel h2 {
+			margin-top: 0;
+			font-size: 1.1rem;
+			color: #0f315f;
+		}
+
+		.row {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 12px;
+			margin-bottom: 14px;
+		}
+
+		label {
+			font-size: 0.95rem;
+			color: var(--muted);
+			display: block;
+			margin-bottom: 5px;
+		}
+
+		select,
+		button {
+			width: 100%;
+			border-radius: 10px;
+			border: 1px solid #cdd8e5;
+			font-size: 0.96rem;
+			padding: 10px 12px;
+			background: #fff;
+		}
+
+		button {
+			cursor: pointer;
+			transition: transform 0.08s ease, background-color 0.18s ease;
+		}
+
+		button:active {
+			transform: translateY(1px);
+		}
+
+		.btn-primary {
+			background: var(--primary);
+			color: #fff;
+			border-color: var(--primary);
+			font-weight: 600;
+		}
+
+		.btn-primary:hover {
+			background: var(--primary-dark);
+		}
+
+		.quiz-top {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			gap: 10px;
+			padding-bottom: 10px;
+			border-bottom: 1px dashed #d3dce6;
+			margin-bottom: 14px;
+			font-size: 0.95rem;
+		}
+
+		.stat {
+			background: #f7f9fc;
+			border: 1px solid #e2e8f0;
+			border-radius: 9px;
+			padding: 6px 10px;
+		}
+
+		.question {
+			font-size: clamp(1.08rem, 2.2vw, 1.25rem);
+			margin-bottom: 14px;
+			font-weight: 600;
+		}
+
+		.options {
+			display: grid;
+			gap: 9px;
+			margin-bottom: 12px;
+		}
+
+		.option-btn {
+			text-align: left;
+			border: 1px solid #cfd9e5;
+			background: #fff;
+			color: var(--text);
+		}
+
+		.option-btn:hover {
+			background: #f1f6ff;
+		}
+
+		.option-btn.correct {
+			border-color: #9fd8b1;
+			background: #eaf9ef;
+			color: #14532d;
+			font-weight: 600;
+		}
+
+		.option-btn.wrong {
+			border-color: #f4b4b4;
+			background: #fff0f0;
+			color: #7f1d1d;
+			font-weight: 600;
+		}
+
+		.feedback {
+			min-height: 44px;
+			border-radius: 10px;
+			border: 1px dashed #d7dee8;
+			background: #fafcff;
+			padding: 10px;
+			color: #334155;
+			font-size: 0.94rem;
+			margin-bottom: 12px;
+		}
+
+		.feedback.good {
+			border-color: #9fd8b1;
+			background: #ecfdf3;
+			color: var(--good);
+		}
+
+		.feedback.bad {
+			border-color: #f4b4b4;
+			background: #fff2f2;
+			color: var(--bad);
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		.result-card {
+			border-left: 4px solid #1d4ed8;
+			padding-left: 14px;
+			margin-bottom: 10px;
+		}
+
+		.muted {
+			color: var(--muted);
+		}
+
+		.footer-note {
+			margin-top: 18px;
+			font-size: 0.88rem;
+			color: var(--muted);
+			text-align: center;
+		}
+
+		@media (max-width: 760px) {
+			.row {
+				grid-template-columns: 1fr;
+			}
+
+			.container {
+				width: 94%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<main class="container">
+		<section class="hero">
+			<h1>Révision Examen - Understanding Korea</h1>
+			<p>Mode classique sur la culture coréenne: QCM du PDF, correction immédiate et révision des erreurs.</p>
+		</section>
+
+		<section class="panel" id="setupPanel">
+			<h2>Configuration de la session</h2>
+			<div class="row">
+				<div>
+					<label for="questionCount">Nombre de questions</label>
+					<select id="questionCount">
+						<option value="10" selected>10 questions</option>
+						<option value="20">20 questions</option>
+						<option value="30">30 questions</option>
+						<option value="40">40 questions</option>
+					</select>
+				</div>
+				<div>
+					<label for="timerPerQuestion">Temps par question</label>
+					<select id="timerPerQuestion">
+						<option value="0" selected>Sans limite</option>
+						<option value="20">20 secondes</option>
+						<option value="30">30 secondes</option>
+						<option value="45">45 secondes</option>
+					</select>
+				</div>
+				<div>
+					<label for="shuffleMode">Ordre des questions</label>
+					<select id="shuffleMode">
+						<option value="yes" selected>Mélangé</option>
+						<option value="no">Fixe</option>
+					</select>
+				</div>
+			</div>
+			<button class="btn-primary" id="startBtn">Commencer l'entraînement</button>
+		</section>
+
+		<section class="panel hidden" id="quizPanel">
+			<div class="quiz-top">
+				<div class="stat" id="progressStat">Question 1 / 10</div>
+				<div class="stat" id="scoreStat">Score: 0</div>
+				<div class="stat" id="timerStat">Temps: --</div>
+			</div>
+
+			<div class="question" id="questionText">Question ici</div>
+			<div class="options" id="optionsContainer"></div>
+
+			<div class="feedback" id="feedbackBox">Choisis une réponse pour voir l'explication.</div>
+
+			<button class="btn-primary hidden" id="nextBtn">Question suivante</button>
+		</section>
+
+		<section class="panel hidden" id="resultPanel">
+			<h2>Résultat final</h2>
+			<div class="result-card" id="resultSummary"></div>
+			<div id="mistakesList"></div>
+			<button class="btn-primary" id="restartBtn">Recommencer</button>
+			<p class="footer-note">Astuce: revise en priorité les dates clés, les chiffres clés et les visas (F-4, E-9, H-2, D-8).</p>
+		</section>
+	</main>
+
+	<script>
+		const questionBank = [
+			{
+				question: "Q1. Quelle part de la péninsule coréenne est montagneuse ?",
+				options: ["30%", "50%", "70%", "90%"],
+				answer: "70%",
+				explanation: "Environ 70% de la péninsule est montagneuse."
+			},
+			{
+				question: "Q2. Quelle région concentre environ 50% de la population sud-coréenne ?",
+				options: ["Gyeongsang", "Jeolla", "Greater Seoul Area", "Jeju"],
+				answer: "Greater Seoul Area",
+				explanation: "La Greater Seoul Area (Seoul, Incheon, Gyeonggi) concentre environ la moitié de la population."
+			},
+			{
+				question: "Q3. Quelle ville est associée à Hyundai ?",
+				options: ["Suwon", "Daegu", "Ulsan", "Incheon"],
+				answer: "Ulsan",
+				explanation: "Hyundai est historiquement associé à Ulsan."
+			},
+			{
+				question: "Q4. Combien de Coréens sont arrivés à Hawaii sous contrat en 1903 ?",
+				options: ["722", "7 226", "72 260", "200 000"],
+				answer: "7 226",
+				explanation: "Le chiffre à mémoriser est 7 226 arrivées en 1903."
+			},
+			{
+				question: "Q5. Combien d'enfants coréens ont été adoptés à l'étranger ?",
+				options: ["~10 000", "~50 000", "~200 000", "~500 000"],
+				answer: "~200 000",
+				explanation: "Le cours indique environ 200 000 adoptions internationales."
+			},
+			{
+				question: "Q6. Combien d'infirmières coréennes ont été envoyées en Allemagne de l'Ouest ?",
+				options: ["3 250", "7 936", "10 723", "25 000"],
+				answer: "10 723",
+				explanation: "Entre 1963 et 1977, 10 723 infirmières ont été envoyées en Allemagne de l'Ouest."
+			},
+			{
+				question: "Q7. En quelle année le Overseas Koreans Act a-t-il été adopté ?",
+				options: ["1991", "1999", "2003", "2012"],
+				answer: "1999",
+				explanation: "Cette loi de 1999 a notamment introduit le visa F-4."
+			},
+			{
+				question: "Q8. Quel visa concerne les Coréens de Chine et d'ex-URSS pour le travail non professionnel ?",
+				options: ["F-4", "E-9", "H-2", "D-8"],
+				answer: "H-2",
+				explanation: "Le visa H-2 est le Working Visit Visa."
+			},
+			{
+				question: "Q9. Quelle est la part des résidents étrangers dans la population totale (mai 2025) ?",
+				options: ["2,3%", "5,7%", "10,4%", "15,8%"],
+				answer: "5,7%",
+				explanation: "Le document donne 2 692 129 résidents étrangers, soit 5,7%."
+			},
+			{
+				question: "Q10. Quel pays n'a PAS signé de MOU EPS avec la Corée du Sud ?",
+				options: ["Vietnam", "Mongolie", "Japon", "Népal"],
+				answer: "Japon",
+				explanation: "Le Japon ne figure pas parmi les 15 pays partenaires EPS listés."
+			},
+			{
+				question: "Q11. Quel visa correspond aux Coréens d'outre-mer (ethnic Koreans) ?",
+				options: ["F-4", "F-5", "F-6", "D-2"],
+				answer: "F-4",
+				explanation: "F-4 est le visa Overseas Koreans ; F-5 est permanent ; F-6 est conjoint."
+			},
+			{
+				question: "Q12. Dans quelle décennie la Corée est-elle devenue pays d'immigration ?",
+				options: ["1960s", "1980s", "2000s", "2010s"],
+				answer: "1980s",
+				explanation: "La bascule commence dans les années 1980, accélérée après les JO de 1988."
+			},
+			{
+				question: "Q13. À quelle date l'armistice de la guerre de Corée a-t-il été signé ?",
+				options: ["15 août 1945", "25 juin 1950", "27 juillet 1953", "9 septembre 1948"],
+				answer: "27 juillet 1953",
+				explanation: "L'armistice est signé à Panmunjom le 27 juillet 1953."
+			},
+			{
+				question: "Q14. La guerre de Corée est-elle officiellement terminée ?",
+				options: ["Oui, par le traité de Panmunjom", "Oui, par l'ONU en 1954", "Non, seulement un armistice", "Oui, après le sommet de 2000"],
+				answer: "Non, seulement un armistice",
+				explanation: "Aucun traité de paix formel n'a été signé."
+			},
+			{
+				question: "Q15. Combien de soldats américains sont stationnés en Corée du Sud (USFK) ?",
+				options: ["~5 000", "~15 000", "~28 500", "~60 000"],
+				answer: "~28 500",
+				explanation: "Le chiffre de référence est d'environ 28 500 soldats."
+			},
+			{
+				question: "Q16. Combien de Coréens sont devenus réfugiés pendant la guerre (1950-1953) ?",
+				options: ["500 000", "1 million", "5 millions", "10 millions"],
+				answer: "5 millions",
+				explanation: "Le cours indique environ 5 millions de réfugiés."
+			},
+			{
+				question: "Q17. En quelle année Park Chung-hee a-t-il pris le pouvoir par coup d'Etat militaire ?",
+				options: ["1948", "1961", "1972", "1979"],
+				answer: "1961",
+				explanation: "Le coup d'Etat date du 16 mai 1961."
+			},
+			{
+				question: "Q18. Combien d'années Park Chung-hee est-il resté au pouvoir ?",
+				options: ["5 ans", "10 ans", "17 ans", "22 ans"],
+				answer: "17 ans",
+				explanation: "Il a exercé le pouvoir de 1963 à 1979, soit 17 ans."
+			},
+			{
+				question: "Q19. Comment appelle-t-on le décollage économique coréen sous Park Chung-hee ?",
+				options: ["Miracle du Mont Seorak", "Miracle sur le fleuve Han", "Boom du Pacifique", "Révolution de Seoul"],
+				answer: "Miracle sur le fleuve Han",
+				explanation: "L'expression consacrée est le Miracle sur le fleuve Han."
+			},
+			{
+				question: "Q20. Quels sont les 3 principes du Saemaul Undong ?",
+				options: ["Paix, prospérité, progrès", "Self-help, Diligence, Cooperation", "Famille, tradition, technologie", "Travail, discipline, obéissance"],
+				answer: "Self-help, Diligence, Cooperation",
+				explanation: "Les 3 principes sont Jajo (self-help), Geunmyeon (diligence), Hyeopdong (cooperation)."
+			},
+			{
+				question: "Q21. En quelle année le Saemaul Undong a-t-il été lancé ?",
+				options: ["1961", "1965", "1970", "1979"],
+				answer: "1970",
+				explanation: "Le mouvement est lancé en 1970 pour moderniser les campagnes."
+			},
+			{
+				question: "Q22. Quel est le rang mondial de la Corée du Sud en PIB nominal (2025) ?",
+				options: ["8e", "10e", "13e", "20e"],
+				answer: "13e",
+				explanation: "Le cours situe la Corée au 13e rang mondial en 2025."
+			},
+			{
+				question: "Q23. Quel montant représentait le plan de sauvetage du FMI (1997) ?",
+				options: ["28 milliards $", "58 milliards $", "100 milliards $", "180 milliards $"],
+				answer: "58 milliards $",
+				explanation: "Le plan FMI de décembre 1997 s'élevait à 58 milliards de dollars."
+			},
+			{
+				question: "Q24. Combien de tonnes d'or ont été collectées lors du Gold Collection Movement ?",
+				options: ["50 tonnes", "100 tonnes", "227 tonnes", "500 tonnes"],
+				answer: "227 tonnes",
+				explanation: "La collecte d'or de 1998 a totalisé 227 tonnes."
+			},
+			{
+				question: "Q25. Combien de personnes ont participé au Gold Collection Movement en 2 mois ?",
+				options: ["500 000", "1 million", "3,5 millions", "10 millions"],
+				answer: "3,5 millions",
+				explanation: "Environ 3,5 millions de personnes ont participé en janvier-février 1998."
+			},
+			{
+				question: "Q26. Quelle part du PIB est représentée par les chaebols ?",
+				options: ["10-20%", "35-40%", "60-65%", "85-90%"],
+				answer: "60-65%",
+				explanation: "Les chaebols pèsent environ 60-65% du PIB selon le cours."
+			},
+			{
+				question: "Q27. Quelle part de l'emploi local est assurée par les SMEs ?",
+				options: ["30%", "50%", "70%", "88%"],
+				answer: "88%",
+				explanation: "Les SMEs représentent 88% de l'emploi local."
+			},
+			{
+				question: "Q28. Lequel n'est PAS un chaebol coréen classique ?",
+				options: ["Samsung", "Hyundai", "Toyota", "LG"],
+				answer: "Toyota",
+				explanation: "Toyota est japonais, pas coréen."
+			},
+			{
+				question: "Q29. Quel visa faut-il pour investir et monter une entreprise en Corée (min. 100M KRW) ?",
+				options: ["B-5", "D-8", "D-9", "E-2"],
+				answer: "D-8",
+				explanation: "Le D-8 correspond au visa d'investissement corporatif."
+			},
+			{
+				question: "Q30. Quel est le nom du programme d'aide aux entrepreneurs étrangers ?",
+				options: ["KOTRA", "OASIS", "KIIP", "SMBA"],
+				answer: "OASIS",
+				explanation: "OASIS signifie Overall Assistance for Start-up Immigration System."
+			},
+			{
+				question: "Q31. Dans la pyramide de l'entreprise coréenne, qui se situe directement sous les Executives ?",
+				options: ["CEO", "Managers", "Directors", "Assistant Managers"],
+				answer: "Directors",
+				explanation: "L'ordre est CEO, Executives, Directors, Managers, Assistant Managers, Employees, Interns."
+			},
+			{
+				question: "Q32. Que signifie hoesik ?",
+				options: ["Un bonus de fin d'année", "Un dîner d'entreprise", "Une réunion formelle", "Un séminaire de formation"],
+				answer: "Un dîner d'entreprise",
+				explanation: "Hoesik désigne le dîner d'entreprise, pratique sociale importante."
+			},
+			{
+				question: "Q33. Que se passe-t-il généralement en 2-cha pendant un hoesik ?",
+				options: ["Retour à la maison", "Déplacement vers un bar ou pocha", "Karaoké (noraebang)", "Café en terrasse"],
+				answer: "Déplacement vers un bar ou pocha",
+				explanation: "Le 2-cha se fait typiquement dans un bar ou un pocha ; le 3-cha peut être au noraebang."
+			},
+			{
+				question: "Q34. Combien d'employés Coupang avait-il environ en 2025 ?",
+				options: ["4 400", "15 800", "50 000", "108 000"],
+				answer: "108 000",
+				explanation: "Le support indique environ 108 000 employés pour Coupang."
+			},
+			{
+				question: "Q35. Quel est le taux de chômage des jeunes (15-29 ans) en Corée ?",
+				options: ["2-3%", "7-9%", "15-17%", "25-30%"],
+				answer: "7-9%",
+				explanation: "Le taux donné dans le cours est de 7 à 9%."
+			},
+			{
+				question: "Q36. Quel pourcentage des diplômés bac+4 trouve un emploi dans l'année ?",
+				options: ["32,2%", "53,2%", "72,5%", "88%"],
+				answer: "53,2%",
+				explanation: "Le support donne 53,2% en 2023."
+			},
+			{
+				question: "Q37. Quelle valeur ne fait PAS partie des motivations de la génération MZ ?",
+				options: ["Autonomie et flexibilité", "Work-life balance", "Loyauté à long terme à une seule entreprise", "Équité et transparence"],
+				answer: "Loyauté à long terme à une seule entreprise",
+				explanation: "La génération MZ est plus mobile et accepte le job-hopping."
+			},
+			{
+				question: "Q38. Quel visa est typiquement utilisé par les professeurs d'anglais étrangers ?",
+				options: ["E-1", "E-2", "E-7", "F-6"],
+				answer: "E-2",
+				explanation: "E-2 correspond au visa de professeur de langue étrangère."
+			},
+			{
+				question: "Q39. Qui est le fondateur de NAVER ?",
+				options: ["Kim Beom-su", "Kim Bom", "Lee Hae-jin", "Lee Kun-hee"],
+				answer: "Lee Hae-jin",
+				explanation: "NAVER a été fondé par Lee Hae-jin en 1999."
+			},
+			{
+				question: "Q40. Lequel n'est PAS un conseil recommandé aux étrangers qui travaillent en Corée ?",
+				options: ["Apprendre titres et salutations", "Critiquer publiquement les supérieurs", "Construire la confiance avant de critiquer", "Poser les questions sensibles en privé"],
+				answer: "Critiquer publiquement les supérieurs",
+				explanation: "Le cours recommande au contraire une critique en privé après avoir construit la confiance."
+			}
+		];
+
+		const setupPanel = document.getElementById("setupPanel");
+		const quizPanel = document.getElementById("quizPanel");
+		const resultPanel = document.getElementById("resultPanel");
+		const startBtn = document.getElementById("startBtn");
+		const nextBtn = document.getElementById("nextBtn");
+		const restartBtn = document.getElementById("restartBtn");
+
+		const progressStat = document.getElementById("progressStat");
+		const scoreStat = document.getElementById("scoreStat");
+		const timerStat = document.getElementById("timerStat");
+		const questionText = document.getElementById("questionText");
+		const optionsContainer = document.getElementById("optionsContainer");
+		const feedbackBox = document.getElementById("feedbackBox");
+		const resultSummary = document.getElementById("resultSummary");
+		const mistakesList = document.getElementById("mistakesList");
+
+		const questionCountSelect = document.getElementById("questionCount");
+		const timerSelect = document.getElementById("timerPerQuestion");
+		const shuffleSelect = document.getElementById("shuffleMode");
+
+		let sessionQuestions = [];
+		let currentIndex = 0;
+		let score = 0;
+		let answers = [];
+		let timerId = null;
+		let timeLeft = 0;
+		let answered = false;
+
+		function shuffled(arr) {
+			const clone = [...arr];
+			for (let i = clone.length - 1; i > 0; i -= 1) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[clone[i], clone[j]] = [clone[j], clone[i]];
+			}
+			return clone;
+		}
+
+		function startSession() {
+			const selectedCount = Number(questionCountSelect.value);
+			const shouldShuffle = shuffleSelect.value === "yes";
+			const base = shouldShuffle ? shuffled(questionBank) : [...questionBank];
+
+			sessionQuestions = base.slice(0, selectedCount);
+			currentIndex = 0;
+			score = 0;
+			answers = [];
+			answered = false;
+
+			setupPanel.classList.add("hidden");
+			resultPanel.classList.add("hidden");
+			quizPanel.classList.remove("hidden");
+
+			renderQuestion();
+		}
+
+		function clearTimer() {
+			if (timerId !== null) {
+				clearInterval(timerId);
+				timerId = null;
+			}
+		}
+
+		function setupTimer() {
+			clearTimer();
+			const configured = Number(timerSelect.value);
+			if (!configured) {
+				timerStat.textContent = "Temps: illimité";
+				return;
+			}
+
+			timeLeft = configured;
+			timerStat.textContent = `Temps: ${timeLeft}s`;
+			timerId = setInterval(() => {
+				timeLeft -= 1;
+				timerStat.textContent = `Temps: ${Math.max(timeLeft, 0)}s`;
+
+				if (timeLeft <= 0) {
+					clearTimer();
+					if (!answered) {
+						submitAnswer(null);
+					}
+				}
+			}, 1000);
+		}
+
+		function renderQuestion() {
+			answered = false;
+			nextBtn.classList.add("hidden");
+			feedbackBox.className = "feedback";
+			feedbackBox.textContent = "Choisis une réponse pour voir l'explication.";
+
+			const q = sessionQuestions[currentIndex];
+			progressStat.textContent = `Question ${currentIndex + 1} / ${sessionQuestions.length}`;
+			scoreStat.textContent = `Score: ${score}`;
+			questionText.textContent = q.question;
+			optionsContainer.innerHTML = "";
+
+			q.options.forEach((option) => {
+				const btn = document.createElement("button");
+				btn.className = "option-btn";
+				btn.type = "button";
+				btn.textContent = option;
+				btn.addEventListener("click", () => submitAnswer(option));
+				optionsContainer.appendChild(btn);
+			});
+
+			setupTimer();
+		}
+
+		function submitAnswer(selectedOption) {
+			if (answered) {
+				return;
+			}
+			answered = true;
+			clearTimer();
+
+			const q = sessionQuestions[currentIndex];
+			const isCorrect = selectedOption === q.answer;
+			if (isCorrect) {
+				score += 1;
+			}
+
+			answers.push({
+				question: q.question,
+				selected: selectedOption,
+				correct: q.answer,
+				explanation: q.explanation,
+				isCorrect
+			});
+
+			[...optionsContainer.children].forEach((btn) => {
+				btn.disabled = true;
+				if (btn.textContent === q.answer) {
+					btn.classList.add("correct");
+				}
+				if (selectedOption && btn.textContent === selectedOption && selectedOption !== q.answer) {
+					btn.classList.add("wrong");
+				}
+			});
+
+			feedbackBox.className = isCorrect ? "feedback good" : "feedback bad";
+			if (selectedOption === null) {
+				feedbackBox.textContent = `Temps écoulé. Réponse attendue: ${q.answer}. ${q.explanation}`;
+			} else if (isCorrect) {
+				feedbackBox.textContent = `Bonne réponse. ${q.explanation}`;
+			} else {
+				feedbackBox.textContent = `Réponse incorrecte. Réponse attendue: ${q.answer}. ${q.explanation}`;
+			}
+
+			scoreStat.textContent = `Score: ${score}`;
+
+			if (currentIndex < sessionQuestions.length - 1) {
+				nextBtn.classList.remove("hidden");
+			} else {
+				nextBtn.textContent = "Voir le résultat";
+				nextBtn.classList.remove("hidden");
+			}
+		}
+
+		function nextStep() {
+			if (currentIndex < sessionQuestions.length - 1) {
+				currentIndex += 1;
+				nextBtn.textContent = "Question suivante";
+				renderQuestion();
+			} else {
+				showResults();
+			}
+		}
+
+		function showResults() {
+			quizPanel.classList.add("hidden");
+			resultPanel.classList.remove("hidden");
+
+			const total = sessionQuestions.length;
+			const percent = Math.round((score / total) * 100);
+			const bestScore = Number(localStorage.getItem("bestScoreExamKorean") || 0);
+			const nextBest = Math.max(bestScore, percent);
+			localStorage.setItem("bestScoreExamKorean", String(nextBest));
+
+			resultSummary.innerHTML = `
+				<p><strong>Score final:</strong> ${score} / ${total} (${percent}%)</p>
+				<p><strong>Meilleur score enregistré:</strong> ${nextBest}%</p>
+			`;
+
+			const wrongAnswers = answers.filter((a) => !a.isCorrect);
+			if (!wrongAnswers.length) {
+				mistakesList.innerHTML = "<p class=\"muted\">Parfait, aucune erreur sur cette session.</p>";
+				return;
+			}
+
+			mistakesList.innerHTML = "<h3>Questions à revoir</h3>";
+			wrongAnswers.forEach((item) => {
+				const block = document.createElement("div");
+				block.className = "result-card";
+				const selected = item.selected === null ? "(temps écoulé)" : item.selected;
+				block.innerHTML = `
+					<p><strong>Question:</strong> ${item.question}</p>
+					<p><strong>Ta réponse:</strong> ${selected}</p>
+					<p><strong>Bonne réponse:</strong> ${item.correct}</p>
+					<p class="muted">${item.explanation}</p>
+				`;
+				mistakesList.appendChild(block);
+			});
+		}
+
+		startBtn.addEventListener("click", startSession);
+		nextBtn.addEventListener("click", nextStep);
+		restartBtn.addEventListener("click", () => {
+			resultPanel.classList.add("hidden");
+			setupPanel.classList.remove("hidden");
+			clearTimer();
+			nextBtn.textContent = "Question suivante";
+		});
+	</script>
+</body>
+</html>
