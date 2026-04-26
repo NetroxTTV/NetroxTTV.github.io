@@ -292,11 +292,6 @@ buildVocab();
     Score : <span class="score-num" id="score">0</span> / <span id="total">0</span>
   </div>
   <button class="reset-btn" onclick="generateQuestions()">🔄 Nouvelles questions</button>
-  <div id="qcm-loading" style="text-align:center;padding:40px;display:none;">
-    <div style="font-size:2rem;margin-bottom:12px;">⏳</div>
-    <p style="color:#3b4cca;font-weight:600;">문제를 만들고 있어요...</p>
-    <p style="color:#888;font-size:0.85rem;">Génération de nouvelles questions...</p>
-  </div>
   <div id="qcm-container"></div>
 </div>
 
@@ -372,93 +367,118 @@ function updateScore() {
   document.getElementById('total').textContent = total;
 }
 
-async function generateQuestions() {
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const bank = [
+  {type:'o',tag:'어휘',k:'감자의 뜻은?',o:['pomme','banane','pomme de terre','oignon'],a:2},
+  {type:'o',tag:'어휘',k:'당근의 뜻은?',o:['lait','oignon','carotte','jus'],a:2},
+  {type:'o',tag:'어휘',k:'양파의 뜻은?',o:['pomme','oignon','banane','carotte'],a:1},
+  {type:'o',tag:'어휘',k:'우유의 뜻은?',o:['jus','cola','eau','lait'],a:3},
+  {type:'o',tag:'어휘',k:'딸기의 뜻은?',o:['fraise','banane','pomme','carotte'],a:0},
+  {type:'o',tag:'어휘',k:'냉장고의 뜻은?',o:['supermarché','prix','réfrigérateur','reçu'],a:2},
+  {type:'o',tag:'어휘',k:'가격의 뜻은?',o:['article','prix','reçu','cadeau'],a:1},
+  {type:'o',tag:'어휘',k:'선물의 뜻은?',o:['cadeau','gâteau','fête','invitation'],a:0},
+  {type:'o',tag:'어휘',k:'자주의 뜻은?',o:['parfois','jamais','souvent','rarement'],a:2},
+  {type:'o',tag:'어휘',k:'혼자의 뜻은?',o:['ensemble','souvent','seul(e)','parfois'],a:2},
+  {type:'o',tag:'어휘',k:'같이의 뜻은?',o:['seul(e)','souvent','ensemble','rarement'],a:2},
+  {type:'o',tag:'어휘',k:'그래서의 뜻은?',o:['mais','donc','et puis','parce que'],a:1},
+  {type:'o',tag:'어휘',k:'날씨의 뜻은?',o:['nourriture','endroit','voyage','météo'],a:3},
+  {type:'o',tag:'어휘',k:'저녁의 뜻은?',o:['matin','nuit','midi','soir'],a:3},
+  {type:'o',tag:'어휘',k:'케이크의 뜻은?',o:['jus','cadeau','gâteau','fête'],a:2},
+  {type:'o',tag:'어휘',k:'"좋아하다"의 뜻은?',o:['aller','lire','manger','aimer'],a:3},
+  {type:'o',tag:'어휘',k:'"재미있다"의 뜻은?',o:['délicieux','cher','amusant','propre'],a:2},
+  {type:'o',tag:'어휘',k:'"맛있다"의 뜻은?',o:['amusant','délicieux','propre','gentil'],a:1},
+  {type:'o',tag:'어휘',k:'"비싸다"의 뜻은?',o:['bon marché','propre','cher','gentil'],a:2},
+  {type:'o',tag:'어휘',k:'초대하다의 뜻은?',o:['jouer','manger','inviter','boire'],a:2},
+  {type:'o',tag:'어휘',k:'유람선의 뜻은?',o:['vélo','bateau de croisière','avion','train'],a:1},
+  {type:'o',tag:'요일',k:'월요일은 프랑스어로?',o:['mardi','lundi','mercredi','jeudi'],a:1},
+  {type:'o',tag:'요일',k:'화요일은 프랑스어로?',o:['lundi','mardi','mercredi','jeudi'],a:1},
+  {type:'o',tag:'요일',k:'수요일은 프랑스어로?',o:['mercredi','mardi','jeudi','vendredi'],a:0},
+  {type:'o',tag:'요일',k:'목요일은 프랑스어로?',o:['mercredi','vendredi','jeudi','samedi'],a:2},
+  {type:'o',tag:'요일',k:'금요일은 프랑스어로?',o:['jeudi','samedi','vendredi','dimanche'],a:2},
+  {type:'o',tag:'요일',k:'토요일은 프랑스어로?',o:['vendredi','samedi','dimanche','lundi'],a:1},
+  {type:'o',tag:'요일',k:'일요일은 프랑스어로?',o:['samedi','lundi','dimanche','mardi'],a:2},
+  {type:'o',tag:'요일',k:'"mercredi"는 한국어로?',o:['화요일','목요일','금요일','수요일'],a:3},
+  {type:'o',tag:'요일',k:'"vendredi"는 한국어로?',o:['목요일','금요일','토요일','일요일'],a:1},
+  {type:'o',tag:'요일',k:'"dimanche"는 한국어로?',o:['토요일','화요일','일요일','월요일'],a:2},
+  {type:'o',tag:'문법',k:'"가다"의 과거형(아/어요)은?',o:['가았어요','갑니다','갔어요','가어요'],a:2},
+  {type:'o',tag:'문법',k:'"먹다"의 과거형(아/어요)은?',o:['먹었어요','먹았어요','먹습니다','먹어요'],a:0},
+  {type:'o',tag:'문법',k:'"좋다"의 과거형은?',o:['좋었어요','좋습니다','좋았어요','좋아요'],a:2},
+  {type:'o',tag:'문법',k:'"보다"의 과거형은?',o:['보았어요','봅니다','보어요','봤어요'],a:3},
+  {type:'o',tag:'문법',k:'"먹다"의 공식체 현재형은?',o:['먹어요','먹습니다','먹입니다','먹었습니다'],a:1},
+  {type:'o',tag:'문법',k:'"가다"의 공식체 현재형은?',o:['가요','가입니다','갑니다','갔습니다'],a:2},
+  {type:'o',tag:'문법',k:'"비싸다"의 공식체 현재형은?',o:['비쌌습니다','비싸요','비싸입니다','비쌉니다'],a:3},
+  {type:'o',tag:'문법',k:'카페에서 커피를 마시는 올바른 문장은?',o:['카페에 커피를 마셔요.','카페에서 커피를 마셔요.','카페가 커피를 마셔요.','카페를 커피가 마셔요.'],a:1},
+  {type:'o',tag:'문법',k:'공원에서 책을 읽는 올바른 문장은?',o:['공원에 책을 읽어요.','공원이 책을 읽어요.','공원에서 책을 읽어요.','공원을 책을 읽어요.'],a:2},
+  {type:'o',tag:'문법',k:'"학생"의 공식체(이다)는?',o:['학생예요','학생이에요','학생합니다','학생입니다'],a:3},
+  {type:'o',tag:'문법',k:'"재미있다"의 과거형은?',o:['재미있었어요','재미있어요','재미있습니다','재미없어요'],a:0},
+  {type:'o',tag:'독해',k:'카페 글 : 이 사람이 혼자 카페에서 하는 일은?',o:['친구를 만나요.','게임을 해요.','운동을 해요.','커피를 마시고 책을 읽어요.'],a:3},
+  {type:'o',tag:'독해',k:'한강 글 : 저녁에 한 일은?',o:['사진을 찍었어요.','자전거를 탔어요.','유람선을 탔어요.','라면을 먹었어요.'],a:2},
+  {type:'x',tag:'어휘',k:'다음 중 채소가 아닌 것은?',o:['당근','양파','바나나','감자'],a:2},
+  {type:'x',tag:'어휘',k:'다음 중 음료수가 아닌 것은?',o:['사과','우유','주스','콜라'],a:0},
+  {type:'x',tag:'어휘',k:'다음 중 과일이 아닌 것은?',o:['사과','바나나','양파','딸기'],a:2},
+  {type:'x',tag:'어휘',k:'다음 중 마트에서 살 수 없는 것은?',o:['우유','유람선','사과','당근'],a:1},
+  {type:'x',tag:'요일',k:'다음 중 요일이 틀린 것은?',o:['월요일=lundi','화요일=mardi','수요일=jeudi','목요일=jeudi'],a:2},
+  {type:'x',tag:'요일',k:'다음 중 요일이 틀린 것은?',o:['일요일=lundi','금요일=vendredi','토요일=samedi','일요일=dimanche'],a:0},
+  {type:'x',tag:'요일',k:'다음 중 주말이 아닌 것은?',o:['토요일','금요일','일요일','토요일'],a:1},
+  {type:'x',tag:'문법',k:'다음 중 틀린 문장은?',o:['저는 카페에서 커피를 마셔요.','저는 카페에 커피를 마셔요.','저는 공원에서 책을 읽어요.','저는 마트에서 쇼핑해요.'],a:1},
+  {type:'x',tag:'문법',k:'다음 중 과거형이 틀린 것은?',o:['가다→갔어요','먹다→먹었어요','좋다→좋아요','보다→봤어요'],a:2},
+  {type:'x',tag:'문법',k:'다음 중 공식체(습니다)가 틀린 것은?',o:['먹다→먹습니다','좋다→좋입니다','가다→갑니다','비싸다→비쌉니다'],a:1},
+  {type:'x',tag:'독해',k:'카페 글에서 틀린 내용은?',o:['이 사람은 카페를 좋아해요.','이 사람은 카페에 항상 혼자 가요.','이 사람은 카페에 자주 가요.','이 사람은 커피를 마셔요.'],a:1},
+  {type:'blank',tag:'문법',k:'저는 카페를 좋아해요. 그래서 카페에 _____ 가요.',o:['가끔','혼자','그래서','자주'],a:3},
+  {type:'blank',tag:'문법',k:'날씨가 _____. 그래서 친구와 공원에 갔어요.',o:['좋습니다','좋았어요','좋아요','좋었어요'],a:1},
+  {type:'blank',tag:'문법',k:'어제 친구 집에 _____. 같이 케이크를 먹었어요.',o:['갑니다','가요','갔습니다','갔어요'],a:3},
+  {type:'blank',tag:'문법',k:'아침에 물을 마시_____ 책을 읽어요.',o:['서','는','도','고'],a:3},
+  {type:'blank',tag:'문법',k:'저는 학생_____. (공식체)',o:['이에요','이었어요','입니다','예요'],a:2},
+  {type:'blank',tag:'독해',k:'"저는 카페를 좋아해요. _____ 카페에 자주 가요."',o:['하지만','가끔','그리고','그래서'],a:3},
+  {type:'blank',tag:'문법',k:'저는 친구_____ 공원에 가요.',o:['이','에서','를','와'],a:3},
+  {type:'blank',tag:'문법',k:'한강_____ 라면을 먹었어요.',o:['에','를','이','에서'],a:3},
+  {type:'blank',tag:'문법',k:'책을 읽_____ 커피를 마셔요.',o:['지만','서','고','도'],a:2},
+  {type:'blank',tag:'문법',k:'"가다"의 공식체 과거형 : 갔_____.',o:['어요','ㅂ니다','었어요','습니다'],a:3},
+  {type:'blank',tag:'문법',k:'저는 _____ 카페에 가요. (seul/e)',o:['자주','그래서','같이','혼자'],a:3},
+  {type:'blank',tag:'요일',k:'월요일, 화요일, _____, 목요일',o:['금요일','토요일','일요일','수요일'],a:3},
+  {type:'blank',tag:'요일',k:'목요일, 금요일, _____, 일요일',o:['월요일','수요일','토요일','화요일'],a:2},
+  {type:'blank',tag:'어휘',k:'냉장고에 _____ 있어요. (boisson)',o:['채소','가격','음료수','과일'],a:2},
+];
+
+function generateQuestions() {
   score = 0; total = 0;
   updateScore();
-  const container = document.getElementById('qcm-container');
-  const loading = document.getElementById('qcm-loading');
-  container.innerHTML = '';
-  loading.style.display = 'block';
-
-  const prompt = `Tu es un professeur de coréen. Génère exactement 15 questions de QCM variées pour un étudiant français de niveau débutant (A1/A2) en coréen.
-
-Le cours couvre ces thèmes :
-- Vocabulaire : marché/supermarché (과일, 채소, 음료수, 사과, 바나나, 양파, 감자, 당근, 우유, 콜라, 주스, 딸기, 냉장고, 가격, 물건, 영수증)
-- Café/activités : 좋아하다, 자주, 가끔, 혼자, 같이, 그래서, 책을 읽다, 음악을 듣다, 커피를 마시다, 자전거를 타다, 운동을 하다
-- Fête/anniversaire : 생일 파티, 초대하다, 케이크, 선물, 게임을 하다, 재미있다, 맛있다
-- Météo/parc : 날씨, 좋다, 사진을 찍다, 유람선, 타다, 라면, 저녁
-- Jours : 월요일 화요일 수요일 목요일 금요일 토요일 일요일
-- Grammaire : présent poli (아/어요), passé (았/었어요), formel (ㅂ니다/습니다), particule 에서 vs 에, connecteur 고, N이에요/예요, N입니다
-
-Les 3 types de questions (mix obligatoire) :
-- "o" : 맞는 것을 고르세요 (trouver la bonne réponse parmi 4)
-- "x" : 맞지 않는 것을 고르세요 (trouver la MAUVAISE parmi 4)
-- "blank" : 빈 칸에 알맞은 것을 고르세요 (remplir le blanc, question en coréen avec _____)
-
-RÈGLES IMPORTANTES :
-- Les questions ET les 4 options sont en coréen ou mélangé coréen/français (vocabulaire)
-- Les tags possibles : 어휘, 문법, 요일, 독해
-- Pour les questions "x" et "o" avec des listes : NE mets PAS toujours la mauvaise réponse en dernière position, varie la position de la réponse correcte
-- Varie bien les sujets : au moins 4 어휘, 4 문법, 2 요일, 2 독해, au moins 5 questions de chaque type o/x/blank
-
-Réponds UNIQUEMENT avec un JSON valide, sans markdown, sans explication :
-[
-  {
-    "type": "o",
-    "tag": "어휘",
-    "korean": "question en coréen",
-    "options": ["opt1","opt2","opt3","opt4"],
-    "answer": 2
-  }
-]
-"answer" est l'index (0-3) de la bonne réponse dans le tableau options.`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await res.json();
-    if (data.error) throw new Error(data.error.message);
-    const text = data.content.map(b => b.text || '').join('').trim();
-    // Extract JSON array from anywhere in the response
-    const match = text.match(/\[[\s\S]*\]/);
-    if (!match) throw new Error('No JSON array found in response');
-    questions = JSON.parse(match[0]);
-    if (!Array.isArray(questions) || questions.length === 0) throw new Error('Empty questions array');
-    loading.style.display = 'none';
-    buildQCM();
-  } catch(e) {
-    loading.innerHTML = `<p style="color:#e74c3c;">❌ 오류 : ${e.message}</p><button class="reset-btn" style="margin-top:12px" onclick="generateQuestions()">🔄 Réessayer</button>`;
-    console.error(e);
-  }
+  const oPool  = shuffle(bank.filter(q => q.type === 'o'));
+  const xPool  = shuffle(bank.filter(q => q.type === 'x'));
+  const bPool  = shuffle(bank.filter(q => q.type === 'blank'));
+  const picked = shuffle([...oPool.slice(0,6), ...xPool.slice(0,5), ...bPool.slice(0,5)]);
+  questions = picked.map(q => {
+    const correct = q.o[q.a];
+    const shuffled = shuffle(q.o);
+    return { ...q, o: shuffled, a: shuffled.indexOf(correct) };
+  });
+  buildQCM();
 }
 
 function buildQCM() {
   const container = document.getElementById('qcm-container');
   container.innerHTML = '';
   questions.forEach((q, qi) => {
-    const badgeLabel = q.type === 'o'
-      ? '⭕ 맞는 것을 고르세요'
-      : q.type === 'x'
-      ? '✕ 맞지 않는 것을 고르세요'
-      : '＿ 빈 칸에 알맞은 것을 고르세요';
+    const badge = q.type==='o' ? '⭕ 맞는 것을 고르세요' : q.type==='x' ? '✕ 맞지 않는 것을 고르세요' : '＿ 빈 칸에 알맞은 것을 고르세요';
     const card = document.createElement('div');
     card.className = 'question-card';
     card.innerHTML = `
       <div class="q-header">
-        <span class="q-num">Q${qi + 1}.</span>
-        <span class="q-type-badge">${badgeLabel}</span>
+        <span class="q-num">Q${qi+1}.</span>
+        <span class="q-type-badge">${badge}</span>
         <span class="q-tag">${q.tag}</span>
       </div>
-      <div class="q-korean">${q.korean.replace(/\n/g,'<br>')}</div>
+      <div class="q-korean">${q.k}</div>
       <div class="options" id="opts-${qi}">
-        ${q.options.map((o,oi) => `<button class="option-btn" onclick="answer(${qi},${oi})"><span class="opt-num">${circledNums[oi]}</span>${o}</button>`).join('')}
+        ${q.o.map((o,oi)=>`<button class="option-btn" onclick="answer(${qi},${oi})"><span class="opt-num">${circledNums[oi]}</span>${o}</button>`).join('')}
       </div>
       <div class="feedback" id="fb-${qi}"></div>
     `;
@@ -471,15 +491,15 @@ function answer(qi, chosen) {
   const opts = document.querySelectorAll(`#opts-${qi} .option-btn`);
   const fb = document.getElementById(`fb-${qi}`);
   opts.forEach(b => b.disabled = true);
-  if (chosen === q.answer) {
+  if (chosen === q.a) {
     opts[chosen].classList.add('correct');
     fb.textContent = '✅ 맞아요!';
     fb.className = 'feedback ok show';
     score++;
   } else {
     opts[chosen].classList.add('wrong');
-    opts[q.answer].classList.add('reveal');
-    fb.textContent = `❌ 틀렸어요. 정답 : ${circledNums[q.answer]} ${q.options[q.answer]}`;
+    opts[q.a].classList.add('reveal');
+    fb.textContent = `❌ 틀렸어요. 정답 : ${circledNums[q.a]} ${q.o[q.a]}`;
     fb.className = 'feedback ko show';
   }
   total++;
