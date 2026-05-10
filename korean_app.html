@@ -281,6 +281,85 @@ body {
   background: var(--surface2); border-radius: 8px;
   padding: 3px 8px; font-size: 0.7rem; color: var(--muted);
 }
+
+/* ── GRAMMAR SCREEN ── */
+.grammar-tabs { display: flex; gap: 8px; padding: 14px 20px 0; overflow-x: auto; }
+.grammar-tab {
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: 20px; padding: 8px 16px; white-space: nowrap;
+  color: var(--muted); cursor: pointer; font-size: 0.82rem; font-weight: 700;
+  transition: all 0.2s;
+}
+.grammar-tab.active { background: var(--accent2); border-color: var(--accent2); color: white; }
+
+.grammar-content { padding: 20px; flex: 1; overflow-y: auto; }
+
+.grammar-rule {
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: var(--radius); padding: 18px; margin-bottom: 16px;
+}
+.grammar-rule h3 {
+  font-size: 1.2rem; font-weight: 900; color: var(--accent2); margin-bottom: 6px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.grammar-rule .rule-desc { color: var(--muted); font-size: 0.88rem; margin-bottom: 12px; line-height: 1.5; }
+.formula-box {
+  background: var(--surface2); border-left: 3px solid var(--accent2);
+  border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; font-size: 0.9rem;
+}
+.formula-box .f-label { font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.formula-box .f-formula { font-weight: 800; color: var(--text); margin-bottom: 2px; }
+.formula-box .f-example { color: var(--accent2); font-size: 0.85rem; }
+.formula-box .f-trans { color: var(--muted); font-size: 0.8rem; }
+
+.examples-list { display: flex; flex-direction: column; gap: 8px; }
+.example-row {
+  background: var(--surface2); border-radius: 10px; padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.example-row .ex-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 1rem; font-weight: 700; flex: 1; }
+.example-row .ex-fr { font-size: 0.82rem; color: var(--muted); }
+.example-row .speak-mini { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.95rem; }
+
+/* GRAMMAR EXERCISES */
+.gram-ex-card {
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: var(--radius); padding: 18px; margin-bottom: 14px;
+}
+.gram-ex-card .ex-num { font-size: 0.72rem; font-weight: 800; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.gram-ex-card .ex-q { font-size: 1rem; font-weight: 700; margin-bottom: 14px; line-height: 1.5; }
+.gram-ex-card .ex-q .blank {
+  display: inline-block; min-width: 80px; border-bottom: 2px solid var(--accent2);
+  text-align: center; color: var(--accent2); font-weight: 800;
+}
+
+/* Word-order drag game */
+.word-bank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; min-height: 44px; }
+.word-chip {
+  background: var(--surface2); border: 2px solid var(--border);
+  border-radius: 10px; padding: 8px 14px; cursor: pointer;
+  font-size: 0.95rem; font-weight: 700; transition: all 0.15s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.word-chip:hover { border-color: var(--accent2); color: var(--accent2); }
+.word-chip.used { opacity: 0.3; pointer-events: none; }
+.answer-zone {
+  min-height: 52px; background: var(--surface2); border: 2px dashed var(--border);
+  border-radius: 12px; padding: 10px; display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 12px;
+}
+.answer-zone .word-chip { background: var(--accent2); border-color: var(--accent2); color: white; }
+.answer-zone.correct { border-color: var(--green); border-style: solid; }
+.answer-zone.wrong { border-color: var(--accent); border-style: solid; }
+
+/* Reading comprehension */
+.reading-text {
+  background: var(--surface2); border-radius: 12px; padding: 16px;
+  font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px;
+  font-family: 'Noto Sans KR', sans-serif; border-left: 3px solid var(--accent2);
+}
+.reading-q { font-weight: 700; margin-bottom: 10px; }
+.reading-opts { display: flex; flex-direction: column; gap: 8px; }
 </style>
 </head>
 <body>
@@ -316,7 +395,8 @@ body {
   </div>
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showTab('home')"><span>🏠</span>Accueil</button>
-    <button class="nav-tab" onclick="showTab('dict')"><span>📖</span>Dictionnaire</button>
+    <button class="nav-tab" onclick="showTab('grammar')"><span>📝</span>Phrases</button>
+    <button class="nav-tab" onclick="showTab('dict')"><span>📖</span>Dico</button>
   </div>
 </div>
 
@@ -377,7 +457,33 @@ body {
   </div>
   <div class="nav-tabs">
     <button class="nav-tab" onclick="showTab('home')"><span>🏠</span>Accueil</button>
-    <button class="nav-tab active" onclick="showTab('dict')"><span>📖</span>Dictionnaire</button>
+    <button class="nav-tab" onclick="showTab('grammar')"><span>📝</span>Phrases</button>
+    <button class="nav-tab active" onclick="showTab('dict')"><span>📖</span>Dico</button>
+  </div>
+</div>
+
+<!-- ══════════════ GRAMMAR ══════════════ -->
+<div class="screen" id="screen-grammar">
+  <div class="topbar">
+    <div class="logo">한<span>국</span>어</div>
+    <div class="topbar-stats">
+      <div class="stat-pill">🔥 <span id="streak3">0</span></div>
+      <div class="stat-pill">⭐ <span id="xp-display3">0</span> XP</div>
+    </div>
+  </div>
+  <div class="grammar-tabs" id="grammar-tabs">
+    <button class="grammar-tab active" onclick="showGrammarTab(0)">-(으)ㄹ래요</button>
+    <button class="grammar-tab" onclick="showGrammarTab(1)">-고 싶다</button>
+    <button class="grammar-tab" onclick="showGrammarTab(2)">-어/아 주세요</button>
+    <button class="grammar-tab" onclick="showGrammarTab(3)">☕ Café</button>
+    <button class="grammar-tab" onclick="showGrammarTab(4)">✏️ Exercices</button>
+    <button class="grammar-tab" onclick="showGrammarTab(5)">📖 Lecture</button>
+  </div>
+  <div class="grammar-content" id="grammar-content"></div>
+  <div class="nav-tabs">
+    <button class="nav-tab" onclick="showTab('home')"><span>🏠</span>Accueil</button>
+    <button class="nav-tab active" onclick="showTab('grammar')"><span>📝</span>Phrases</button>
+    <button class="nav-tab" onclick="showTab('dict')"><span>📖</span>Dico</button>
   </div>
 </div>
 
@@ -402,9 +508,29 @@ const lessons = [
     ]
   },
   {
+    id: 'cafe', icon: '☕', name: 'Café & Boissons', color: '#ff8c42',
+    words: [
+      { k:'카페', r:'kape', f:'Café (lieu)' },
+      { k:'직원', r:'jigwon', f:'Employé(e)' },
+      { k:'메뉴', r:'menyu', f:'Menu' },
+      { k:'음료', r:'eumnyo', f:'Boisson' },
+      { k:'음식', r:'eumsik', f:'Nourriture' },
+      { k:'쿠키', r:'kuki', f:'Cookie' },
+      { k:'케이크', r:'keikeu', f:'Gâteau' },
+      { k:'주문', r:'jumun', f:'Commande' },
+      { k:'아메리카노', r:'amerikano', f:'Americano' },
+      { k:'카페라테', r:'kaperrate', f:'Café latte' },
+      { k:'아이스커피', r:'aiseukeopi', f:'Café glacé' },
+      { k:'오렌지주스', r:'orenjijuseu', f:'Jus d\'orange' },
+      { k:'주문하다', r:'jumunhada', f:'Commander' },
+      { k:'기다리다', r:'gidarida', f:'Attendre' },
+      { k:'선택하다', r:'seonteakhada', f:'Choisir' },
+      { k:'결제하다', r:'gyeoljaehada', f:'Payer' },
+    ]
+  },
+  {
     id: 'food', icon: '🍜', name: 'Nourriture', color: '#ff4b6e',
     words: [
-      { k:'밥', r:'bap', f:'Riz / Repas' },
       { k:'물', r:'mul', f:'Eau' },
       { k:'고기', r:'gogi', f:'Viande' },
       { k:'생선', r:'saengseon', f:'Poisson' },
@@ -866,6 +992,488 @@ function goHome() {
 function showTab(tab) {
   if (tab === 'home') { showScreen('home'); }
   else if (tab === 'dict') { showScreen('dict'); renderDict(); }
+  else if (tab === 'grammar') { showScreen('grammar'); showGrammarTab(0); }
+}
+
+// ══════════════════════════════════════
+// GRAMMAR DATA & SCREEN
+// ══════════════════════════════════════
+
+const grammarData = [
+  // TAB 0 — -(으)ㄹ래요
+  {
+    title: '-(으)ㄹ래요',
+    subtitle: 'Intention / Proposer / Demander',
+    desc: 'S\'attache au radical du verbe pour exprimer l\'intention de faire quelque chose, ou pour demander l\'intention d\'une autre personne.',
+    formulas: [
+      { label: 'Radical sans batchim (받침 X)', formula: '동사 어간 + -ㄹ래요', example: '만나다 → 만날래요', trans: 'Tu veux qu\'on se retrouve ?' },
+      { label: 'Radical avec batchim (받침 O)', formula: '동사 어간 + -을래요', example: '먹다 → 먹을래요', trans: 'Tu veux manger ?' },
+    ],
+    examples: [
+      { kr: '아메리카노를 마실래요.', fr: 'Je vais boire un americano.' },
+      { kr: '케이크를 먹을래요.', fr: 'Je vais manger un gâteau.' },
+      { kr: '뭐 할래요?', fr: 'Qu\'est-ce que tu veux faire ?' },
+      { kr: '같이 카페에 갈래요?', fr: 'Tu veux aller au café ensemble ?' },
+      { kr: '커피를 마실래요? 아니면 주스를 마실래요?', fr: 'Tu veux du café ou du jus ?' },
+    ]
+  },
+  // TAB 1 — -고 싶다
+  {
+    title: '-고 싶다 / -고 싶어 하다',
+    subtitle: 'Exprimer un désir',
+    desc: 'S\'attache au radical du verbe pour exprimer le désir de faire une action. Pour le passé : -고 싶었어요. Pour le désir d\'une autre personne : -고 싶어 하다.',
+    formulas: [
+      { label: 'Présent (moi)', formula: '동사 어간 + -고 싶어요', example: '마시다 → 마시고 싶어요', trans: 'Je veux boire.' },
+      { label: 'Passé (moi)', formula: '동사 어간 + -고 싶었어요', example: '가다 → 가고 싶었어요', trans: 'Je voulais y aller.' },
+      { label: 'Autre personne', formula: '동사 어간 + -고 싶어 해요', example: '먹다 → 먹고 싶어 해요', trans: 'Il/elle veut manger.' },
+    ],
+    examples: [
+      { kr: '아메리카노를 마시고 싶어요.', fr: 'Je veux boire un americano.' },
+      { kr: '카페에서 책을 읽고 싶어요.', fr: 'Je veux lire un livre au café.' },
+      { kr: '친구가 쿠키를 사고 싶어 해요.', fr: 'Mon ami veut acheter des cookies.' },
+      { kr: '한국에 가고 싶었어요.', fr: 'Je voulais aller en Corée.' },
+      { kr: '뭐 먹고 싶어요?', fr: 'Qu\'est-ce que tu veux manger ?' },
+    ]
+  },
+  // TAB 2 — -어/아 주세요
+  {
+    title: '-어/아 주세요',
+    subtitle: 'Demande polie',
+    desc: '-어/아 주세요 est utilisé pour faire une demande polie. C\'est plus doux que -(으)세요 qui est plutôt une instruction ou un ordre.',
+    formulas: [
+      { label: 'Verbe en ㅏ/ㅗ', formula: '동사 어간 + -아 주세요', example: '앉다 → 앉아 주세요', trans: 'Veuillez vous asseoir.' },
+      { label: 'Autres voyelles', formula: '동사 어간 + -어 주세요', example: '기다리다 → 기다려 주세요', trans: 'Veuillez attendre.' },
+    ],
+    examples: [
+      { kr: '메뉴를 선택해 주세요.', fr: 'Veuillez choisir un menu.' },
+      { kr: '얼음을 많이 넣어 주세요.', fr: 'Mettez beaucoup de glaçons, s\'il vous plaît.' },
+      { kr: '잠깐만 기다려 주세요.', fr: 'Attendez un instant, s\'il vous plaît.' },
+      { kr: '창문을 닫아 주세요.', fr: 'Veuillez fermer la fenêtre.' },
+      { kr: '시험지에 이름을 써 주세요.', fr: 'Écrivez votre nom sur la feuille.' },
+    ]
+  },
+  // TAB 3 — Café Vocabulary
+  {
+    title: '☕ Vocabulaire : Café & Boissons',
+    subtitle: '5과 식사와 음료',
+    desc: 'Vocabulaire essentiel pour commander au café et parler de nourriture et boissons.',
+    formulas: [
+      { label: 'Lieux & Personnes', formula: '카페 / 직원 / 메뉴', example: '카페에서 직원이 일해요.', trans: 'L\'employé travaille au café.' },
+      { label: 'Boissons courantes', formula: '아메리카노 / 카페라테 / 아이스커피', example: '아이스커피를 마실래요.', trans: 'Je vais boire un café glacé.' },
+      { label: 'Nourriture', formula: '쿠키 / 케이크 / 샌드위치', example: '케이크를 먹고 싶어요.', trans: 'Je veux manger un gâteau.' },
+    ],
+    examples: [
+      { kr: '주문하고 기다립니다.', fr: 'On commande et on attend.' },
+      { kr: '메뉴에 음료가 많이 있습니다.', fr: 'Il y a beaucoup de boissons dans le menu.' },
+      { kr: '뭐 드릴까요?', fr: 'Qu\'est-ce que je vous sers ?' },
+      { kr: '아이스커피 한 잔 주세요.', fr: 'Un café glacé, s\'il vous plaît.' },
+      { kr: '설탕을 넣어 주세요.', fr: 'Ajoutez du sucre, s\'il vous plaît.' },
+      { kr: '오렌지주스를 마시고 싶어 해요.', fr: 'Il/elle veut boire un jus d\'orange.' },
+      { kr: '잠깐만 기다려 주세요.', fr: 'Attendez un instant, s\'il vous plaît.' },
+    ]
+  },
+];
+
+// Exercises — word order (30 exercices)
+const wordOrderExs = [
+  { words: ['마실래요', '아메리카노를', '저는'], answer: '저는 아메리카노를 마실래요', trans: 'Je vais boire un americano.' },
+  { words: ['싶어요', '케이크를', '먹고'], answer: '케이크를 먹고 싶어요', trans: 'Je veux manger un gâteau.' },
+  { words: ['주세요', '기다려', '잠깐만'], answer: '잠깐만 기다려 주세요', trans: 'Attendez un instant, s\'il vous plaît.' },
+  { words: ['갈래요?', '같이', '카페에'], answer: '같이 카페에 갈래요?', trans: 'Tu veux aller au café ensemble ?' },
+  { words: ['싶어요', '읽고', '카페에서', '책을'], answer: '카페에서 책을 읽고 싶어요', trans: 'Je veux lire un livre au café.' },
+  { words: ['넣어', '얼음을', '주세요', '많이'], answer: '얼음을 많이 넣어 주세요', trans: 'Mettez beaucoup de glaçons, s\'il vous plaît.' },
+  { words: ['마시고', '싶어', '해요', '친구가', '커피를'], answer: '친구가 커피를 마시고 싶어 해요', trans: 'Mon ami veut boire du café.' },
+  { words: ['주세요', '메뉴를', '선택해'], answer: '메뉴를 선택해 주세요', trans: 'Veuillez choisir un menu.' },
+  { words: ['뭐', '할래요?'], answer: '뭐 할래요?', trans: 'Qu\'est-ce que tu veux faire ?' },
+  { words: ['먹을래요', '쿠키를', '저는'], answer: '저는 쿠키를 먹을래요', trans: 'Je vais manger des cookies.' },
+  { words: ['한국에', '싶었어요', '가고'], answer: '한국에 가고 싶었어요', trans: 'Je voulais aller en Corée.' },
+  { words: ['닫아', '창문을', '주세요'], answer: '창문을 닫아 주세요', trans: 'Veuillez fermer la fenêtre.' },
+  { words: ['마실래요?', '주스를', '아니면', '커피를', '마실래요?'], answer: '커피를 마실래요? 아니면 주스를 마실래요?', trans: 'Tu veux du café ou du jus ?' },
+  { words: ['이름을', '써', '주세요', '시험지에'], answer: '시험지에 이름을 써 주세요', trans: 'Écrivez votre nom sur la feuille.' },
+  { words: ['뭐', '싶어요?', '먹고'], answer: '뭐 먹고 싶어요?', trans: 'Qu\'est-ce que tu veux manger ?' },
+  { words: ['사고', '싶어요', '오렌지주스를'], answer: '오렌지주스를 사고 싶어요', trans: 'Je veux acheter un jus d\'orange.' },
+  { words: ['앉아', '주세요', '여기에'], answer: '여기에 앉아 주세요', trans: 'Veuillez vous asseoir ici.' },
+  { words: ['마실래요?', '뭐'], answer: '뭐 마실래요?', trans: 'Qu\'est-ce que tu veux boire ?' },
+  { words: ['공부하고', '싶어요', '한국어를'], answer: '한국어를 공부하고 싶어요', trans: 'Je veux étudier le coréen.' },
+  { words: ['보고', '싶어', '해요', '영화를', '친구가'], answer: '친구가 영화를 보고 싶어 해요', trans: 'Mon ami veut regarder un film.' },
+  { words: ['주세요', '도와', '저를'], answer: '저를 도와 주세요', trans: 'Aidez-moi, s\'il vous plaît.' },
+  { words: ['먹을래요', '비빔밥을', '저는'], answer: '저는 비빔밥을 먹을래요', trans: 'Je vais manger du bibimbap.' },
+  { words: ['싶어요', '자고', '지금'], answer: '지금 자고 싶어요', trans: 'Je veux dormir maintenant.' },
+  { words: ['카페라테를', '마실래요?', '같이'], answer: '같이 카페라테를 마실래요?', trans: 'Tu veux boire un café latte ensemble ?' },
+  { words: ['써', '주세요', '여기에', '이름을'], answer: '여기에 이름을 써 주세요', trans: 'Écrivez votre nom ici, s\'il vous plaît.' },
+  { words: ['싶어요', '가고', '공원에'], answer: '공원에 가고 싶어요', trans: 'Je veux aller au parc.' },
+  { words: ['주문해', '주세요', '음료를'], answer: '음료를 주문해 주세요', trans: 'Commandez une boisson, s\'il vous plaît.' },
+  { words: ['만날래요?', '내일', '친구를'], answer: '내일 친구를 만날래요?', trans: 'Tu veux retrouver un ami demain ?' },
+  { words: ['사고', '싶어요', '케이크를', '카페에서'], answer: '카페에서 케이크를 사고 싶어요', trans: 'Je veux acheter un gâteau au café.' },
+  { words: ['닫아', '문을', '주세요', '조용히'], answer: '조용히 문을 닫아 주세요', trans: 'Fermez la porte doucement, s\'il vous plaît.' },
+];
+
+// Fill in the blank exercises (28 exercices)
+const fillExs = [
+  { q: '아메리카노를 마시_____ 싶어요.', blank: '고', hint: '-고 싶어요 = Je veux...', choices: ['고','서','는','도'], answer: 0 },
+  { q: '케이크를 먹_____래요.', blank: '을', hint: 'Batchim ㄱ → -을래요', choices: ['ㄹ','을','는','고'], answer: 1 },
+  { q: '잠깐만 기다려 _____.', blank: '주세요', hint: '-어/아 주세요 = s\'il vous plaît', choices: ['주세요','하세요','가세요','오세요'], answer: 0 },
+  { q: '친구가 쿠키를 사고 싶어 _____.', blank: '해요', hint: 'Autre personne → -고 싶어 해요', choices: ['요','해요','어요','하다'], answer: 1 },
+  { q: '같이 카페에 가_____ 래요?', blank: 'ㄹ', hint: '가- sans batchim → -ㄹ래요', choices: ['을','ㄹ','고','는'], answer: 1 },
+  { q: '한국에 가고 싶_____ 어요.', blank: '었', hint: 'Passé -고 싶었어요', choices: ['어','아','었','겠'], answer: 2 },
+  { q: '메뉴를 선택해 _____.', blank: '주세요', hint: '-어 주세요 = s\'il vous plaît', choices: ['드릴게요','주세요','볼게요','하세요'], answer: 1 },
+  { q: '우유를 마실_____?', blank: '래요', hint: '마시- sans batchim → -ㄹ래요 → 마실래요', choices: ['요','래요','어요','까요'], answer: 1 },
+  { q: '책을 읽_____ 싶어요.', blank: '고', hint: '-고 싶어요 s\'attache après le radical', choices: ['고','어','서','는'], answer: 0 },
+  { q: '얼음을 많이 넣어 _____.', blank: '주세요', hint: '-아 주세요 (넣다 → 넣어 주세요)', choices: ['주세요','가세요','하세요','드세요'], answer: 0 },
+  { q: '창문을 닫_____ 주세요.', blank: '아', hint: '닫다 → 받침 ㄷ + ㅏ → 닫아 주세요', choices: ['어','아','아서','고'], answer: 1 },
+  { q: '뭐 먹_____ 싶어요?', blank: '고', hint: '-고 싶어요 = Tu veux...', choices: ['고','어','서','는'], answer: 0 },
+  { q: '저는 비빔밥을 먹_____래요.', blank: '을', hint: '먹다 → batchim ㄱ → -을래요', choices: ['ㄹ','을','는','고'], answer: 1 },
+  { q: '친구가 한국에 가고 싶어 _____.', blank: '해요', hint: 'Désir d\'une autre personne → -고 싶어 해요', choices: ['있어요','해요','요','가요'], answer: 1 },
+  { q: '시험지에 이름을 써 _____.', blank: '주세요', hint: '쓰다 → 써 주세요 (-어 주세요)', choices: ['주세요','하세요','가세요','봐요'], answer: 0 },
+  { q: '공원에 가_____ 싶어요.', blank: '고', hint: '-고 싶어요', choices: ['서','고','는','도'], answer: 1 },
+  { q: '같이 영화를 볼_____?', blank: '래요', hint: '보다 → 볼래요 (sans batchim → -ㄹ래요)', choices: ['까요','래요','어요','하요'], answer: 1 },
+  { q: '오렌지주스를 사_____ 싶어요.', blank: '고', hint: '-고 싶어요 après le radical', choices: ['고','어','서','를'], answer: 0 },
+  { q: '여기에 앉_____ 주세요.', blank: '아', hint: '앉다 → 앉아 주세요 (ㅏ)', choices: ['어','아','고','서'], answer: 1 },
+  { q: '동생이 자_____ 싶어 해요.', blank: '고', hint: 'désir d\'autre personne -고 싶어 해요', choices: ['고','서','는','도'], answer: 0 },
+  { q: '커피를 마실_____ 아니면 주스를 마실래요?', blank: '래요?', hint: '마시- → -ㄹ래요', choices: ['까요?','래요?','어요?','아요?'], answer: 1 },
+  { q: '저를 도_____ 주세요.', blank: '와', hint: '돕다 → 도와 주세요 (irrégulier)', choices: ['와','어','아','고'], answer: 0 },
+  { q: '한국어를 공부하_____ 싶어요.', blank: '고', hint: '-고 싶어요', choices: ['어','고','서','는'], answer: 1 },
+  { q: '내일 친구를 만날_____?', blank: '래요', hint: '만나- sans batchim → -ㄹ래요 → 만날래요', choices: ['까요','래요','어요','세요'], answer: 1 },
+  { q: '음료를 주문해 _____.', blank: '주세요', hint: '-어 주세요', choices: ['주세요','가세요','하세요','봐요'], answer: 0 },
+  { q: '지금 자_____ 싶어요.', blank: '고', hint: '-고 싶어요', choices: ['고','서','는','도'], answer: 0 },
+  { q: '케이크를 카페에서 사_____ 싶어요.', blank: '고', hint: '-고 싶어요', choices: ['서','고','는','도'], answer: 1 },
+  { q: '문을 조용히 닫_____ 주세요.', blank: '아', hint: '닫다 → 닫아 주세요', choices: ['어','아','고','서'], answer: 1 },
+];
+
+// QCM Traduction (Français → Coréen)
+const translationExs = [
+  { fr: 'Je vais boire un americano.', opts: ['저는 아메리카노를 마실래요.','저는 아메리카노를 먹을래요.','저는 아메리카노를 마시고 싶어요.','저는 아메리카노를 팔래요.'], answer: 0 },
+  { fr: 'Je veux manger un gâteau.', opts: ['케이크를 먹고 싶어요.','케이크를 먹을래요.','케이크를 먹어 주세요.','케이크를 먹었어요.'], answer: 0 },
+  { fr: 'Attendez un instant, s\'il vous plaît.', opts: ['빨리 가 주세요.','잠깐만 기다려 주세요.','잠깐만 주세요.','기다리고 싶어요.'], answer: 1 },
+  { fr: 'Tu veux aller au café ensemble ?', opts: ['카페에 갔어요?','카페에 가고 싶어요?','같이 카페에 갈래요?','같이 카페에 가 주세요.'], answer: 2 },
+  { fr: 'Mon ami veut boire du café.', opts: ['친구가 커피를 마셔요.','저는 커피를 마시고 싶어요.','친구가 커피를 마시고 싶어 해요.','친구가 커피를 마실래요.'], answer: 2 },
+  { fr: 'Veuillez choisir un menu.', opts: ['메뉴를 선택하고 싶어요.','메뉴를 선택해 주세요.','메뉴를 선택할래요.','메뉴를 선택했어요.'], answer: 1 },
+  { fr: 'Je voulais aller en Corée.', opts: ['한국에 가고 싶어요.','한국에 갈래요.','한국에 가고 싶었어요.','한국에 갔어요.'], answer: 2 },
+  { fr: 'Qu\'est-ce que tu veux manger ?', opts: ['뭐 먹고 싶어요?','뭐 먹을래요?','뭐 먹었어요?','뭐 먹어 주세요?'], answer: 0 },
+  { fr: 'Mettez beaucoup de glaçons, s\'il vous plaît.', opts: ['얼음을 많이 주고 싶어요.','얼음을 많이 먹을래요.','얼음을 많이 넣어 주세요.','얼음이 많이 있어요.'], answer: 2 },
+  { fr: 'Je veux étudier le coréen.', opts: ['한국어를 공부해요.','한국어를 공부하고 싶어요.','한국어를 공부할래요.','한국어를 공부했어요.'], answer: 1 },
+  { fr: 'Écrivez votre nom ici, s\'il vous plaît.', opts: ['여기에 이름을 써 주세요.','여기에 이름을 쓰고 싶어요.','여기에 이름을 쓸래요.','이름을 써요.'], answer: 0 },
+  { fr: 'Tu veux boire un café latte ?', opts: ['카페라테를 마셨어요?','카페라테를 마시고 싶어요?','카페라테를 마실래요?','카페라테를 마셔요.'], answer: 2 },
+  { fr: 'Ma petite sœur veut regarder un film.', opts: ['저는 영화를 보고 싶어요.','동생이 영화를 봐요.','동생이 영화를 보고 싶어 해요.','동생이 영화를 볼래요.'], answer: 2 },
+  { fr: 'Fermez la fenêtre, s\'il vous plaît.', opts: ['창문을 닫고 싶어요.','창문을 닫아 주세요.','창문을 닫을래요.','창문이 닫혀요.'], answer: 1 },
+  { fr: 'Je veux dormir maintenant.', opts: ['지금 자요.','지금 자고 싶었어요.','지금 자고 싶어요.','지금 잘래요.'], answer: 2 },
+];
+
+// Reading comprehension texts (5 textes)
+const readingTexts = [
+  {
+    title: '아이스커피를 마실래요',
+    text: '저는 커피를 좋아해요. 그래서 매일 카페에 가요. 저는 보통 카페라테를 마셔요. 아주 맛있어요. 오늘은 날씨가 더워요. 그래서 오늘은 아이스커피를 마실래요.',
+    questions: [
+      { q: '이 사람은 무엇을 좋아해요?', opts: ['음식', '커피', '쿠키', '주스'], answer: 1 },
+      { q: '이 사람은 보통 무엇을 마셔요?', opts: ['아이스커피', '주스', '카페라테', '물'], answer: 2 },
+      { q: '오늘은 왜 아이스커피를 마실래요?', opts: ['날씨가 추워요', '커피가 없어요', '날씨가 더워요', '카페가 멀어요'], answer: 2 },
+    ]
+  },
+  {
+    title: '카페에서',
+    text: '여기는 카페입니다. 직원이 카페에서 일합니다. 메뉴에 음료가 많이 있습니다. 그리고 쿠키와 케이크도 있습니다. 음료를 주문하고 기다립니다.',
+    questions: [
+      { q: '어디입니까?', opts: ['식당', '마트', '카페', '학교'], answer: 2 },
+      { q: '메뉴에 뭐가 있어요?', opts: ['밥', '음료와 쿠키와 케이크', '김치', '라면'], answer: 1 },
+      { q: '주문하고 어떻게 해요?', opts: ['가요', '기다려요', '먹어요', '자요'], answer: 1 },
+    ]
+  },
+  {
+    title: '한국에 가고 싶어요',
+    text: '저는 한국 음식을 좋아해요. 비빔밥과 김치를 먹고 싶어요. 그래서 한국에 가고 싶어요. 친구도 한국에 가고 싶어 해요. 같이 한국어를 공부하고 있어요.',
+    questions: [
+      { q: '이 사람은 무엇을 좋아해요?', opts: ['일본 음식', '한국 음식', '프랑스 음식', '중국 음식'], answer: 1 },
+      { q: '이 사람이 먹고 싶은 것은?', opts: ['라면과 떡볶이', '치킨과 피자', '비빔밥과 김치', '삼겹살과 막걸리'], answer: 2 },
+      { q: '친구는 어디에 가고 싶어 해요?', opts: ['일본', '중국', '프랑스', '한국'], answer: 3 },
+      { q: '이 사람들은 지금 뭐 해요?', opts: ['여행해요', '한국어를 공부해요', '음식을 먹어요', '친구를 만나요'], answer: 1 },
+    ]
+  },
+  {
+    title: '쿠키를 사고 싶어요',
+    text: '저는 지금 카페에 있어요. 카페라테를 마실래요. 그리고 쿠키도 사고 싶어요. 직원에게 "카페라테 한 잔하고 쿠키 두 개 주세요." 라고 했어요. 잠깐만 기다려 주세요. 라고 직원이 말했어요.',
+    questions: [
+      { q: '이 사람은 지금 어디에 있어요?', opts: ['마트', '집', '카페', '학교'], answer: 2 },
+      { q: '이 사람이 주문한 것은?', opts: ['아이스커피와 케이크', '카페라테와 쿠키', '주스와 샌드위치', '커피와 빵'], answer: 1 },
+      { q: '직원이 뭐라고 했어요?', opts: ['감사합니다', '잠깐만 기다려 주세요', '안녕하세요', '어서 오세요'], answer: 1 },
+    ]
+  },
+  {
+    title: '주말에 뭐 할래요?',
+    text: '내일은 토요일이에요. 저는 친구와 같이 카페에 갈래요. 카페에서 커피를 마시고 싶어요. 친구는 케이크를 먹고 싶어 해요. 카페에서 이야기도 하고 싶어요. 정말 기대돼요.',
+    questions: [
+      { q: '내일은 무슨 요일이에요?', opts: ['금요일', '토요일', '일요일', '월요일'], answer: 1 },
+      { q: '이 사람은 누구와 카페에 가요?', opts: ['혼자', '가족', '친구', '선생님'], answer: 2 },
+      { q: '이 사람이 카페에서 하고 싶은 것이 아닌 것은?', opts: ['커피 마시기', '이야기하기', '공부하기', '친구와 같이 있기'], answer: 2 },
+      { q: '친구는 카페에서 뭐를 먹고 싶어 해요?', opts: ['쿠키', '빵', '케이크', '샌드위치'], answer: 2 },
+    ]
+  },
+];
+
+let grammarTabIdx = 0;
+let currentExPage = 0;
+
+function showGrammarTab(idx) {
+  grammarTabIdx = idx;
+  document.querySelectorAll('.grammar-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  const c = document.getElementById('grammar-content');
+  if (idx <= 3) renderGrammarLesson(idx);
+  else if (idx === 4) renderAllExercises();
+  else if (idx === 5) renderReading();
+  document.getElementById('streak3').textContent = streak;
+  document.getElementById('xp-display3').textContent = xp;
+}
+
+function renderGrammarLesson(idx) {
+  const d = grammarData[idx];
+  const c = document.getElementById('grammar-content');
+  c.innerHTML = `
+    <div class="grammar-rule">
+      <h3>${d.title}</h3>
+      <div style="font-size:0.8rem;color:var(--accent);font-weight:700;margin-bottom:6px">${d.subtitle}</div>
+      <div class="rule-desc">${d.desc}</div>
+      ${d.formulas.map(f => `
+        <div class="formula-box">
+          <div class="f-label">${f.label}</div>
+          <div class="f-formula">${f.formula}</div>
+          <div class="f-example" style="font-family:'Noto Sans KR',sans-serif">${f.example}</div>
+          <div class="f-trans">${f.trans}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="section-label">Exemples</div>
+    <div class="examples-list">
+      ${d.examples.map(e => `
+        <div class="example-row">
+          <div style="flex:1">
+            <div class="ex-kr">${e.kr}</div>
+            <div class="ex-fr">${e.fr}</div>
+          </div>
+          <button class="speak-mini" onclick="speak('${e.kr.replace(/'/g,"\\'")}')">🔊</button>
+        </div>
+      `).join('')}
+    </div>
+    <div style="height:20px"></div>
+    <button class="bottom-btn" onclick="showGrammarTab(4)" style="background:var(--surface2);border:2px solid var(--border);color:var(--text)">
+      ✏️ S'entraîner avec des exercices →
+    </button>
+  `;
+}
+
+function renderAllExercises() {
+  const c = document.getElementById('grammar-content');
+  const pickedOrder = shuffle([...wordOrderExs]).slice(0, 8);
+  const pickedFill = shuffle([...fillExs]).slice(0, 8);
+  const pickedTrans = shuffle([...translationExs]).slice(0, 7);
+  window._wordAnswers = pickedOrder.map(() => []);
+
+  c.innerHTML =
+    // ── SECTION 1 : Ordre des mots
+    `<div style="background:var(--surface2);border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-weight:800;font-size:1rem">🃏 Ordre des mots</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Remets les mots dans le bon ordre</div>
+      </div>
+      <div style="font-size:0.85rem;color:var(--accent2);font-weight:700">${pickedOrder.length} exercices</div>
+    </div>` +
+    pickedOrder.map((ex, i) => `
+      <div class="gram-ex-card" id="wex-${i}">
+        <div class="ex-num">🔀 Ordre — ${i+1}/${pickedOrder.length}</div>
+        <div style="font-family:'Noto Sans KR',sans-serif;color:var(--green);font-size:0.88rem;margin-bottom:10px;font-weight:700">→ ${ex.trans}</div>
+        <div class="answer-zone" id="az-${i}">
+          <span style="color:var(--border);font-size:0.8rem;align-self:center;margin:auto">Clique sur les mots ci-dessous</span>
+        </div>
+        <div class="word-bank" id="wb-${i}">
+          ${shuffle([...ex.words]).map((w,wi) => `<div class="word-chip" id="wc-${i}-${wi}" onclick="addWordToAnswer(${i},'${w.replace(/'/g,"\\'")}',${wi},${pickedOrder.length})">${w}</div>`).join('')}
+        </div>
+        <div style="display:flex;gap:8px">
+          <button onclick="checkWordOrder(${i},'${ex.answer.replace(/'/g,"\\'")}',${pickedOrder.length})" class="bottom-btn" style="font-size:0.85rem;padding:10px;background:var(--accent2)">✔ Vérifier</button>
+          <button onclick="clearAnswer(${i})" style="background:var(--surface2);border:2px solid var(--border);color:var(--muted);border-radius:10px;padding:10px 16px;cursor:pointer;font-weight:700;font-size:1rem">✕</button>
+        </div>
+        <div class="feedback-bar" id="fb-w-${i}"></div>
+      </div>
+    `).join('') +
+
+    // ── SECTION 2 : Complète les phrases
+    `<div style="background:var(--surface2);border-radius:12px;padding:12px 16px;margin:24px 0 16px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-weight:800;font-size:1rem">✏️ Complète les phrases</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Choisis la bonne terminaison</div>
+      </div>
+      <div style="font-size:0.85rem;color:var(--accent2);font-weight:700">${pickedFill.length} exercices</div>
+    </div>` +
+    pickedFill.map((ex, i) => `
+      <div class="gram-ex-card">
+        <div class="ex-num">✏️ Grammaire — ${i+1}/${pickedFill.length}</div>
+        <div style="font-size:0.75rem;color:var(--yellow);margin-bottom:8px;font-weight:700">💡 ${ex.hint}</div>
+        <div class="ex-q" style="font-family:'Noto Sans KR',sans-serif">${ex.q.replace(ex.blank, `<span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`)}</div>
+        <div class="options-grid" id="fo-${i}" style="margin-top:12px">
+          ${ex.choices.map((ch,ci)=>`<button class="opt" onclick="checkFill(${i},${ci},${ex.answer},this)"><span class="opt-num">${['①','②','③','④'][ci]}</span>${ch}</button>`).join('')}
+        </div>
+        <div class="feedback-bar" id="fb-f-${i}"></div>
+      </div>
+    `).join('') +
+
+    // ── SECTION 3 : Traduction
+    `<div style="background:var(--surface2);border-radius:12px;padding:12px 16px;margin:24px 0 16px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-weight:800;font-size:1rem">🌍 Traduction</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Français → Coréen : trouve la bonne phrase</div>
+      </div>
+      <div style="font-size:0.85rem;color:var(--accent2);font-weight:700">${pickedTrans.length} exercices</div>
+    </div>` +
+    pickedTrans.map((ex, i) => `
+      <div class="gram-ex-card">
+        <div class="ex-num">🌍 Traduction — ${i+1}/${pickedTrans.length}</div>
+        <div style="font-size:1.05rem;font-weight:800;color:var(--blue);margin-bottom:14px">${ex.fr}</div>
+        <div style="display:flex;flex-direction:column;gap:8px" id="tr-${i}">
+          ${ex.opts.map((o,oi)=>`<button class="opt" style="text-align:left;font-family:'Noto Sans KR',sans-serif" onclick="checkTrans(${i},${oi},${ex.answer},this)"><span class="opt-num">${['①','②','③','④'][oi]}</span>${o}</button>`).join('')}
+        </div>
+        <div class="feedback-bar" id="fb-t-${i}"></div>
+      </div>
+    `).join('') +
+
+    `<div style="text-align:center;padding:20px 0">
+      <button class="bottom-btn" onclick="renderAllExercises()" style="max-width:280px;background:var(--accent2)">
+        🔄 Nouveaux exercices
+      </button>
+    </div>
+    <div style="height:20px"></div>`;
+
+  window._wordAnswers = pickedOrder.map(() => []);
+  window._pickedOrder = pickedOrder;
+}
+
+function addWordToAnswer(exIdx, word, chipIdx, total) {
+  if (!window._wordAnswers) window._wordAnswers = Array(total).fill(null).map(()=>[]);
+  const az = document.getElementById(`az-${exIdx}`);
+  az.querySelector('span') && az.querySelector('span').remove();
+  const chip = document.getElementById(`wc-${exIdx}-${chipIdx}`);
+  window._wordAnswers[exIdx].push({ word, chipIdx });
+  chip.classList.add('used');
+  const token = document.createElement('div');
+  token.className = 'word-chip';
+  token.textContent = word;
+  token.style.cursor = 'pointer';
+  const snapChipIdx = chipIdx;
+  const snapWord = word;
+  token.onclick = () => {
+    chip.classList.remove('used');
+    const arr = window._wordAnswers[exIdx];
+    const idx = arr.findIndex(x => x.chipIdx === snapChipIdx && x.word === snapWord);
+    if (idx !== -1) arr.splice(idx, 1);
+    token.remove();
+    if (az.children.length === 0) az.innerHTML = '<span style="color:var(--border);font-size:0.8rem;align-self:center;margin:auto">Clique sur les mots ci-dessous</span>';
+  };
+  az.appendChild(token);
+}
+
+function clearAnswer(exIdx) {
+  const az = document.getElementById(`az-${exIdx}`);
+  az.innerHTML = '<span style="color:var(--border);font-size:0.8rem;align-self:center;margin:auto">Clique sur les mots ci-dessous</span>';
+  az.className = 'answer-zone';
+  document.querySelectorAll(`#wb-${exIdx} .word-chip`).forEach(c => c.classList.remove('used'));
+  if (window._wordAnswers) window._wordAnswers[exIdx] = [];
+  const fb = document.getElementById(`fb-w-${exIdx}`);
+  if (fb) { fb.className = 'feedback-bar'; fb.textContent = ''; }
+}
+
+function checkWordOrder(exIdx, correctAnswer, total) {
+  const az = document.getElementById(`az-${exIdx}`);
+  const chips = Array.from(az.querySelectorAll('.word-chip'));
+  const answer = chips.map(c=>c.textContent).join(' ');
+  const fb = document.getElementById(`fb-w-${exIdx}`);
+  if (answer.trim() === correctAnswer.trim()) {
+    az.className = 'answer-zone correct';
+    const ex = (window._pickedOrder || wordOrderExs)[exIdx];
+    fb.innerHTML = `✅ 맞아요! <span style="color:var(--muted)">${ex ? ex.trans : ''}</span>`;
+    fb.className = 'feedback-bar ok show';
+    xp += 15; speak(correctAnswer);
+    document.querySelectorAll(`#wex-${exIdx} button`).forEach(b => b.disabled = true);
+    showNotif('+15 XP ⭐'); saveState();
+  } else {
+    az.className = 'answer-zone wrong';
+    fb.innerHTML = `❌ Réponse : <span style="font-family:'Noto Sans KR',sans-serif;color:var(--green)">${correctAnswer}</span>`;
+    fb.className = 'feedback-bar ko show';
+  }
+}
+
+function checkFill(exIdx, chosen, correct, btn) {
+  const container = btn.closest('.options-grid');
+  const fb = document.getElementById(`fb-f-${exIdx}`);
+  container.querySelectorAll('.opt').forEach(b => b.disabled = true);
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✅ 맞아요!';
+    fb.className = 'feedback-bar ok show';
+    xp += 10; showNotif('+10 XP ⭐'); saveState();
+  } else {
+    btn.classList.add('wrong');
+    container.querySelectorAll('.opt')[correct].classList.add('reveal');
+    fb.textContent = '❌ 틀렸어요!';
+    fb.className = 'feedback-bar ko show';
+  }
+}
+
+function checkTrans(exIdx, chosen, correct, btn) {
+  const container = btn.closest('div[id]');
+  const fb = document.getElementById(`fb-t-${exIdx}`);
+  container.querySelectorAll('.opt').forEach(b => b.disabled = true);
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✅ 맞아요!';
+    fb.className = 'feedback-bar ok show';
+    xp += 12; showNotif('+12 XP ⭐'); saveState();
+    speak(btn.textContent.replace(/①|②|③|④/,'').trim());
+  } else {
+    btn.classList.add('wrong');
+    container.querySelectorAll('.opt')[correct].classList.add('reveal');
+    fb.textContent = '❌ 틀렸어요!';
+    fb.className = 'feedback-bar ko show';
+  }
+}
+
+function renderReading() {
+  const c = document.getElementById('grammar-content');
+  c.innerHTML = readingTexts.map((rt, ri) => `
+    <div class="gram-ex-card">
+      <div class="ex-num">📖 Lecture — ${rt.title}</div>
+      <div class="reading-text">${rt.text}</div>
+      ${rt.questions.map((q, qi) => `
+        <div style="margin-bottom:16px">
+          <div class="reading-q">${qi+1}. ${q.q}</div>
+          <div class="reading-opts">
+            ${q.opts.map((o,oi) => `
+              <button class="opt" onclick="checkReading(this,'ro-${ri}-${qi}',${oi},${q.answer},'${rt.text.substring(0,20)}')">
+                <span class="opt-num">${['①','②','③','④'][oi]}</span>${o}
+              </button>
+            `).join('')}
+          </div>
+          <div class="feedback-bar" id="rf-${ri}-${qi}"></div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('') + '<div style="height:20px"></div>';
+}
+
+function checkReading(btn, groupId, chosen, correct, ctxKey) {
+  const card = btn.closest('.gram-ex-card');
+  const qBlock = btn.closest('div[style]');
+  const allBtns = btn.parentElement.querySelectorAll('.opt');
+  const fbId = btn.parentElement.nextElementSibling.id;
+  const fb = document.getElementById(fbId);
+  allBtns.forEach(b => b.disabled = true);
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✅ 맞아요!';
+    fb.className = 'feedback-bar ok show';
+    xp += 10; showNotif('+10 XP ⭐'); saveState();
+  } else {
+    btn.classList.add('wrong');
+    allBtns[correct].classList.add('reveal');
+    fb.textContent = '❌ 틀렸어요.';
+    fb.className = 'feedback-bar ko show';
+  }
 }
 
 // ══════════════════════════════════════
