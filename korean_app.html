@@ -691,6 +691,40 @@ const lessons = [
       { k:'싫어', r:'sireo', f:'Je déteste (informel)' },
     ]
   },
+  {
+    id: 'weather', icon: '☁️', name: 'Météo & Saisons', color: '#6fb3ff',
+    words: [
+      { k:'봄', r:'bom', f:'Printemps' },
+      { k:'여름', r:'yeoreum', f:'Été' },
+      { k:'가을', r:'ga-eul', f:'Automne' },
+      { k:'겨울', r:'gyeoul', f:'Hiver' },
+      { k:'날씨', r:'nalssi', f:'Temps / météo' },
+      { k:'따뜻하다', r:'ttatteuthada', f:'Être chaud (température agréable)' },
+      { k:'덥다', r:'deopda', f:'Faire chaud' },
+      { k:'비가 오다', r:'biga oda', f:'Il pleut' },
+      { k:'시원하다', r:'siwonhada', f:'Être frais/rafraîchissant' },
+      { k:'바람이 불다', r:'barami bulda', f:'Il y a du vent / Il vente' },
+      { k:'춥다', r:'chupda', f:'Faire froid' },
+      { k:'눈이 오다', r:'nuni oda', f:'Il neige' },
+      { k:'꽃', r:'kkot', f:'Fleur' },
+      { k:'꽃이 피다', r:'kkoti pida', f:'Les fleurs s\'ouvrent' },
+    ]
+  },
+  {
+    id: 'hobbies', icon: '🎨', name: 'Loisirs & Activités', color: '#9b59b6',
+    words: [
+      { k:'사진을 찍다', r:'sajin-eul jjikda', f:'Prendre des photos' },
+      { k:'자전거를 타다', r:'jajeongeoreul tada', f:'Faire du vélo' },
+      { k:'게임을 하다', r:'geim-eul hada', f:'Jouer à des jeux' },
+      { k:'책을 읽다', r:'chaeg-eul ikda', f:'Lire des livres' },
+      { k:'영화를 보다', r:'yeonghwa-reul boda', f:'Regarder un film' },
+      { k:'노래를 부르다', r:'noraereul bureuda', f:'Chanter' },
+      { k:'춤추다', r:'chumchuda', f:'Danser' },
+      { k:'사진 찍다', r:'sajin jjikda', f:'Prendre une photo (var.)' },
+      { k:'그림을 그리다', r:'geurim-eul geurida', f:'Dessiner/peindre' },
+      { k:'영화관에 가다', r:'yeonghwagwane gada', f:'Aller au cinéma' },
+    ]
+  },
 ];
 
 // ══════════════════════════════════════
@@ -1159,6 +1193,22 @@ const translationExs = [
   { fr: 'Je veux dormir maintenant.', opts: ['지금 자요.','지금 자고 싶었어요.','지금 자고 싶어요.','지금 잘래요.'], answer: 2 },
 ];
 
+// Matching exercises (associer coréen <-> français)
+const matchingExs = [
+  { left: ['아이스커피','카페','케이크','쿠키'], right: ['Café glacé','Café (lieu)','Gâteau','Cookie'] },
+  { left: ['주문하다','기다리다','마시다','읽다'], right: ['Commander','Attendre','Boire','Lire'] },
+  { left: ['봄','여름','겨울','가을'], right: ['Printemps','Été','Hiver','Automne'] },
+  { left: ['사진을 찍다','자전거를 타다','영화를 보다','춤추다'], right: ['Prendre des photos','Faire du vélo','Regarder un film','Danser'] },
+];
+
+// Dictation exercises (listen and type)
+const dictationExs = [
+  { kr: '아이스커피를 마실래요', hint: 'Phrase courte: boisson' },
+  { kr: '메뉴를 선택해 주세요', hint: 'Demande polie: choisir' },
+  { kr: '잠깐만 기다려 주세요', hint: 'Attendre un instant' },
+  { kr: '한국어를 공부하고 싶어요', hint: 'Vouloir étudier le coréen' },
+];
+
 // Reading comprehension texts (5 textes)
 const readingTexts = [
   {
@@ -1260,11 +1310,14 @@ function renderGrammarLesson(idx) {
   `;
 }
 
-function renderAllExercises() {
+function renderAllExercises(longMode = false) {
   const c = document.getElementById('grammar-content');
-  const pickedOrder = shuffle([...wordOrderExs]).slice(0, 8);
-  const pickedFill = shuffle([...fillExs]).slice(0, 8);
-  const pickedTrans = shuffle([...translationExs]).slice(0, 7);
+  const orderCount = longMode ? Math.min(18, wordOrderExs.length) : 8;
+  const fillCount = longMode ? Math.min(18, fillExs.length) : 8;
+  const transCount = longMode ? Math.min(16, translationExs.length) : 7;
+  const pickedOrder = shuffle([...wordOrderExs]).slice(0, orderCount);
+  const pickedFill = shuffle([...fillExs]).slice(0, fillCount);
+  const pickedTrans = shuffle([...translationExs]).slice(0, transCount);
   window._wordAnswers = pickedOrder.map(() => []);
 
   c.innerHTML =
@@ -1333,9 +1386,63 @@ function renderAllExercises() {
       </div>
     `).join('') +
 
-    `<div style="text-align:center;padding:20px 0">
+    // ── SECTION 4 : Matching
+    `<div style="background:var(--surface2);border-radius:12px;padding:12px 16px;margin:24px 0 16px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-weight:800;font-size:1rem">🔗 Matching</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Associe la colonne de gauche avec la colonne de droite</div>
+      </div>
+      <div style="font-size:0.85rem;color:var(--accent2);font-weight:700">${Math.min(matchingExs.length, longMode ? 4 : 2)} exercices</div>
+    </div>` +
+    shuffle(matchingExs).slice(0, longMode ? 4 : 2).map((ex,i) => `
+      <div class="gram-ex-card" id="mex-${i}">
+        <div class="ex-num">🔗 Matching — ${i+1}/${Math.min(matchingExs.length, longMode ? 4 : 2)}</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px">
+          <div style="flex:1;min-width:180px">
+            ${ex.left.map((l,li)=>`<div class="word-chip" id="m-left-${i}-${li}" onclick="selectMatchLeft(${i},${li})">${l}</div>`).join('')}
+          </div>
+          <div style="flex:1;min-width:180px">
+            ${shuffle(ex.right).map((r,ri)=>`<div class="word-chip" id="m-right-${i}-${ri}" onclick="selectMatchRight(${i},'${r.replace(/'/g,"\\'")}')">${r}</div>`).join('')}
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="bottom-btn" onclick="checkMatching(${i},${ex.left.length})">✔ Vérifier</button>
+          <button class="bottom-btn" style="background:var(--surface2);border:2px solid var(--border);color:var(--muted)" onclick="clearMatching(${i})">✕ Réinitialiser</button>
+        </div>
+        <div class="feedback-bar" id="fb-m-${i}"></div>
+      </div>
+    `).join('') +
+
+    // ── SECTION 5 : Dictée
+    `<div style="background:var(--surface2);border-radius:12px;padding:12px 16px;margin:24px 0 16px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-weight:800;font-size:1rem">🎧 Dictée</div>
+        <div style="font-size:0.8rem;color:var(--muted)">Écoute puis tape la phrase en coréen</div>
+      </div>
+      <div style="font-size:0.85rem;color:var(--accent2);font-weight:700">${Math.min(dictationExs.length, longMode ? 4 : 2)} exercices</div>
+    </div>` +
+    shuffle(dictationExs).slice(0, longMode ? 4 : 2).map((d, i) => `
+      <div class="gram-ex-card">
+        <div class="ex-num">🎧 Dictée — ${i+1}/${Math.min(dictationExs.length, longMode ? 4 : 2)}</div>
+        <div style="margin:10px 0;font-family:'Noto Sans KR',sans-serif;font-weight:700">{écoute et écris}</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+          <button class="speak-btn" onclick="speak('${d.kr.replace(/'/g,"\\'")}')">🔊 Écouter</button>
+          <div style="color:var(--muted);font-size:0.9rem">${d.hint}</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input class="answer-input" id="dict-input-${i}" placeholder="Écris la phrase en coréen" />
+          <button class="bottom-btn" onclick="checkDictation(${i},'${d.kr.replace(/'/g,"\\'")}')">✔ Vérifier</button>
+        </div>
+        <div class="feedback-bar" id="fb-d-${i}"></div>
+      </div>
+    `).join('') +
+
+    `<div style="text-align:center;padding:20px 0;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
       <button class="bottom-btn" onclick="renderAllExercises()" style="max-width:280px;background:var(--accent2)">
         🔄 Nouveaux exercices
+      </button>
+      <button class="bottom-btn" onclick="renderAllExercises(true)" style="max-width:280px;background:#ff6b6b">
+        🏁 Contrôle (long)
       </button>
     </div>
     <div style="height:20px"></div>`;
@@ -1430,6 +1537,71 @@ function checkTrans(exIdx, chosen, correct, btn) {
     container.querySelectorAll('.opt')[correct].classList.add('reveal');
     fb.textContent = '❌ 틀렸어요!';
     fb.className = 'feedback-bar ko show';
+  }
+}
+
+// ---------- Matching exercise helpers ----------
+window._matchState = {};
+function selectMatchLeft(exIdx, li) {
+  window._matchState[exIdx] = window._matchState[exIdx] || { left: null, pairs: {} };
+  window._matchState[exIdx].left = li;
+  // highlight selection
+  document.querySelectorAll(`#mex-${exIdx} .word-chip`).forEach(el => el.style.opacity = '1');
+  const el = document.getElementById(`m-left-${exIdx}-${li}`);
+  if (el) el.style.borderColor = 'var(--accent2)';
+}
+function selectMatchRight(exIdx, rightVal) {
+  const st = window._matchState[exIdx];
+  if (!st || st.left === null) return;
+  const leftIdx = st.left;
+  st.pairs[leftIdx] = rightVal;
+  st.left = null;
+  // mark used
+  document.querySelectorAll(`#mex-${exIdx} .word-chip`).forEach(el => el.style.borderColor = '');
+  // show small token in feedback area
+  const fb = document.getElementById(`fb-m-${exIdx}`);
+  if (fb) fb.className = 'feedback-bar show', fb.textContent = `Sélection: ${Object.keys(st.pairs).length} / ${Object.keys(st.pairs).length}`;
+}
+function clearMatching(exIdx) {
+  window._matchState[exIdx] = {};
+  const fb = document.getElementById(`fb-m-${exIdx}`);
+  if (fb) { fb.className = 'feedback-bar'; fb.textContent = ''; }
+  document.querySelectorAll(`#mex-${exIdx} .word-chip`).forEach(el => { el.classList.remove('used'); el.style.borderColor = ''; });
+}
+function checkMatching(exIdx, total) {
+  const st = window._matchState[exIdx] || { pairs: {} };
+  const fb = document.getElementById(`fb-m-${exIdx}`);
+  const ex = (shuffle(matchingExs)[exIdx]) || matchingExs[exIdx];
+  // Build correct mapping from left to right
+  const correctMap = {};
+  const lefts = ex.left;
+  const rights = ex.right;
+  for (let i=0;i<lefts.length;i++) correctMap[lefts[i]] = rights[i];
+  // Count correct
+  let correct = 0;
+  for (const li in st.pairs) {
+    const leftWord = ex.left[li];
+    if (st.pairs[li] && normalize(st.pairs[li]) === normalize(correctMap[leftWord])) correct++;
+  }
+  if (correct === lefts.length) {
+    fb.className = 'feedback-bar ok show'; fb.textContent = '✅ Tous corrects !'; xp += 20; showNotif('+20 XP ⭐'); saveState();
+  } else {
+    fb.className = 'feedback-bar ko show'; fb.textContent = `❌ ${correct} / ${lefts.length} correct(s)`;
+  }
+}
+
+// ---------- Dictation helpers ----------
+function normalize(s) {
+  return (s||'').toString().trim().replace(/[\s\u200B]+/g,'').replace(/[.,!?]/g,'').toLowerCase();
+}
+function checkDictation(i, correctKr) {
+  const input = document.getElementById(`dict-input-${i}`);
+  const fb = document.getElementById(`fb-d-${i}`);
+  const val = input.value || '';
+  if (normalize(val) === normalize(correctKr)) {
+    fb.className = 'feedback-bar ok show'; fb.textContent = '✅ 맞아요!'; xp += 12; showNotif('+12 XP ⭐'); saveState();
+  } else {
+    fb.className = 'feedback-bar ko show'; fb.innerHTML = `❌ 틀렸어요 — Réponse : <span style="font-family:'Noto Sans KR',sans-serif;color:var(--green)">${correctKr}</span>`;
   }
 }
 
