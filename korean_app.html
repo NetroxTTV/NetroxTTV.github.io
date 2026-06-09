@@ -725,6 +725,26 @@ const lessons = [
       { k:'영화관에 가다', r:'yeonghwagwane gada', f:'Aller au cinéma' },
     ]
   },
+  {
+    id: 'health', icon: '💊', name: 'Santé & Pharmacie', color: '#ff7043',
+    words: [
+      { k:'약국', r:'yakguk', f:'Pharmacie' },
+      { k:'약사', r:'yagsa', f:'Pharmacien(ne)' },
+      { k:'처방전', r:'cheobangjeon', f:'Ordonnance' },
+      { k:'두통약', r:'dutongyak', f:'Médicament pour mal de tête' },
+      { k:'감기약', r:'gamgiyak', f:'Médicament contre le rhume' },
+      { k:'밴드', r:'baendeu', f:'Pansement' },
+      { k:'연고', r:'yeongo', f:'Pommade / Onguent' },
+      { k:'마스크', r:'maseukeu', f:'Masque' },
+      { k:'아프다', r:'apeuda', f:"Avoir mal / Être malade" },
+      { k:'감기에 걸리다', r:'gamgie geollida', f:'Attraper un rhume' },
+      { k:'약을 먹다', r:'yageul meokda', f:'Prendre des médicaments' },
+      { k:'쉬다', r:'swida', f:'Se reposer' },
+      { k:'열이 나다', r:'yeori nada', f:'Avoir de la fièvre' },
+      { k:'기침이 나다', r:'gichimi nada', f:'Tousser' },
+      { k:'배가 아프다', r:'baega apeuda', f:'Avoir mal au ventre' },
+    ]
+  },
 ];
 
 // ══════════════════════════════════════
@@ -1095,6 +1115,7 @@ const grammarData = [
       { label: 'Lieux & Personnes', formula: '카페 / 직원 / 메뉴', example: '카페에서 직원이 일해요.', trans: 'L\'employé travaille au café.' },
       { label: 'Boissons courantes', formula: '아메리카노 / 카페라테 / 아이스커피', example: '아이스커피를 마실래요.', trans: 'Je vais boire un café glacé.' },
       { label: 'Nourriture', formula: '쿠키 / 케이크 / 샌드위치', example: '케이크를 먹고 싶어요.', trans: 'Je veux manger un gâteau.' },
+      { label: 'Santé & Instructions', formula: '이 약을 하루에 세 번 먹어야 됩니다 / -아야/어야 됩니다', example: '이 약을 하루에 세 번 먹어야 됩니다.', trans: 'Vous devez prendre ce médicament trois fois par jour.' },
     ],
     examples: [
       { kr: '주문하고 기다립니다.', fr: 'On commande et on attend.' },
@@ -1102,6 +1123,8 @@ const grammarData = [
       { kr: '뭐 드릴까요?', fr: 'Qu\'est-ce que je vous sers ?' },
       { kr: '아이스커피 한 잔 주세요.', fr: 'Un café glacé, s\'il vous plaît.' },
       { kr: '설탕을 넣어 주세요.', fr: 'Ajoutez du sucre, s\'il vous plaît.' },
+      { kr: '처방전을 보여 주세요.', fr: 'Montrez l\'ordonnance, s\'il vous plaît.' },
+      { kr: '머리가 아파요.', fr: 'J\'ai mal à la tête.' },
       { kr: '오렌지주스를 마시고 싶어 해요.', fr: 'Il/elle veut boire un jus d\'orange.' },
       { kr: '잠깐만 기다려 주세요.', fr: 'Attendez un instant, s\'il vous plaît.' },
     ]
@@ -1140,6 +1163,9 @@ const wordOrderExs = [
   { words: ['만날래요?', '내일', '친구를'], answer: '내일 친구를 만날래요?', trans: 'Tu veux retrouver un ami demain ?' },
   { words: ['사고', '싶어요', '케이크를', '카페에서'], answer: '카페에서 케이크를 사고 싶어요', trans: 'Je veux acheter un gâteau au café.' },
   { words: ['닫아', '문을', '주세요', '조용히'], answer: '조용히 문을 닫아 주세요', trans: 'Fermez la porte doucement, s\'il vous plaît.' },
+  { words: ['약국에', '갑니다', '저는'], answer: '저는 약국에 갑니다', trans: 'Je vais à la pharmacie.' },
+  { words: ['처방전을', '보여', '주세요'], answer: '처방전을 보여 주세요', trans: 'Montrez l\'ordonnance, s\'il vous plaît.' },
+  { words: ['이 약을', '하루에', '세 번', '먹어야', '됩니다'], answer: '이 약을 하루에 세 번 먹어야 됩니다', trans: 'Vous devez prendre ce médicament trois fois par jour.' },
 ];
 
 // Fill in the blank exercises (28 exercices)
@@ -1172,6 +1198,10 @@ const fillExs = [
   { q: '지금 자_____ 싶어요.', blank: '고', hint: '-고 싶어요', choices: ['고','서','는','도'], answer: 0 },
   { q: '케이크를 카페에서 사_____ 싶어요.', blank: '고', hint: '-고 싶어요', choices: ['서','고','는','도'], answer: 1 },
   { q: '문을 조용히 닫_____ 주세요.', blank: '아', hint: '닫다 → 닫아 주세요', choices: ['어','아','고','서'], answer: 1 },
+  { q: '이 약을 하루에 세 번 먹어야 _____.', blank: '됩니다', hint: '~아/어야 됩니다 = devoir / il faut', choices: ['됩니다','해요','있어요','가요'], answer: 0 },
+  { q: '처방전을 _____ 주세요.', blank: '보여', hint: '-아/어 주세요 = s\'il vous plaît', choices: ['보여','주다','가져','읽다'], answer: 0 },
+  { q: '감기에 걸리면 약을 _____야 합니다.', blank: '먹어', hint: '-어야 합니다 = obligation', choices: ['먹어','보다','사','주다'], answer: 0 },
+  { q: '머리가 아프면 두통약을 _____세요.', blank: '드', hint: 'formule polie: 드세요', choices: ['드','먹','가','오'], answer: 0 },
 ];
 
 // QCM Traduction (Français → Coréen)
@@ -1191,6 +1221,10 @@ const translationExs = [
   { fr: 'Ma petite sœur veut regarder un film.', opts: ['저는 영화를 보고 싶어요.','동생이 영화를 봐요.','동생이 영화를 보고 싶어 해요.','동생이 영화를 볼래요.'], answer: 2 },
   { fr: 'Fermez la fenêtre, s\'il vous plaît.', opts: ['창문을 닫고 싶어요.','창문을 닫아 주세요.','창문을 닫을래요.','창문이 닫혀요.'], answer: 1 },
   { fr: 'Je veux dormir maintenant.', opts: ['지금 자요.','지금 자고 싶었어요.','지금 자고 싶어요.','지금 잘래요.'], answer: 2 },
+  { fr: 'Vous devez prendre ce médicament trois fois par jour.', opts: ['이 약을 하루에 세 번 먹어야 됩니다.','이 약을 하루에 두 번 먹어야 됩니다.','이 약을 하루에 네 번 먹어야 됩니다.','이 약을 매일 먹어야 됩니다.'], answer: 0 },
+  { fr: 'Montrez l\'ordonnance, s\'il vous plaît.', opts: ['처방전을 주세요.','처방전을 보여 주세요.','처방전이 있어요.','처방전이 필요해요.'], answer: 1 },
+  { fr: 'J\'ai mal à la tête.', opts: ['머리가 아파요.','머리가 좋아요.','머리가 없어요.','머리가 피곤해요.'], answer: 0 },
+  { fr: 'J\'ai attrapé un rhume.', opts: ['감기에 걸렸어요.','감기에 걸려요.','감기예요.','감기합니다.'], answer: 0 },
 ];
 
 // Matching exercises (associer coréen <-> français)
@@ -1199,6 +1233,7 @@ const matchingExs = [
   { left: ['주문하다','기다리다','마시다','읽다'], right: ['Commander','Attendre','Boire','Lire'] },
   { left: ['봄','여름','겨울','가을'], right: ['Printemps','Été','Hiver','Automne'] },
   { left: ['사진을 찍다','자전거를 타다','영화를 보다','춤추다'], right: ['Prendre des photos','Faire du vélo','Regarder un film','Danser'] },
+  { left: ['약국','처방전','두통약','마스크'], right: ['Pharmacie','Ordonnance','Médicament pour mal de tête','Masque'] },
 ];
 
 // Dictation exercises (listen and type)
@@ -1207,6 +1242,8 @@ const dictationExs = [
   { kr: '메뉴를 선택해 주세요', hint: 'Demande polie: choisir' },
   { kr: '잠깐만 기다려 주세요', hint: 'Attendre un instant' },
   { kr: '한국어를 공부하고 싶어요', hint: 'Vouloir étudier le coréen' },
+  { kr: '이 약을 하루에 세 번 먹어야 됩니다', hint: 'Prendre médicament: 3 fois par jour' },
+  { kr: '처방전을 보여 주세요', hint: 'Montrer l\'ordonnance' },
 ];
 
 // Reading comprehension texts (5 textes)
@@ -1256,6 +1293,16 @@ const readingTexts = [
       { q: '이 사람은 누구와 카페에 가요?', opts: ['혼자', '가족', '친구', '선생님'], answer: 2 },
       { q: '이 사람이 카페에서 하고 싶은 것이 아닌 것은?', opts: ['커피 마시기', '이야기하기', '공부하기', '친구와 같이 있기'], answer: 2 },
       { q: '친구는 카페에서 뭐를 먹고 싶어 해요?', opts: ['쿠키', '빵', '케이크', '샌드위치'], answer: 2 },
+    ]
+  },
+  {
+    title: '약국에서',
+    text: '여기는 약국입니다. 약사가 일합니다. 환자가 아파서 왔습니다. 환자가 처방전을 보여 줍니다. 약사는 약을 주고 복용 방법을 설명합니다. 의사는 약을 하루에 세 번 먹으라고 말했습니다.',
+    questions: [
+      { q: '이 장소는 어디입니까?', opts: ['병원', '약국', '카페', '마트'], answer: 1 },
+      { q: '환자가 무엇을 보여 줍니까?', opts: ['영수증', '처방전', '신분증', '지도'], answer: 1 },
+      { q: '의사는 약을 하루에 몇 번 먹으라고 했나요?', opts: ['한 번', '두 번', '세 번', '네 번'], answer: 2 },
+      { q: '약사는 누구입니까?', opts: ['요리사', '약사', '학생', '운전사'], answer: 1 },
     ]
   },
 ];
