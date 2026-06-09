@@ -7,17 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f1117;
-  --surface: #1a1d27;
-  --surface2: #22263a;
-  --border: #2e3354;
-  --accent: #ff4b6e;
-  --accent2: #7c6af7;
-  --green: #34d47a;
-  --yellow: #ffd447;
-  --blue: #4b9eff;
-  --text: #f0f2ff;
-  --muted: #7b82a8;
+  --bg: #081421;
+  --surface: #0f2233;
+  --surface2: #163149;
+  --border: #1f4459;
+  --accent: #ff6b6b;
+  --accent2: #20c4d6;
+  --green: #4ade80;
+  --yellow: #fbbf24;
+  --blue: #38bdf8;
+  --text: #eaf6ff;
+  --muted: #7fa0b8;
   --radius: 16px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -261,26 +261,48 @@ body {
 .heart { font-size: 1.1rem; }
 
 /* DICT screen */
+.dict-body { padding: 16px 20px 0; flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .dict-search {
   width: 100%; background: var(--surface); border: 2px solid var(--border);
   border-radius: 14px; padding: 14px 18px; color: var(--text);
   font-size: 1rem; outline: none; font-family: 'Nunito', sans-serif;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 .dict-search:focus { border-color: var(--accent2); }
-.dict-list { display: flex; flex-direction: column; gap: 8px; }
+.dict-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; -webkit-overflow-scrolling: touch; }
+.dict-chips::-webkit-scrollbar { height: 0; }
+.dict-chip {
+  background: var(--surface); border: 2px solid var(--border); border-radius: 20px;
+  padding: 7px 14px; white-space: nowrap; color: var(--muted); cursor: pointer;
+  font-size: 0.8rem; font-weight: 700; transition: all 0.2s; flex-shrink: 0;
+}
+.dict-chip:hover { border-color: var(--accent2); }
+.dict-chip.active { background: var(--accent2); border-color: var(--accent2); color: #04222b; }
+.dict-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; flex: 1; padding-bottom: 20px; }
+.dict-group-header { display: flex; align-items: center; gap: 8px; margin: 14px 0 4px; }
+.dict-group-header:first-child { margin-top: 2px; }
+.dict-group-header .dg-icon { font-size: 1.2rem; }
+.dict-group-header .dg-name { font-weight: 800; font-size: 0.95rem; }
+.dict-group-header .dg-count {
+  font-size: 0.7rem; color: var(--muted); background: var(--surface2);
+  border-radius: 20px; padding: 2px 9px; font-weight: 800;
+}
+.dict-group-header .dg-line { flex: 1; height: 1.5px; background: var(--border); border-radius: 2px; }
 .dict-item {
   background: var(--surface); border: 1.5px solid var(--border);
-  border-radius: 12px; padding: 14px 16px;
-  display: flex; align-items: center; justify-content: space-between;
+  border-radius: 12px; padding: 12px 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
 }
 .dict-item .dk { font-family: 'Noto Sans KR', sans-serif; font-size: 1.1rem; font-weight: 700; }
-.dict-item .dr { font-size: 0.78rem; color: var(--accent2); }
-.dict-item .df { font-size: 0.9rem; color: var(--muted); }
-.dict-item .dtag {
-  background: var(--surface2); border-radius: 8px;
-  padding: 3px 8px; font-size: 0.7rem; color: var(--muted);
+.dict-item .dr { font-size: 0.78rem; color: var(--accent2); font-weight: 700; }
+.dict-item .df { font-size: 0.9rem; color: var(--muted); margin-top: 2px; }
+.dict-speak {
+  background: var(--surface2); border: none; border-radius: 10px; cursor: pointer;
+  color: var(--muted); font-size: 1rem; width: 38px; height: 38px; flex-shrink: 0;
+  transition: color 0.2s, background 0.2s;
 }
+.dict-speak:hover { color: var(--accent2); background: var(--border); }
+.dict-empty { text-align: center; color: var(--muted); padding: 48px 20px; font-weight: 600; line-height: 1.6; }
 
 /* ── GRAMMAR SCREEN ── */
 .grammar-tabs { display: flex; gap: 8px; padding: 14px 20px 0; overflow-x: auto; }
@@ -360,6 +382,128 @@ body {
 }
 .reading-q { font-weight: 700; margin-bottom: 10px; }
 .reading-opts { display: flex; flex-direction: column; gap: 8px; }
+
+/* ── DUOLINGO TEACH + PAIRS ── */
+.opt.selected { border-color: var(--accent2); background: var(--surface2); }
+.teach-card {
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: 20px; padding: 32px 24px; text-align: center;
+  margin: 8px 0 24px; display: flex; flex-direction: column; align-items: center;
+}
+.teach-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 3rem; font-weight: 900; line-height: 1.2; }
+.teach-roman { color: var(--accent2); font-size: 1.1rem; margin-top: 6px; }
+.teach-fr { font-size: 1.5rem; font-weight: 800; color: var(--green); margin-top: 14px; }
+.teach-scroll { flex: 1; overflow-y: auto; margin-bottom: 16px; }
+.speak-btn.big { width: 60px; height: 60px; font-size: 1.5rem; margin: 16px auto 4px; }
+
+.pairs-grid { display: flex; gap: 14px; margin: 8px 0 20px; }
+.pairs-col { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.pair-chip {
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: 14px; padding: 16px 10px; cursor: pointer;
+  font-weight: 700; text-align: center; transition: all 0.15s; font-size: 0.95rem;
+}
+.pair-chip.korean { font-family: 'Noto Sans KR', sans-serif; }
+.pair-chip:hover:not(.done) { border-color: var(--accent2); }
+.pair-chip.sel { border-color: var(--accent2); background: var(--surface2); }
+.pair-chip.done { opacity: 0.3; pointer-events: none; border-color: var(--green); }
+.pair-chip.shake { animation: shake 0.4s; border-color: var(--accent); }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+.word-chip.placed { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+
+/* ═══════════ DUOLINGO PATH HOME ═══════════ */
+:root { --duo-green: #4ade80; --gold: #fbbf24; }
+.home-content { padding: 20px 20px 28px; }
+
+/* Progress card refresh */
+.progress-card {
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+  gap: 14px; row-gap: 12px;
+}
+.progress-card::before { font-size: 4.5rem; }
+.progress-card .pc-text h3 { font-size: 0.8rem; opacity: 0.9; margin-bottom: 2px; }
+.progress-card .xp-num { font-size: 1.7rem; font-weight: 900; }
+.xp-ring {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 900; color: #fff;
+  background: conic-gradient(#fff calc(var(--p,0)*1%), rgba(255,255,255,0.25) 0);
+}
+.xp-ring span {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--accent2); display: flex; align-items: center; justify-content: center;
+}
+.xp-bar-wrap { grid-column: 1 / -1; }
+
+/* The path */
+.path {
+  position: relative; display: flex; flex-direction: column;
+  align-items: center; gap: 22px; padding: 16px 0 8px; margin-top: 22px;
+}
+.unit-banner {
+  width: 100%; border-radius: 18px; padding: 14px 18px; margin: 14px 0 6px;
+  display: flex; align-items: center; gap: 12px; color: #fff;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.28);
+}
+.unit-banner .ub-emoji { font-size: 1.6rem; }
+.unit-banner .ub-title { font-weight: 900; font-size: 1.05rem; line-height: 1.1; }
+.unit-banner .ub-sub { font-size: 0.75rem; opacity: 0.9; font-weight: 700; }
+
+.node-wrap { display: flex; flex-direction: column; align-items: center; position: relative; }
+.node-ring {
+  position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
+  width: 90px; height: 90px; border-radius: 50%;
+  background: conic-gradient(var(--duo-green) calc(var(--p,0)*1%), rgba(255,255,255,0.10) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+}
+.node {
+  --c: var(--accent2);
+  width: 76px; height: 76px; border-radius: 50%; border: none;
+  position: relative; cursor: pointer; color: #fff; font-size: 2rem;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--c);
+  box-shadow: 0 6px 0 rgba(0,0,0,0.32), inset 0 -4px 0 rgba(0,0,0,0.16);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.2s;
+}
+.node:hover:not(.locked) { filter: brightness(1.08); }
+.node:active:not(.locked) {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.32), inset 0 -4px 0 rgba(0,0,0,0.16);
+}
+.node.completed { --c: var(--duo-green); }
+.node.locked {
+  --c: var(--surface2); color: var(--muted); cursor: not-allowed;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.28), inset 0 -4px 0 rgba(0,0,0,0.1);
+  font-size: 1.5rem;
+}
+.node.current { animation: bob 1.7s ease-in-out infinite; }
+@keyframes bob { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-7px); } }
+.node .check {
+  position: absolute; bottom: -2px; right: -2px;
+  width: 26px; height: 26px; border-radius: 50%; background: var(--gold);
+  color: #1a1d27; font-size: 0.85rem; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+.node-name { font-size: 0.78rem; font-weight: 800; margin-top: 6px; text-align: center; max-width: 130px; }
+.node-stars { font-size: 0.7rem; margin-top: 2px; letter-spacing: 1px; color: var(--gold); height: 14px; }
+.node-name.dim, .node-stars.dim { opacity: 0.45; }
+.start-bubble {
+  position: absolute; top: -30px; background: #fff; color: var(--accent);
+  font-weight: 900; font-size: 0.66rem; letter-spacing: 0.09em;
+  padding: 6px 12px; border-radius: 12px; white-space: nowrap;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.18); animation: bob 1.7s ease-in-out infinite;
+}
+.start-bubble::after {
+  content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+  border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .node.current, .start-bubble { animation: none; }
+  * { scroll-behavior: auto; }
+}
 </style>
 </head>
 <body>
@@ -372,26 +516,22 @@ body {
   <div class="topbar">
     <div class="logo">한<span>국</span>어</div>
     <div class="topbar-stats">
+      <div class="stat-pill">👑 <span id="crown-count">0</span></div>
       <div class="stat-pill">🔥 <span id="streak">0</span></div>
-      <div class="stat-pill">⭐ <span id="xp-display">0</span> XP</div>
+      <div class="stat-pill">⭐ <span id="xp-display">0</span></div>
     </div>
   </div>
   <div class="home-content">
-    <div class="welcome">
-      <h1>Apprends le<br><em>coréen</em> 🇰🇷</h1>
-      <p>Choisis une leçon pour commencer !</p>
-    </div>
-
     <div class="progress-card">
-      <h3>Progression totale</h3>
-      <div class="xp-num">⭐ <span id="xp-big">0</span> XP</div>
-      <div class="xp-bar-wrap">
-        <div class="xp-bar" id="xp-bar" style="width:0%"></div>
+      <div class="pc-text">
+        <h3>Progression totale</h3>
+        <div class="xp-num"><span id="xp-big">0</span> XP</div>
       </div>
+      <div class="xp-ring" id="xp-ring"><span id="xp-pct">0%</span></div>
+      <div class="xp-bar-wrap"><div class="xp-bar" id="xp-bar" style="width:0%"></div></div>
     </div>
 
-    <div class="section-label">Leçons</div>
-    <div class="lessons-grid" id="lessons-grid"></div>
+    <div class="path" id="path"></div>
   </div>
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showTab('home')"><span>🏠</span>Accueil</button>
@@ -447,12 +587,13 @@ body {
     <div class="logo">한<span>국</span>어</div>
     <div class="topbar-stats">
       <div class="stat-pill">🔥 <span id="streak2">0</span></div>
-      <div class="stat-pill">⭐ <span id="xp-display2">0</span> XP</div>
+      <div class="stat-pill">⭐ <span id="xp-display2">0</span></div>
     </div>
   </div>
-  <div style="padding:20px;flex:1;overflow-y:auto">
-    <div class="section-label" style="margin-bottom:12px">Dictionnaire</div>
-    <input class="dict-search" placeholder="Chercher un mot..." id="dict-input" oninput="filterDict()">
+  <div class="dict-body">
+    <div class="section-label" style="margin-bottom:10px">Dictionnaire · <span id="dict-count">0</span> mots</div>
+    <input class="dict-search" placeholder="Chercher un mot, une traduction..." id="dict-input" oninput="filterDict()">
+    <div class="dict-chips" id="dict-chips"></div>
     <div class="dict-list" id="dict-list"></div>
   </div>
   <div class="nav-tabs">
@@ -468,7 +609,7 @@ body {
     <div class="logo">한<span>국</span>어</div>
     <div class="topbar-stats">
       <div class="stat-pill">🔥 <span id="streak3">0</span></div>
-      <div class="stat-pill">⭐ <span id="xp-display3">0</span> XP</div>
+      <div class="stat-pill">⭐ <span id="xp-display3">0</span></div>
     </div>
   </div>
   <div class="grammar-tabs" id="grammar-tabs">
@@ -763,6 +904,11 @@ let currentMode = 'flashcard';
 let isAnswered = false;
 let currentCard = null;
 let xpGained = 0;
+// Duolingo-style step engine state
+let stepAnswered = false, canCheck = false, stepCheck = null;
+let _picked = null, _correctVal = null, _speakKr = null, _xpVal = 10;
+let _orderWords = [];
+let _pairLeft = null, _pairMap = {}, _pairTotal = 0, _pairMatched = 0;
 
 function saveState() {
   localStorage.setItem('kxp', xp);
@@ -773,56 +919,145 @@ function saveState() {
 // ══════════════════════════════════════
 // HOME
 // ══════════════════════════════════════
+const DONE_THRESHOLD = 60; // % to count a lesson as completed (unlocks the next)
+function lessonDone(l) { return (lessonProgress[l.id] || 0) >= DONE_THRESHOLD; }
+function isUnlocked(l) {
+  const order = [...lessons, ...grammarLessons];
+  const i = order.findIndex(x => x.id === l.id);
+  return i <= 0 || lessonDone(order[i - 1]);
+}
+
 function renderHome() {
   document.getElementById('xp-display').textContent = xp;
   document.getElementById('xp-display2').textContent = xp;
   document.getElementById('streak').textContent = streak;
   document.getElementById('streak2').textContent = streak;
   document.getElementById('xp-big').textContent = xp;
-  document.getElementById('xp-bar').style.width = Math.min((xp % 200) / 200 * 100, 100) + '%';
-  const grid = document.getElementById('lessons-grid');
-  grid.innerHTML = '';
-  lessons.forEach((l, i) => {
-    const prog = lessonProgress[l.id] || 0;
-    const stars = prog >= 100 ? '⭐⭐⭐' : prog >= 60 ? '⭐⭐' : prog >= 30 ? '⭐' : '☆☆☆';
-    const card = document.createElement('div');
-    card.className = 'lesson-card';
-    card.innerHTML = `
-      <div class="lesson-icon">${l.icon}</div>
-      <div class="lesson-name">${l.name}</div>
-      <div class="lesson-count">${l.words.length} mots</div>
-      <div class="stars">${stars}</div>
-      <div class="lesson-progress" style="width:${prog}%;background:${l.color}"></div>
-    `;
-    card.onclick = () => startLesson(l);
-    grid.appendChild(card);
+  const lvlPct = Math.min((xp % 200) / 200 * 100, 100);
+  document.getElementById('xp-bar').style.width = lvlPct + '%';
+  const ring = document.getElementById('xp-ring');
+  if (ring) { ring.style.setProperty('--p', lvlPct); document.getElementById('xp-pct').textContent = Math.round(lvlPct) + '%'; }
+  const all = [...lessons, ...grammarLessons];
+  const crown = document.getElementById('crown-count');
+  if (crown) crown.textContent = all.filter(lessonDone).length;
+
+  const path = document.getElementById('path');
+  path.innerHTML = '';
+  const sections = [
+    { label: 'Vocabulaire', sub: 'Mots essentiels du quotidien', emoji: '📚', color: 'linear-gradient(135deg,#0891b2,#0e7490)', items: lessons },
+    { label: 'Grammaire', sub: 'Construis de vraies phrases', emoji: '✍️', color: 'linear-gradient(135deg,#2563eb,#0891b2)', items: grammarLessons },
+  ];
+  // cohesive ocean palette for the path nodes
+  const ocean = ['#20c4d6', '#38bdf8', '#22d3a0', '#0ea5e9', '#5eead4', '#34d399', '#60a5fa', '#2dd4bf', '#7dd3fc', '#06b6d4'];
+  let prevDone = true; // first lesson of the whole path is always unlocked
+  let n = 0;           // global node index → drives the winding offset
+
+  sections.forEach(sec => {
+    const banner = document.createElement('div');
+    banner.className = 'unit-banner';
+    banner.style.background = sec.color;
+    banner.innerHTML = `<div class="ub-emoji">${sec.emoji}</div><div><div class="ub-title">${sec.label}</div><div class="ub-sub">${sec.sub}</div></div>`;
+    path.appendChild(banner);
+
+    sec.items.forEach(l => {
+      const prog = lessonProgress[l.id] || 0;
+      const unlocked = prevDone;
+      const done = lessonDone(l);
+      const state = !unlocked ? 'locked' : (done ? 'completed' : 'current');
+      const stars = prog >= 100 ? '★★★' : prog >= 80 ? '★★' : prog >= DONE_THRESHOLD ? '★' : '';
+      const off = Math.round(Math.sin(n * 0.9) * 78);
+
+      const wrap = document.createElement('div');
+      wrap.className = 'node-wrap';
+      wrap.style.transform = `translateX(${off}px)`;
+
+      const ringHtml = unlocked ? `<div class="node-ring" style="--p:${prog}"></div>` : '';
+      const inner = state === 'locked' ? '🔒' : l.icon;
+      const checkHtml = done ? `<div class="check">✓</div>` : '';
+      const bubble = state === 'current' ? `<div class="start-bubble">${prog > 0 ? 'CONTINUER' : 'COMMENCER'}</div>` : '';
+      const sub = l.type === 'grammar' ? 'Grammaire' : `${l.words.length} mots`;
+      const nodeColor = ocean[n % ocean.length];
+
+      wrap.innerHTML = `
+        ${bubble}
+        ${ringHtml}
+        <button class="node ${state}" style="--c:${nodeColor}">${inner}${checkHtml}</button>
+        <div class="node-name ${state === 'locked' ? 'dim' : ''}">${l.name}</div>
+        <div class="node-stars ${state === 'locked' ? 'dim' : ''}">${state === 'locked' ? '🔒 ' + sub : (stars || sub)}</div>
+      `;
+      const btn = wrap.querySelector('.node');
+      if (unlocked) btn.onclick = () => startLesson(l);
+      else btn.onclick = () => showNotif('🔒 Termine la leçon précédente d\'abord !');
+      path.appendChild(wrap);
+
+      prevDone = done; // the next lesson only unlocks once this one is done
+      n++;
+    });
   });
+
+  // Duolingo-style: when the home is shown, bring the active lesson into view
+  if (document.getElementById('screen-home').classList.contains('active')) {
+    const cur = path.querySelector('.node.current') || path.querySelector('.node-wrap:last-child');
+    if (cur) {
+      const rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const target = cur.closest('.node-wrap') || cur;
+      setTimeout(() => target.scrollIntoView({ behavior: rm ? 'auto' : 'smooth', block: 'center' }), 60);
+    }
+  }
 }
 
 // ══════════════════════════════════════
 // LESSON
 // ══════════════════════════════════════
 function startLesson(lesson) {
+  if (!isUnlocked(lesson)) { showNotif('🔒 Termine la leçon précédente d\'abord !'); return; }
   currentLesson = lesson;
   hearts = 3;
   correctCount = 0;
   wrongCount = 0;
   xpGained = 0;
-  isAnswered = false;
-  // Build a queue: mix of exercise types
-  const shuffled = shuffle([...lesson.words]);
-  queue = [];
-  shuffled.forEach(w => {
-    const types = ['flashcard', 'qcm-kr-fr', 'qcm-fr-kr'];
-    const t = types[Math.floor(Math.random() * types.length)];
-    queue.push({ word: w, type: t });
-  });
+  queue = lesson.type === 'grammar' ? buildGrammarQueue(lesson) : buildVocabQueue(lesson);
   qIdx = 0;
   showScreen('lesson');
   document.getElementById('lesson-icon-title').textContent = lesson.icon;
   document.getElementById('lesson-title-text').textContent = lesson.name;
   renderHearts();
-  renderExercise();
+  renderStep();
+}
+
+// Duolingo-style vocab lesson: teach a chunk of new words, then practice them
+function buildVocabQueue(lesson) {
+  const words = shuffle([...lesson.words]);
+  const q = [];
+  const seen = [];
+  const chunk = 4;
+  for (let i = 0; i < words.length; i += chunk) {
+    const grp = words.slice(i, i + chunk);
+    // 1. Teach each new word
+    grp.forEach(w => q.push({ kind: 'teach', word: w }));
+    seen.push(...grp);
+    // 2. Practice the new words (alternating direction)
+    grp.forEach((w, j) => q.push({ kind: 'qcm', word: w, dir: j % 2 === 0 ? 'kr-fr' : 'fr-kr', pool: seen.slice() }));
+    // 3. Match the pairs
+    if (grp.length >= 2) q.push({ kind: 'pairs', words: grp.slice(0, 4) });
+    // 4. Listen & recognise
+    q.push({ kind: 'listen', word: grp[Math.floor(Math.random() * grp.length)], pool: seen.slice() });
+  }
+  // Final review round
+  shuffle(seen).slice(0, Math.min(4, seen.length)).forEach(w =>
+    q.push({ kind: 'qcm', word: w, dir: 'fr-kr', pool: seen.slice() }));
+  return q;
+}
+
+// Duolingo-style grammar lesson: teach the rule, then practise it
+function buildGrammarQueue(lesson) {
+  const g = grammarData[lesson.gIdx];
+  const intro = [{ kind: 'gintro', g: g }];
+  const ex = [];
+  shuffle([...fillExs]).slice(0, 4).forEach(e => ex.push({ kind: 'fill', ex: e }));
+  shuffle([...wordOrderExs]).slice(0, 3).forEach(e => ex.push({ kind: 'order', ex: e }));
+  shuffle([...translationExs]).slice(0, 3).forEach(e => ex.push({ kind: 'trans', ex: e }));
+  return intro.concat(shuffle(ex));
 }
 
 function retryLesson() { if (currentLesson) startLesson(currentLesson); }
@@ -843,108 +1078,309 @@ function updateProgress() {
   document.getElementById('lesson-prog-fill').style.width = pct + '%';
 }
 
-function renderExercise() {
+function renderStep() {
   updateProgress();
   if (qIdx >= queue.length) { endLesson(); return; }
-  const item = queue[qIdx];
-  currentCard = item.word;
-  isAnswered = false;
+  // reset per-step state
+  stepAnswered = false; canCheck = false; stepCheck = null;
+  _picked = null; _correctVal = null; _speakKr = null; _xpVal = 10;
+  _orderWords = []; _pairLeft = null; _pairMap = {}; _pairMatched = 0;
+  const s = queue[qIdx];
   const body = document.getElementById('lesson-body');
-  if (item.type === 'flashcard') renderFlashcard(body, item.word);
-  else if (item.type === 'qcm-kr-fr') renderQCM(body, item.word, 'kr-fr');
-  else if (item.type === 'qcm-fr-kr') renderQCM(body, item.word, 'fr-kr');
+  if (s.kind === 'teach') renderTeach(body, s);
+  else if (s.kind === 'qcm') renderChoiceQCM(body, s);
+  else if (s.kind === 'listen') renderListen(body, s);
+  else if (s.kind === 'pairs') renderPairs(body, s);
+  else if (s.kind === 'gintro') renderGIntro(body, s);
+  else if (s.kind === 'fill') renderFill(body, s);
+  else if (s.kind === 'order') renderOrder(body, s);
+  else if (s.kind === 'trans') renderTrans(body, s);
 }
 
-function renderFlashcard(body, word) {
+// ── Shared controller ──────────────────
+function esc(s) { return (s || '').toString().replace(/'/g, "\\'"); }
+function cleanTxt(s) { return (s || '').replace(/[①②③④]/g, '').trim(); }
+function enableCheck() {
+  canCheck = true;
+  const b = document.getElementById('main-btn');
+  if (b) b.disabled = false;
+}
+function pickOption(el) {
+  if (stepAnswered) return;
+  document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  _picked = el;
+  enableCheck();
+}
+// The single bottom button drives the whole flow: check → continue
+function onMainBtn() {
+  if (stepCheck && !stepAnswered) {
+    stepCheck();
+    const b = document.getElementById('main-btn');
+    if (b) { b.textContent = 'Continuer →'; b.disabled = false; }
+    if (hearts <= 0) { setTimeout(endLesson, 1300); }
+    return;
+  }
+  qIdx++;
+  renderStep();
+}
+// Generic validation for multiple-choice style steps
+function checkChoice() {
+  if (!_picked) return;
+  stepAnswered = true;
+  document.querySelectorAll('.opt').forEach(o => o.disabled = true);
+  const fb = document.getElementById('fb');
+  if (cleanTxt(_picked.textContent) === cleanTxt(_correctVal)) {
+    _picked.classList.add('correct');
+    correctCount++; xpGained += _xpVal; xp += _xpVal;
+    showNotif('+' + _xpVal + ' XP ⭐'); saveState();
+    fb.className = 'feedback-bar ok show';
+    fb.innerHTML = '✅ 맞아요! Correct !';
+  } else {
+    _picked.classList.add('wrong');
+    document.querySelectorAll('.opt').forEach(o => {
+      if (cleanTxt(o.textContent) === cleanTxt(_correctVal)) o.classList.add('reveal');
+    });
+    wrongCount++; hearts = Math.max(0, hearts - 1); renderHearts();
+    fb.className = 'feedback-bar ko show';
+    fb.innerHTML = '❌ Réponse : <strong>' + _correctVal + '</strong>';
+  }
+  if (_speakKr) speak(_speakKr);
+}
+
+// ── TEACH (new vocab word) ──────────────
+function renderTeach(body, s) {
+  const w = s.word;
   body.innerHTML = `
-    <div class="exercise-type">Flashcard</div>
-    <div class="exercise-prompt">Retourne la carte !</div>
-    <div class="exercise-sub">Tap pour voir la traduction</div>
-    <div class="flashcard-wrap">
-      <div class="flashcard" id="fc" onclick="flipCard()">
-        <div class="card-face">
-          <div class="card-korean">${word.k}</div>
-          <div class="card-roman">${word.r}</div>
-          <div class="card-hint">👆 Tape pour retourner</div>
-        </div>
-        <div class="card-face card-back">
-          <div class="card-french">${word.f}</div>
-          <div class="card-roman">${word.r}</div>
-          <div class="card-hint">C'est mémorisé ?</div>
-        </div>
+    <div class="exercise-type">Nouveau mot</div>
+    <div class="exercise-prompt">Apprends ce mot</div>
+    <div class="exercise-sub">Écoute, puis retiens-le</div>
+    <div class="teach-card">
+      <div class="teach-kr">${w.k}</div>
+      <div class="teach-roman">${w.r}</div>
+      <button class="speak-btn big" onclick="speak('${esc(w.k)}')">🔊</button>
+      <div class="teach-fr">${w.f}</div>
+    </div>
+    <button class="bottom-btn" id="main-btn" onclick="onMainBtn()">Continuer →</button>
+  `;
+  stepCheck = null;
+  setTimeout(() => speak(w.k), 300);
+}
+
+// ── QCM (recognise meaning / translation) ──
+function renderChoiceQCM(body, s) {
+  const w = s.word, isKrFr = s.dir === 'kr-fr';
+  const question = isKrFr ? w.k : w.f;
+  const correct = isKrFr ? w.f : w.k;
+  const others = shuffle(s.pool.filter(x => x.k !== w.k)).slice(0, 3).map(x => isKrFr ? x.f : x.k);
+  const opts = shuffle([correct, ...others]);
+  _correctVal = correct; _speakKr = w.k; _xpVal = 10;
+  body.innerHTML = `
+    <div class="exercise-type">${isKrFr ? 'Coréen → Français' : 'Français → Coréen'}</div>
+    <div class="exercise-prompt">${isKrFr ? `<span style="font-family:'Noto Sans KR',sans-serif">${question}</span>` : question}</div>
+    <div class="exercise-sub">${isKrFr ? w.r : 'Choisis la bonne traduction'}</div>
+    ${isKrFr ? `<button class="speak-btn" onclick="speak('${esc(w.k)}')">🔊</button>` : ''}
+    <div class="options-grid">
+      ${opts.map(o => `<button class="opt" onclick="pickOption(this)">${o}</button>`).join('')}
+    </div>
+    <div class="feedback-bar" id="fb"></div>
+    <button class="bottom-btn" id="main-btn" disabled onclick="onMainBtn()">Vérifier</button>
+  `;
+  stepCheck = checkChoice;
+}
+
+// ── LISTEN (tap what you hear) ──────────
+function renderListen(body, s) {
+  const w = s.word;
+  const others = shuffle(s.pool.filter(x => x.k !== w.k)).slice(0, 3).map(x => x.k);
+  const opts = shuffle([w.k, ...others]);
+  _correctVal = w.k; _speakKr = w.k; _xpVal = 10;
+  body.innerHTML = `
+    <div class="exercise-type">Écoute</div>
+    <div class="exercise-prompt">Quel mot entends-tu ?</div>
+    <button class="speak-btn big" onclick="speak('${esc(w.k)}')">🔊</button>
+    <div class="options-grid">
+      ${opts.map(o => `<button class="opt" style="font-family:'Noto Sans KR',sans-serif" onclick="pickOption(this)">${o}</button>`).join('')}
+    </div>
+    <div class="feedback-bar" id="fb"></div>
+    <button class="bottom-btn" id="main-btn" disabled onclick="onMainBtn()">Vérifier</button>
+  `;
+  stepCheck = checkChoice;
+  setTimeout(() => speak(w.k), 350);
+}
+
+// ── PAIRS (tap-to-match) ────────────────
+function renderPairs(body, s) {
+  const ws = s.words;
+  const lefts = ws.map(w => w.k);
+  const rights = shuffle(ws.map(w => w.f));
+  _pairMap = {}; ws.forEach(w => _pairMap[w.k] = w.f);
+  _pairTotal = ws.length; _pairMatched = 0; _pairLeft = null;
+  body.innerHTML = `
+    <div class="exercise-type">Associe</div>
+    <div class="exercise-prompt">Relie les paires</div>
+    <div class="exercise-sub">Touche un mot coréen puis sa traduction</div>
+    <div class="pairs-grid">
+      <div class="pairs-col">
+        ${lefts.map(l => `<div class="pair-chip korean" onclick="pairLeft(this,'${esc(l)}')">${l}</div>`).join('')}
+      </div>
+      <div class="pairs-col">
+        ${rights.map(r => `<div class="pair-chip" onclick="pairRight(this,'${esc(r)}')">${r}</div>`).join('')}
       </div>
     </div>
     <div class="feedback-bar" id="fb"></div>
-    <button class="bottom-btn" id="main-btn" onclick="nextExercise()" style="opacity:0.4;pointer-events:none">Continuer →</button>
+    <button class="bottom-btn" id="main-btn" disabled onclick="onMainBtn()">Continuer →</button>
   `;
+  stepCheck = null;
 }
-
-function flipCard() {
-  const fc = document.getElementById('fc');
-  fc.classList.toggle('flipped');
-  const btn = document.getElementById('main-btn');
-  if (fc.classList.contains('flipped')) {
-    btn.style.opacity = '1';
-    btn.style.pointerEvents = 'auto';
+function pairLeft(el, k) {
+  if (el.classList.contains('done')) return;
+  document.querySelectorAll('.pair-chip.korean').forEach(x => x.classList.remove('sel'));
+  el.classList.add('sel');
+  _pairLeft = { el, k };
+}
+function pairRight(el, fr) {
+  if (el.classList.contains('done') || !_pairLeft) return;
+  if (_pairMap[_pairLeft.k] === fr) {
+    el.classList.add('done');
+    _pairLeft.el.classList.add('done');
+    _pairLeft.el.classList.remove('sel');
+    _pairLeft = null;
+    _pairMatched++;
+    if (_pairMatched === _pairTotal) pairsComplete();
+  } else {
+    el.classList.add('shake');
+    setTimeout(() => el.classList.remove('shake'), 400);
+    _pairLeft.el.classList.remove('sel');
+    _pairLeft = null;
   }
-  speak(currentCard.k);
+}
+function pairsComplete() {
+  stepAnswered = true;
+  correctCount++; xpGained += 15; xp += 15;
+  showNotif('+15 XP ⭐'); saveState();
+  const fb = document.getElementById('fb');
+  fb.className = 'feedback-bar ok show';
+  fb.innerHTML = '✅ Bravo, tout est relié !';
+  const b = document.getElementById('main-btn');
+  if (b) b.disabled = false;
 }
 
-function renderQCM(body, word, dir) {
-  const isKrFr = dir === 'kr-fr';
-  const question = isKrFr ? word.k : word.f;
-  const correctAns = isKrFr ? word.f : word.k;
-  // Build 3 wrong answers from other words in lesson
-  const pool = currentLesson.words.filter(w => w.k !== word.k);
-  const wrongs = shuffle(pool).slice(0, 3).map(w => isKrFr ? w.f : w.k);
-  const opts = shuffle([correctAns, ...wrongs]);
-  const correctIdx = opts.indexOf(correctAns);
-
+// ── GRAMMAR INTRO (teach the rule) ──────
+function renderGIntro(body, s) {
+  const g = s.g;
   body.innerHTML = `
-    <div class="exercise-type">${isKrFr ? 'Coréen → Français' : 'Français → Coréen'}</div>
-    <div class="exercise-prompt">${isKrFr ? `<span style="font-family:'Noto Sans KR',sans-serif;font-size:2rem">${question}</span>` : question}</div>
-    <div class="exercise-sub">${isKrFr ? word.r : 'Trouve la traduction en coréen'}</div>
-    <button class="speak-btn" onclick="speak('${word.k}')">🔊</button>
+    <div class="exercise-type">Grammaire — Apprends</div>
+    <div class="exercise-prompt" style="font-family:'Noto Sans KR',sans-serif;font-size:1.6rem">${g.title}</div>
+    <div class="exercise-sub">${g.subtitle}</div>
+    <div class="teach-scroll">
+      <div style="color:var(--muted);line-height:1.55;margin-bottom:14px">${g.desc}</div>
+      ${g.formulas.map(f => `
+        <div class="formula-box">
+          <div class="f-label">${f.label}</div>
+          <div class="f-formula">${f.formula}</div>
+          <div class="f-example" style="font-family:'Noto Sans KR',sans-serif">${f.example}</div>
+          <div class="f-trans">${f.trans}</div>
+        </div>`).join('')}
+      <div class="section-label" style="margin:14px 0 8px">Exemples</div>
+      ${g.examples.map(e => `
+        <div class="example-row">
+          <div style="flex:1"><div class="ex-kr">${e.kr}</div><div class="ex-fr">${e.fr}</div></div>
+          <button class="speak-mini" onclick="speak('${esc(e.kr)}')">🔊</button>
+        </div>`).join('')}
+    </div>
+    <button class="bottom-btn" id="main-btn" onclick="onMainBtn()">J'ai compris →</button>
+  `;
+  stepCheck = null;
+}
+
+// ── FILL (choose the ending) ────────────
+function renderFill(body, s) {
+  const ex = s.ex;
+  _correctVal = ex.choices[ex.answer]; _speakKr = null; _xpVal = 10;
+  const qHtml = ex.q.replace(ex.blank, '<span class="blank">&nbsp;&nbsp;&nbsp;</span>');
+  body.innerHTML = `
+    <div class="exercise-type">Complète la phrase</div>
+    <div class="exercise-prompt" style="font-family:'Noto Sans KR',sans-serif;font-size:1.3rem;line-height:1.5">${qHtml}</div>
+    <div class="exercise-sub">💡 ${ex.hint}</div>
     <div class="options-grid">
-      ${opts.map((o, i) => `<button class="opt" id="opt-${i}" onclick="selectOpt(${i}, ${correctIdx})">${o}</button>`).join('')}
+      ${ex.choices.map(ch => `<button class="opt" onclick="pickOption(this)">${ch}</button>`).join('')}
     </div>
     <div class="feedback-bar" id="fb"></div>
-    <button class="bottom-btn" id="main-btn" disabled onclick="nextExercise()">Vérifier</button>
+    <button class="bottom-btn" id="main-btn" disabled onclick="onMainBtn()">Vérifier</button>
   `;
+  stepCheck = checkChoice;
 }
 
-function selectOpt(chosen, correct) {
-  if (isAnswered) return;
-  isAnswered = true;
+// ── TRANS (translate to Korean) ─────────
+function renderTrans(body, s) {
+  const ex = s.ex;
+  _correctVal = ex.opts[ex.answer]; _speakKr = ex.opts[ex.answer]; _xpVal = 12;
+  body.innerHTML = `
+    <div class="exercise-type">Traduis en coréen</div>
+    <div class="exercise-prompt" style="font-size:1.3rem;color:var(--blue)">${ex.fr}</div>
+    <div class="options-grid" style="grid-template-columns:1fr">
+      ${ex.opts.map(o => `<button class="opt" style="text-align:left;font-family:'Noto Sans KR',sans-serif" onclick="pickOption(this)">${o}</button>`).join('')}
+    </div>
+    <div class="feedback-bar" id="fb"></div>
+    <button class="bottom-btn" id="main-btn" disabled onclick="onMainBtn()">Vérifier</button>
+  `;
+  stepCheck = checkChoice;
+}
+
+// ── ORDER (build the sentence) ──────────
+function renderOrder(body, s) {
+  const ex = s.ex;
+  _correctVal = ex.answer; _speakKr = ex.answer; _xpVal = 15; _orderWords = [];
+  body.innerHTML = `
+    <div class="exercise-type">Remets dans l'ordre</div>
+    <div class="exercise-prompt" style="color:var(--green);font-size:1.1rem">${ex.trans}</div>
+    <div class="answer-zone" id="az"><span style="color:var(--border);font-size:0.85rem;margin:auto">Touche les mots ci-dessous</span></div>
+    <div class="word-bank" id="wb">
+      ${shuffle([...ex.words]).map((w, i) => `<div class="word-chip" id="wc-${i}" onclick="orderTap(this,'${esc(w)}')">${w}</div>`).join('')}
+    </div>
+    <div class="feedback-bar" id="fb"></div>
+    <button class="bottom-btn" id="main-btn" disabled onclick="onMainBtn()">Vérifier</button>
+  `;
+  stepCheck = checkOrder;
+}
+function orderTap(el, word) {
+  if (stepAnswered || el.classList.contains('used')) return;
+  el.classList.add('used');
+  const az = document.getElementById('az');
+  const ph = az.querySelector('span'); if (ph) ph.remove();
+  const tok = document.createElement('div');
+  tok.className = 'word-chip placed';
+  tok.textContent = word;
+  tok.onclick = () => {
+    if (stepAnswered) return;
+    el.classList.remove('used');
+    _orderWords = _orderWords.filter(x => x.tok !== tok);
+    tok.remove();
+    if (_orderWords.length === 0) az.innerHTML = '<span style="color:var(--border);font-size:0.85rem;margin:auto">Touche les mots ci-dessous</span>';
+  };
+  az.appendChild(tok);
+  _orderWords.push({ tok, word });
+  enableCheck();
+}
+function checkOrder() {
+  stepAnswered = true;
+  const az = document.getElementById('az');
   const fb = document.getElementById('fb');
-  const btn = document.getElementById('main-btn');
-  document.querySelectorAll('.opt').forEach(b => b.disabled = true);
-  btn.disabled = false;
-  btn.textContent = 'Continuer →';
-  if (chosen === correct) {
-    document.getElementById(`opt-${chosen}`).classList.add('correct');
-    fb.innerHTML = '✅ 맞아요! Correct !';
+  const joined = _orderWords.map(x => x.word).join(' ').trim();
+  if (joined === (_correctVal || '').trim()) {
+    az.className = 'answer-zone correct';
+    correctCount++; xpGained += _xpVal; xp += _xpVal;
+    showNotif('+' + _xpVal + ' XP ⭐'); saveState();
     fb.className = 'feedback-bar ok show';
-    correctCount++;
-    xpGained += 10;
-    xp += 10;
-    showNotif('+10 XP ⭐');
+    fb.innerHTML = '✅ 맞아요!';
+    speak(_correctVal);
   } else {
-    document.getElementById(`opt-${chosen}`).classList.add('wrong');
-    document.getElementById(`opt-${correct}`).classList.add('reveal');
-    fb.innerHTML = `❌ 틀렸어요 — La bonne réponse : <strong>${document.getElementById(`opt-${correct}`).textContent}</strong>`;
+    az.className = 'answer-zone wrong';
+    wrongCount++; hearts = Math.max(0, hearts - 1); renderHearts();
     fb.className = 'feedback-bar ko show';
-    wrongCount++;
-    hearts = Math.max(0, hearts - 1);
-    renderHearts();
-    if (hearts === 0) { setTimeout(endLesson, 1200); return; }
+    fb.innerHTML = "❌ Réponse : <span style=\"font-family:'Noto Sans KR',sans-serif;color:var(--green)\">" + _correctVal + "</span>";
   }
-  speak(currentCard.k);
-}
-
-function nextExercise() {
-  qIdx++;
-  renderExercise();
 }
 
 function endLesson() {
@@ -981,24 +1417,49 @@ function endLesson() {
 const allWords = [];
 lessons.forEach(l => l.words.forEach(w => allWords.push({ ...w, cat: l.name, icon: l.icon })));
 
+let dictCat = 'all'; // active category filter
+
+function renderDictChips() {
+  const c = document.getElementById('dict-chips');
+  if (!c) return;
+  const chips = [{ key: 'all', icon: '🗂️', name: 'Tous' }]
+    .concat(lessons.map(l => ({ key: l.id, icon: l.icon, name: l.name })));
+  c.innerHTML = chips.map(ch =>
+    `<button class="dict-chip ${dictCat === ch.key ? 'active' : ''}" onclick="setDictCat('${ch.key}')">${ch.icon} ${ch.name}</button>`
+  ).join('');
+}
+
+function setDictCat(key) {
+  dictCat = key;
+  renderDictChips();
+  renderDict(document.getElementById('dict-input').value);
+}
+
 function renderDict(filter = '') {
   const list = document.getElementById('dict-list');
-  const f = filter.toLowerCase();
-  const filtered = allWords.filter(w =>
-    w.k.includes(f) || w.r.toLowerCase().includes(f) || w.f.toLowerCase().includes(f) || w.cat.toLowerCase().includes(f)
-  );
-  list.innerHTML = filtered.slice(0, 80).map(w => `
-    <div class="dict-item">
-      <div>
-        <div class="dk">${w.k} <span style="font-size:0.8rem;color:var(--accent2)">${w.r}</span></div>
-        <div class="df">${w.f}</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="dtag">${w.icon} ${w.cat}</div>
-        <button onclick="speak('${w.k}')" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:1rem">🔊</button>
-      </div>
-    </div>
-  `).join('');
+  const f = (filter || '').toLowerCase().trim();
+  let total = 0, html = '';
+  lessons.forEach(l => {
+    if (dictCat !== 'all' && dictCat !== l.id) return;
+    const items = l.words.filter(w =>
+      !f || w.k.includes(f) || w.r.toLowerCase().includes(f) ||
+      w.f.toLowerCase().includes(f) || l.name.toLowerCase().includes(f)
+    );
+    if (!items.length) return;
+    total += items.length;
+    html += `<div class="dict-group-header"><span class="dg-icon">${l.icon}</span><span class="dg-name">${l.name}</span><span class="dg-count">${items.length}</span><span class="dg-line"></span></div>`;
+    html += items.map(w => `
+      <div class="dict-item">
+        <div>
+          <div class="dk">${w.k} <span class="dr">${w.r}</span></div>
+          <div class="df">${w.f}</div>
+        </div>
+        <button class="dict-speak" onclick="speak('${esc(w.k)}')">🔊</button>
+      </div>`).join('');
+  });
+  const cnt = document.getElementById('dict-count');
+  if (cnt) cnt.textContent = total;
+  list.innerHTML = html || '<div class="dict-empty">🔍 Aucun mot trouvé.<br>Essaie un autre terme ou catégorie.</div>';
 }
 
 function filterDict() {
@@ -1045,7 +1506,7 @@ function goHome() {
 
 function showTab(tab) {
   if (tab === 'home') { showScreen('home'); }
-  else if (tab === 'dict') { showScreen('dict'); renderDict(); }
+  else if (tab === 'dict') { showScreen('dict'); renderDictChips(); renderDict(); }
   else if (tab === 'grammar') { showScreen('grammar'); showGrammarTab(0); }
 }
 
@@ -1129,6 +1590,13 @@ const grammarData = [
       { kr: '잠깐만 기다려 주세요.', fr: 'Attendez un instant, s\'il vous plaît.' },
     ]
   },
+];
+
+// Grammar points that are playable as Duolingo-style lessons
+const grammarLessons = [
+  { id: 'g0', type: 'grammar', gIdx: 0, icon: '🗣️', name: 'Proposer (-ㄹ래요)', color: '#7c6af7' },
+  { id: 'g1', type: 'grammar', gIdx: 1, icon: '💭', name: 'Le désir (-고 싶다)', color: '#4b9eff' },
+  { id: 'g2', type: 'grammar', gIdx: 2, icon: '🙏', name: 'Demande polie (-어/아 주세요)', color: '#34d47a' },
 ];
 
 // Exercises — word order (30 exercices)
