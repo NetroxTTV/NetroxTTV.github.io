@@ -504,6 +504,39 @@ body {
   .node.current, .start-bubble { animation: none; }
   * { scroll-behavior: auto; }
 }
+
+/* ── Cloud sync ── */
+.profile-pill { cursor: pointer; font: inherit; border: 1px solid var(--border); }
+.profile-pill:hover { background: var(--border); }
+.sync-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px;
+}
+.sync-overlay.show { display: flex; }
+.sync-modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+  padding: 24px; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  animation: syncPop .2s ease;
+}
+@keyframes syncPop { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.sync-head { font-size: 1.25rem; font-weight: 900; margin-bottom: 8px; }
+.sync-desc { font-size: .85rem; opacity: .8; line-height: 1.5; margin-bottom: 16px; }
+.sync-input {
+  width: 100%; padding: 14px 16px; border-radius: 12px; border: 2px solid var(--border);
+  background: var(--bg); color: var(--text); font-size: 1rem; margin-bottom: 14px; outline: none;
+}
+.sync-input:focus { border-color: var(--accent2); }
+.sync-status { font-size: .85rem; min-height: 20px; margin-bottom: 12px; text-align: center; }
+.sync-status.ok { color: #34d399; }
+.sync-status.err { color: var(--accent); }
+.sync-status.load { color: var(--accent2); }
+.sync-btn {
+  width: 100%; padding: 14px; border-radius: 12px; border: none; font-size: .95rem;
+  font-weight: 800; cursor: pointer; margin-bottom: 10px; background: var(--surface2); color: var(--text);
+}
+.sync-btn.primary { background: linear-gradient(135deg, var(--accent2), var(--accent)); color: #fff; }
+.sync-btn.ghost { background: transparent; opacity: .6; margin-bottom: 0; }
 </style>
 </head>
 <body>
@@ -511,11 +544,26 @@ body {
 <!-- NOTIFICATION -->
 <div class="notif" id="notif"></div>
 
+<!-- SAUVEGARDE FICHIER MODAL -->
+<div class="sync-overlay" id="sync-overlay" onclick="if(event.target===this)closeSync()">
+  <div class="sync-modal">
+    <div class="sync-head">💾 Sauvegarder ma progression</div>
+    <p class="sync-desc">Mets ton pseudo, puis <b>Exporter</b> pour télécharger un fichier <b>.csv</b>. Sur ton téléphone, ouvre l'app et clique <b>Importer</b> en choisissant ce fichier pour retrouver ta progression.</p>
+    <input class="sync-input" id="sync-pseudo" placeholder="Ton pseudo" maxlength="24" autocomplete="off" spellcheck="false">
+    <div class="sync-status" id="sync-status"></div>
+    <button class="sync-btn primary" onclick="exportCSV()">📤 Exporter (.csv)</button>
+    <button class="sync-btn" onclick="importCSVClick()">📥 Importer (.csv)</button>
+    <button class="sync-btn ghost" onclick="closeSync()">Fermer</button>
+    <input type="file" id="csv-file" accept=".csv,text/csv" style="display:none" onchange="importCSV(this)">
+  </div>
+</div>
+
 <!-- ══════════════ HOME ══════════════ -->
 <div class="screen active" id="screen-home">
   <div class="topbar">
     <div class="logo">한<span>국</span>어</div>
     <div class="topbar-stats">
+      <button class="stat-pill profile-pill" onclick="openSync()">💾 <span id="profile-name">Sauver</span></button>
       <div class="stat-pill">👑 <span id="crown-count">0</span></div>
       <div class="stat-pill">🔥 <span id="streak">0</span></div>
       <div class="stat-pill">⭐ <span id="xp-display">0</span></div>
@@ -914,6 +962,111 @@ function saveState() {
   localStorage.setItem('kxp', xp);
   localStorage.setItem('kstreak', streak);
   localStorage.setItem('kprog', JSON.stringify(lessonProgress));
+}
+
+// ══════════════════════════════════════
+// SAUVEGARDE PAR FICHIER .CSV
+// ══════════════════════════════════════
+let syncName = localStorage.getItem('ksyncname') || '';
+
+function sanitizeName(s) { return (s || '').trim().replace(/[^a-zA-Z0-9_-]/g, '') || 'progression'; }
+
+function updateProfilePill() {
+  const el = document.getElementById('profile-name');
+  if (el) el.textContent = syncName || 'Sauver';
+}
+
+function openSync() {
+  document.getElementById('sync-pseudo').value = syncName;
+  setSyncStatus('', '');
+  document.getElementById('sync-overlay').classList.add('show');
+}
+function closeSync() { document.getElementById('sync-overlay').classList.remove('show'); }
+function setSyncStatus(msg, cls) {
+  const el = document.getElementById('sync-status');
+  el.textContent = msg;
+  el.className = 'sync-status' + (cls ? ' ' + cls : '');
+}
+
+// Échappe un champ pour le CSV
+function csvCell(v) {
+  v = String(v);
+  return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+}
+
+// Exporte la progression dans un fichier .csv téléchargé
+function exportCSV() {
+  const name = sanitizeName(document.getElementById('sync-pseudo').value);
+  syncName = name; localStorage.setItem('ksyncname', name); updateProfilePill();
+
+  const rows = [['type', 'id', 'value']];
+  rows.push(['meta', 'pseudo', name]);
+  rows.push(['meta', 'xp', xp]);
+  rows.push(['meta', 'streak', streak]);
+  rows.push(['meta', 'exported', new Date().toISOString()]);
+  Object.keys(lessonProgress).forEach(id => rows.push(['lesson', id, lessonProgress[id]]));
+
+  const csv = rows.map(r => r.map(csvCell).join(',')).join('\r\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `coreen-${name}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  setSyncStatus('✅ Fichier téléchargé : coreen-' + name + '.csv', 'ok');
+}
+
+// Déclenche le sélecteur de fichier pour importer
+function importCSVClick() { document.getElementById('csv-file').click(); }
+
+// Lit et applique un fichier .csv importé
+function importCSV(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      applyCSV(e.target.result);
+      setSyncStatus('✅ Progression restaurée !', 'ok');
+      setTimeout(closeSync, 900);
+    } catch (err) {
+      setSyncStatus('❌ Fichier illisible. Choisis un .csv exporté ici.', 'err');
+    }
+    input.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// Parse le CSV et met à jour l'état
+function applyCSV(text) {
+  const lines = text.replace(/^﻿/, '').split(/\r?\n/).filter(l => l.trim());
+  const newProg = {};
+  let foundXp = false;
+  lines.forEach(line => {
+    // parse simple champ par champ (gère les guillemets)
+    const cells = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (inQ) {
+        if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; }
+        else if (c === '"') inQ = false;
+        else cur += c;
+      } else if (c === '"') inQ = true;
+      else if (c === ',') { cells.push(cur); cur = ''; }
+      else cur += c;
+    }
+    cells.push(cur);
+    const [type, id, value] = cells;
+    if (type === 'meta' && id === 'xp') { xp = parseInt(value) || 0; foundXp = true; }
+    else if (type === 'meta' && id === 'streak') { streak = parseInt(value) || 0; }
+    else if (type === 'meta' && id === 'pseudo' && value) { syncName = sanitizeName(value); localStorage.setItem('ksyncname', syncName); }
+    else if (type === 'lesson' && id) { newProg[id] = parseInt(value) || 0; }
+  });
+  if (!foundXp && Object.keys(newProg).length === 0) throw new Error('format');
+  lessonProgress = newProg;
+  saveState(); updateProfilePill(); renderHome();
 }
 
 // ══════════════════════════════════════
@@ -2167,6 +2320,7 @@ function checkReading(btn, groupId, chosen, correct, ctxKey) {
 // INIT
 // ══════════════════════════════════════
 renderHome();
+updateProfilePill();
 </script>
 </body>
 </html>
