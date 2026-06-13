@@ -1720,7 +1720,375 @@ const grammarData = [
       { kr: '시험지에 이름을 써 주세요.', fr: 'Écrivez votre nom sur la feuille.' },
     ]
   },
-  // TAB 3 — Café Vocabulary
+  // TAB 3 — 안 A/V
+  {
+    title: '안 A/V',
+    subtitle: 'Négation / Contraire',
+    desc: 'S\'utilise devant les verbes ou adjectifs pour exprimer la négation ou le sens opposé. C\'est plus doux que -지 않다.',
+    formulas: [
+      { label: 'Avec verbes', formula: '안 + 동사', example: '운동을 안 하다', trans: 'Ne pas faire d\'exercice' },
+      { label: 'Avec adjectifs', formula: '안 + 형용사', example: '좋은 날씨가 아니다 → 날씨가 안 좋아요', trans: 'Le temps n\'est pas beau' },
+    ],
+    examples: [
+      { kr: '나는 커피를 안 마셔요.', fr: 'Je ne bois pas de café.' },
+      { kr: '지금은 바빠서 갈 수 없어요 = 지금은 바빠요.', fr: 'Je suis occupé, je ne peux pas y aller.' },
+      { kr: '공부를 안 했어요.', fr: 'Je n\'ai pas étudié.' },
+      { kr: '오늘은 날씨가 안 좋아요.', fr: 'Aujourd\'hui le temps n\'est pas beau.' },
+      { kr: '이 음식은 맛이 안 있어요.', fr: 'Cette nourriture n\'a pas bon goût.' },
+    ]
+  },
+  // TAB 4 — A/N-아/어 (Opposite/Antonym)
+  {
+    title: 'A 아/어 N / A/N-아/음',
+    subtitle: 'Contraire & Antonym',
+    desc: 'Utilisé pour indiquer quelque chose de contraire ou l\'opposé. "아" pour les radicaux en ㅏ/ㅗ, "어" pour les autres.',
+    formulas: [
+      { label: 'Adjectif + 아/어', formula: '형용사 아/어 (antonym) s\'utilise devant radicaux ㅏ/ㅗ: -아, autres: -어', example: '"크다" → "작다"(反対)', trans: 'Grand/petit (opposés)' },
+      { label: 'Noms - pair opposé', formula: '명사 쌍 (pairs)', example: '"남자" → "여자", "앞" → "뒤"', trans: 'Homme/femme, avant/arrière' },
+    ],
+    examples: [
+      { kr: '검다 = 검은색이다 (noir = qui est noir)', fr: 'Noir = qui est noir' },
+      { kr: '크다 (grand) ≠ 작다 (petit)', fr: 'Grand ≠ petit' },
+      { kr: '좋다 (bon) ≠ 나쁘다 (mauvais)', fr: 'Bon ≠ mauvais' },
+      { kr: '남자 (homme) ≠ 여자 (femme)', fr: 'Homme ≠ femme' },
+      { kr: '앞 (avant) ≠ 뒤 (arrière)', fr: 'Avant ≠ arrière' },
+    ]
+  },
+  // TAB 5 — N에/에서 (Reason/Location/Time)
+  {
+    title: 'N에/에서 (Multi-usage)',
+    subtitle: 'Lieu, Raison, Temps',
+    desc: 'Particule polyvalente utilisée pour indiquer le lieu (avec ou sans mouvement), la raison, le contexte temporel, ou la source d\'une action.',
+    formulas: [
+      { label: 'Lieu statique (에)', formula: '명사 + 에', example: '카페에 있어요', trans: 'Au café (location)' },
+      { label: 'Lieu avec mouvement (에/에서)', formula: '명사 + 에 가다', example: '학교에 가요', trans: 'Aller à l\'école' },
+      { label: 'Contexte/raison (에서)', formula: '명사 + 에서 (context)', example: '집에서 공부해요', trans: 'Étudier à la maison' },
+      { label: 'Temps spécifique (에)', formula: '명사(시간) + 에', example: '3시에 만나요', trans: 'Se rencontrer à 3h' },
+    ],
+    examples: [
+      { kr: '카페에 있어요.', fr: 'Je suis au café.' },
+      { kr: '학교에 가요.', fr: 'Je vais à l\'école.' },
+      { kr: '집에서 공부해요.', fr: 'J\'étudie à la maison.' },
+      { kr: '3시에 만나요.', fr: 'On se rencontre à 3h.' },
+      { kr: '서울에서 온 사람이에요.', fr: 'C\'est une personne qui vient de Séoul.' },
+    ]
+  },
+  // TAB 6 — -(으)ㄹ 것 같다
+  {
+    title: '-(으)ㄹ 것 같다',
+    subtitle: 'Supposition / Rumeur',
+    desc: 'Exprime une supposition, une hypothèse, ou ce qu\'on a entendu dire. Littéralement "cela semble/paraît que..."',
+    formulas: [
+      { label: 'Sans batchim', formula: '동사 어간 + -ㄹ 것 같아요', example: '비가 올 것 같아요', trans: 'Je pense qu\'il va pleuvoir' },
+      { label: 'Avec batchim', formula: '동사 어간 + -을 것 같아요', example: '많을 것 같아요', trans: 'Je pense que c\'est beaucoup' },
+      { label: 'Adjectif', formula: '형용사 어간 + -ㄹ 것 같아요', example: '예쁠 것 같아요', trans: 'Je pense que c\'est joli' },
+    ],
+    examples: [
+      { kr: '내일 날씨가 좋을 것 같아요.', fr: 'Je pense que le temps sera beau demain.' },
+      { kr: '그 영화는 재미있을 것 같아요.', fr: 'Je pense que ce film est amusant.' },
+      { kr: '한국음식이 맛있을 것 같아요.', fr: 'Je pense que la nourriture coréenne est délicieuse.' },
+      { kr: '시험이 어려울 것 같아요.', fr: 'Je pense que l\'examen sera difficile.' },
+      { kr: '너는 피곤할 것 같아요.', fr: 'Tu parais fatigué.' },
+    ]
+  },
+  // TAB 7 — -어야 (되다/합니다)
+  {
+    title: '-어야 된다 / -어야 합니다',
+    subtitle: 'Obligation / Obligation (formel)',
+    desc: 'Exprime une obligation, une nécessité ou une obligation. Plus formel que "-아야 돼".',
+    formulas: [
+      { label: 'Forme familière', formula: '동사 어간 + -어야 돼요', example: '공부를 해야 돼요', trans: 'Je dois étudier' },
+      { label: 'Forme formelle', formula: '동사 어간 + -어야 합니다', example: '약을 먹어야 합니다', trans: 'Vous devez prendre le médicament' },
+    ],
+    examples: [
+      { kr: '아침 일찍 일어나야 돼요.', fr: 'Je dois me lever tôt le matin.' },
+      { kr: '약을 하루에 3번 먹어야 합니다.', fr: 'Vous devez prendre le médicament 3 fois par jour.' },
+      { kr: '여권을 가져가야 돼요.', fr: 'Je dois apporter mon passeport.' },
+      { kr: '숙제를 내일까지 제출해야 합니다.', fr: 'Vous devez soumettre le devoir d\'ici demain.' },
+      { kr: '건강하려면 운동을 해야 돼요.', fr: 'Si tu veux être en bonne santé, tu dois faire de l\'exercice.' },
+    ]
+  },
+  // TAB 8 — N과/와 (Coordination)
+  {
+    title: 'N과/와',
+    subtitle: 'Particule de coordination',
+    desc: 'Relie deux noms pour indiquer l\'association ou la conjonction. Utilisé après batchim avec 과, sans avec 와.',
+    formulas: [
+      { label: 'Après batchim (받침 O)', formula: '명사(받침 O) + 과', example: '학생과 선생님', trans: 'L\'étudiant et le professeur' },
+      { label: 'Sans batchim (받침 X)', formula: '명사(받침 X) + 와', example: '엄마와 아빠', trans: 'Maman et papa' },
+    ],
+    examples: [
+      { kr: '친구와 카페에 갔어요.', fr: 'Je suis allé au café avec mon ami.' },
+      { kr: '형과 영화를 봤어요.', fr: 'J\'ai regardé un film avec mon frère.' },
+      { kr: '엄마와 아빠가 왔어요.', fr: 'Maman et papa sont venus.' },
+      { kr: '김치와 된장국은 한국음식이에요.', fr: 'Le kimchi et la soupe de miso sont des plats coréens.' },
+      { kr: '수학과 영어 중에 뭐가 더 어려워요?', fr: 'Entre les maths et l\'anglais, lequel est plus difficile ?' },
+    ]
+  },
+  // TAB 9 — V-(으)ㄹ 때
+  {
+    title: 'V-(으)ㄹ 때',
+    subtitle: 'Quand / Au moment où',
+    desc: 'Exprime le moment temporel où une action se produit ou le contexte temporel. Littéralement "au moment où".',
+    formulas: [
+      { label: 'Sans batchim', formula: '동사 어간 + -ㄹ 때', example: '내일 만날 때', trans: 'Quand on se rencontrera demain' },
+      { label: 'Avec batchim', formula: '동사 어간 + -을 때', example: '밥을 먹을 때', trans: 'Quand je/tu manges' },
+      { label: 'Passé', formula: '동사 과거형 + -을 때', example: '갔을 때', trans: 'Quand il est allé' },
+    ],
+    examples: [
+      { kr: '학교에 갈 때 친구를 만났어요.', fr: 'Je suis tombé sur mon ami en allant à l\'école.' },
+      { kr: '밥을 먹을 때 전화가 왔어요.', fr: 'Le téléphone a sonné pendant que je mangeais.' },
+      { kr: '처음 만났을 때 어땠어요?', fr: 'Comment était-ce quand vous vous êtes rencontrés pour la première fois ?' },
+      { kr: '비가 올 때는 집에서 있어요.', fr: 'Quand il pleut, je reste à la maison.' },
+      { kr: '시험을 볼 때 긴장돼요.', fr: 'Je suis nerveux quand je passe un examen.' },
+    ]
+  },
+  // TAB 10 — N은/는 (Topic Particle)
+  {
+    title: 'N은/는',
+    subtitle: 'Particule de sujet / Thème',
+    desc: 'Marque le thème ou le sujet de la phrase. Utilisé après batchim avec 은, sans avec 는. Peut aussi indiquer le contraste.',
+    formulas: [
+      { label: 'Après batchim (받침 O)', formula: '명사(받침 O) + 은', example: '고양이는', trans: 'Le chat' },
+      { label: 'Sans batchim (받침 X)', formula: '명사(받침 X) + 는', example: '개는', trans: 'Le chien' },
+    ],
+    examples: [
+      { kr: '나는 학생이에요.', fr: 'Je suis un(e) étudiant(e).' },
+      { kr: '고양이는 귀여워요.', fr: 'Le chat est mignon.' },
+      { kr: '서울은 크고 바빠요.', fr: 'Séoul est grande et occupée.' },
+      { kr: '이 책은 재미있어요.', fr: 'Ce livre est intéressant.' },
+      { kr: '한국은 날씨가 좋아요.', fr: 'La Corée a beau temps.' },
+    ]
+  },
+  // TAB 11 — N에 있어요/없어요
+  {
+    title: 'N에 있어요/없어요',
+    subtitle: 'Existence & Localisation',
+    desc: 'S\'attache après un nom pour indiquer l\'endroit où se trouve un objet ou une personne. Si l\'objet existe, on utilise 있어요 ; dans la situation opposée, 없어요. Pour reparler d\'un lieu déjà mentionné ou le souligner, on préfère 에는.',
+    formulas: [
+      { label: 'Présence (있어요)', formula: '명사 + 에 있어요', example: '책이 책상에 있어요', trans: 'Le livre est sur le bureau.' },
+      { label: 'Absence (없어요)', formula: '명사 + 에 없어요', example: '고양이가 집에 없어요', trans: 'Le chat n\'est pas à la maison.' },
+      { label: 'Rappel / insistance', formula: '명사 + 에는', example: '교실에는 학생이 없어요', trans: 'Dans la salle (justement), il n\'y a pas d\'élèves.' },
+    ],
+    examples: [
+      { kr: '화장실이 어디에 있어요?', fr: 'Où sont les toilettes ?' },
+      { kr: '가방 안에 책이 있어요.', fr: 'Il y a un livre dans le sac.' },
+      { kr: '지금 집에 없어요.', fr: 'Je ne suis pas à la maison maintenant.' },
+      { kr: '은행은 학교 옆에 있어요.', fr: 'La banque est à côté de l\'école.' },
+      { kr: '냉장고에 우유가 없어요.', fr: 'Il n\'y a pas de lait dans le frigo.' },
+    ]
+  },
+  // TAB 12 — N(으)로 (방향)
+  {
+    title: 'N(으)로 (방향)',
+    subtitle: 'Direction / Trajet',
+    desc: 'S\'attache après un nom pour indiquer la direction ou le trajet. Pour les noms terminés par batchim, on utilise -으로 ; sans batchim, on utilise -로. Pour les noms terminés par la consonne ㄹ, on utilise aussi -로.',
+    formulas: [
+      { label: 'Avec batchim (받침 O)', formula: '명사 + -으로', example: '도서관 → 도서관으로', trans: 'Vers la bibliothèque' },
+      { label: 'Sans batchim (받침 X)', formula: '명사 + -로', example: '학교 → 학교로', trans: 'Vers l\'école' },
+      { label: 'Final ㄹ (받침 ㄹ)', formula: '명사(ㄹ) + -로', example: '서울 → 서울로', trans: 'Vers Séoul' },
+    ],
+    examples: [
+      { kr: '오른쪽으로 가세요.', fr: 'Allez à droite.' },
+      { kr: '이쪽으로 오세요.', fr: 'Venez par ici.' },
+      { kr: '집으로 가요.', fr: 'Je rentre à la maison.' },
+      { kr: '위로 올라가요.', fr: 'On monte vers le haut.' },
+      { kr: '어디로 가요?', fr: 'Où allez-vous ?' },
+    ]
+  },
+  // TAB 13 — V-(으)ㄹ 수 있다/없다
+  {
+    title: 'V-(으)ㄹ 수 있다/없다',
+    subtitle: 'Capacité / Possibilité',
+    desc: 'Se combine avec le radical du verbe pour exprimer la capacité ou la possibilité. Quand il y a capacité ou possibilité, on utilise -(으)ㄹ 수 있다 ; sinon -(으)ㄹ 수 없다 (qui peut aussi être exprimé avec 못).',
+    formulas: [
+      { label: 'Avec batchim (받침 O)', formula: '동사 어간 + -을 수 있다/없다', example: '먹다 → 먹을 수 있다/없다', trans: 'Pouvoir / ne pas pouvoir manger' },
+      { label: 'Sans batchim (받침 X)', formula: '동사 어간 + -ㄹ 수 있다/없다', example: '만나다 → 만날 수 있다/없다', trans: 'Pouvoir / ne pas pouvoir se rencontrer' },
+    ],
+    examples: [
+      { kr: '저는 한국어를 할 수 있어요.', fr: 'Je peux parler coréen.' },
+      { kr: '매운 음식을 먹을 수 없어요.', fr: 'Je ne peux pas manger épicé.' },
+      { kr: '내일 만날 수 있어요?', fr: 'Peux-tu me voir demain ?' },
+      { kr: '수영할 수 있어요?', fr: 'Sais-tu nager ?' },
+      { kr: '오늘은 갈 수 없어요.', fr: 'Je ne peux pas y aller aujourd\'hui.' },
+    ]
+  },
+  // TAB 14 — A/V-지만
+  {
+    title: 'A/V-지만',
+    subtitle: 'Mais / Contraste',
+    desc: 'S\'attache au radical du verbe ou de l\'adjectif pour montrer que le contenu avant et après sont opposés ou contrastés. Au passé : -았/었지만. Pour les noms : (이)지만. Pour une demande polie : 실례지만, 죄송하지만.',
+    formulas: [
+      { label: 'Présent', formula: '동사/형용사 어간 + -지만', example: '비싸다 → 비싸지만', trans: 'C\'est cher mais...' },
+      { label: 'Passé', formula: '어간 + -았/었지만', example: '먹다 → 먹었지만', trans: 'J\'ai mangé mais...' },
+      { label: 'Nom', formula: '명사 + (이)지만', example: '학생이지만', trans: 'Bien qu\'étudiant...' },
+    ],
+    examples: [
+      { kr: '한국어는 어렵지만 재미있어요.', fr: 'Le coréen est difficile mais intéressant.' },
+      { kr: '비싸지만 사고 싶어요.', fr: 'C\'est cher mais je veux l\'acheter.' },
+      { kr: '밥을 먹었지만 아직 배고파요.', fr: 'J\'ai mangé mais j\'ai encore faim.' },
+      { kr: '실례지만 질문이 있어요.', fr: 'Excusez-moi, mais j\'ai une question.' },
+      { kr: '날씨가 춥지만 괜찮아요.', fr: 'Il fait froid mais ça va.' },
+    ]
+  },
+  // TAB 15 — V-고 있다
+  {
+    title: 'V-고 있다',
+    subtitle: 'Action en cours (progressif)',
+    desc: 'S\'attache après le radical du verbe pour indiquer qu\'une action est en cours. Peut aussi exprimer une action répétée pendant une période incluant le présent. Pour la négation, on utilise 안.',
+    formulas: [
+      { label: 'Présent progressif', formula: '동사 어간 + -고 있어요', example: '먹다 → 먹고 있어요', trans: 'Je suis en train de manger.' },
+      { label: 'Passé progressif', formula: '동사 어간 + -고 있었어요', example: '자다 → 자고 있었어요', trans: 'J\'étais en train de dormir.' },
+      { label: 'Négation', formula: '안 + 동사 어간 + -고 있어요', example: '안 보고 있어요', trans: 'Je ne suis pas en train de regarder.' },
+    ],
+    examples: [
+      { kr: '지금 공부하고 있어요.', fr: 'Je suis en train d\'étudier.' },
+      { kr: '친구를 기다리고 있어요.', fr: 'J\'attends mon ami.' },
+      { kr: '음악을 듣고 있어요.', fr: 'J\'écoute de la musique.' },
+      { kr: '비가 오고 있어요.', fr: 'Il est en train de pleuvoir.' },
+      { kr: '요즘 한국어를 배우고 있어요.', fr: 'En ce moment, j\'apprends le coréen.' },
+    ]
+  },
+  // TAB 16 — V-(으)ㄹ 거예요
+  {
+    title: 'V-(으)ㄹ 거예요',
+    subtitle: 'Futur / Projet',
+    desc: 'S\'attache après le radical du verbe pour exprimer une action ou un projet futur. Se prononce [꺼예요].',
+    formulas: [
+      { label: 'Avec batchim (받침 O)', formula: '동사 어간 + -을 거예요', example: '먹다 → 먹을 거예요', trans: 'Je vais manger.' },
+      { label: 'Sans batchim (받침 X)', formula: '동사 어간 + -ㄹ 거예요', example: '만나다 → 만날 거예요', trans: 'Je vais rencontrer.' },
+    ],
+    examples: [
+      { kr: '내일 친구를 만날 거예요.', fr: 'Je vais voir un ami demain.' },
+      { kr: '주말에 영화를 볼 거예요.', fr: 'Je vais regarder un film ce week-end.' },
+      { kr: '방학에 한국에 갈 거예요.', fr: 'Je vais aller en Corée pendant les vacances.' },
+      { kr: '저녁에 책을 읽을 거예요.', fr: 'Je vais lire un livre ce soir.' },
+      { kr: '뭐 할 거예요?', fr: 'Qu\'est-ce que tu vas faire ?' },
+    ]
+  },
+  // TAB 17 — V-(으)ㄹ까요?
+  {
+    title: 'V-(으)ㄹ까요?',
+    subtitle: 'Proposer / Demander l\'avis',
+    desc: 'S\'attache au radical du verbe pour proposer une action ou demander l\'avis de l\'interlocuteur concernant une action à faire. Comme réponse, on utilise souvent -(으)ㅂ시다 ou -아/어요.',
+    formulas: [
+      { label: 'Avec batchim (받침 O)', formula: '동사 어간 + -을까요?', example: '먹다 → 먹을까요?', trans: 'On mange ?' },
+      { label: 'Sans batchim (받침 X)', formula: '동사 어간 + -ㄹ까요?', example: '만나다 → 만날까요?', trans: 'On se voit ?' },
+    ],
+    examples: [
+      { kr: '같이 점심을 먹을까요?', fr: 'On déjeune ensemble ?' },
+      { kr: '커피를 마실까요?', fr: 'On boit un café ?' },
+      { kr: '어디에서 만날까요?', fr: 'Où est-ce qu\'on se retrouve ?' },
+      { kr: '창문을 열까요?', fr: 'Je peux ouvrir la fenêtre ?' },
+      { kr: '우리 영화를 볼까요?', fr: 'On regarde un film ?' },
+    ]
+  },
+  // TAB 18 — A/V-(으)면
+  {
+    title: 'A/V-(으)면',
+    subtitle: 'Condition / Hypothèse',
+    desc: 'S\'attache après le radical du verbe ou de l\'adjectif pour exprimer une condition ou une supposition (« si... »).',
+    formulas: [
+      { label: 'Avec batchim (받침 O)', formula: '어간 + -으면', example: '먹다 → 먹으면', trans: 'Si je mange' },
+      { label: 'Sans batchim (받침 X)', formula: '어간 + -면', example: '만나다 → 만나면', trans: 'Si je rencontre' },
+    ],
+    examples: [
+      { kr: '시간이 있으면 같이 가요.', fr: 'Si tu as le temps, allons-y ensemble.' },
+      { kr: '비가 오면 집에 있을 거예요.', fr: 'S\'il pleut, je resterai à la maison.' },
+      { kr: '한국에 가면 뭐 하고 싶어요?', fr: 'Si tu vas en Corée, que veux-tu faire ?' },
+      { kr: '열심히 공부하면 잘할 수 있어요.', fr: 'Si tu étudies dur, tu réussiras.' },
+      { kr: '배가 아프면 약을 드세요.', fr: 'Si tu as mal au ventre, prends un médicament.' },
+    ]
+  },
+  // TAB 19 — V-지 마세요
+  {
+    title: 'V-지 마세요',
+    subtitle: 'Interdiction (poli)',
+    desc: 'Se combine avec le radical du verbe et s\'utilise pour interdire une action (« ne faites pas... »).',
+    formulas: [
+      { label: 'Interdiction polie', formula: '동사 어간 + -지 마세요', example: '뛰다 → 뛰지 마세요', trans: 'Ne courez pas.' },
+      { label: 'Familier', formula: '동사 어간 + -지 마', example: '가다 → 가지 마', trans: 'N\'y va pas.' },
+    ],
+    examples: [
+      { kr: '여기에서 담배를 피우지 마세요.', fr: 'Ne fumez pas ici.' },
+      { kr: '사진을 찍지 마세요.', fr: 'Ne prenez pas de photos.' },
+      { kr: '떠들지 마세요.', fr: 'Ne faites pas de bruit.' },
+      { kr: '늦지 마세요.', fr: 'Ne soyez pas en retard.' },
+      { kr: '걱정하지 마세요.', fr: 'Ne vous inquiétez pas.' },
+    ]
+  },
+  // TAB 20 — N부터 N까지
+  {
+    title: 'N부터 N까지',
+    subtitle: 'De... à... (début / fin)',
+    desc: '부터 indique le début ou le point de départ ; 까지 indique la fin. Principalement utilisés avec des noms de temps. Ils peuvent être utilisés ensemble ou séparément, et servent aussi à indiquer le début et la fin d\'un intervalle.',
+    formulas: [
+      { label: 'Point de départ', formula: '명사 + 부터', example: '1시 → 1시부터', trans: 'À partir d\'une heure' },
+      { label: 'Point de fin', formula: '명사 + 까지', example: '3시 → 3시까지', trans: 'Jusqu\'à trois heures' },
+      { label: 'Intervalle complet', formula: 'N부터 N까지', example: '월요일부터 금요일까지', trans: 'Du lundi au vendredi' },
+    ],
+    examples: [
+      { kr: '9시부터 6시까지 일해요.', fr: 'Je travaille de 9h à 18h.' },
+      { kr: '월요일부터 금요일까지 학교에 가요.', fr: 'Je vais à l\'école du lundi au vendredi.' },
+      { kr: '처음부터 끝까지 다 봤어요.', fr: 'J\'ai tout vu du début à la fin.' },
+      { kr: '집에서 학교까지 멀어요.', fr: 'De la maison à l\'école, c\'est loin.' },
+      { kr: '방학은 언제부터예요?', fr: 'À partir de quand sont les vacances ?' },
+    ]
+  },
+  // TAB 21 — A/V-겠-
+  {
+    title: 'A/V-겠-',
+    subtitle: 'Supposition / Intention',
+    desc: 'S\'attache au radical du verbe ou de l\'adjectif pour faire une supposition basée sur la situation au moment où l\'on parle, ou pour exprimer une intention. Pour supposer qu\'une action passée est terminée : -았/었겠어요.',
+    formulas: [
+      { label: 'Supposition (présent)', formula: '어간 + -겠어요', example: '맛있다 → 맛있겠어요', trans: 'Ça a l\'air bon !' },
+      { label: 'Supposition (passé)', formula: '어간 + -았/었겠어요', example: '힘들다 → 힘들었겠어요', trans: 'Ça a dû être dur.' },
+      { label: 'Intention / promesse', formula: '동사 어간 + -겠어요', example: '하다 → 하겠어요', trans: 'Je vais le faire.' },
+    ],
+    examples: [
+      { kr: '정말 맛있겠어요!', fr: 'Ça a l\'air vraiment délicieux !' },
+      { kr: '많이 피곤하겠어요.', fr: 'Tu dois être très fatigué.' },
+      { kr: '시험이 어렵겠어요.', fr: 'L\'examen a l\'air difficile.' },
+      { kr: '내일은 비가 오겠어요.', fr: 'Il va sûrement pleuvoir demain.' },
+      { kr: '열심히 하겠습니다.', fr: 'Je ferai de mon mieux.' },
+    ]
+  },
+  // TAB 22 — 'ㄷ' 불규칙
+  {
+    title: '\'ㄷ\' 불규칙 (irrégulier)',
+    subtitle: 'Verbes irréguliers en ㄷ',
+    desc: 'Parmi les verbes dont le radical se termine par la consonne ㄷ, certains (comme 걷다, 듣다) changent ㄷ en ㄹ devant une terminaison commençant par une voyelle (ㅏ, ㅗ...). Cependant 받다 et 닫다 ne suivent pas cette règle.',
+    formulas: [
+      { label: 'Écouter (ㄷ → ㄹ)', formula: '듣다 + 어요 → 들어요', example: '듣다 → 들어요 / 들으세요', trans: 'Écouter → écoute' },
+      { label: 'Marcher (ㄷ → ㄹ)', formula: '걷다 + 어요 → 걸어요', example: '걷다 → 걸어요 / 걸으세요', trans: 'Marcher → marche' },
+      { label: 'Réguliers (pas de changement)', formula: '받다 → 받아요', example: '받다 → 받아요, 닫다 → 닫아요', trans: 'Recevoir, fermer' },
+    ],
+    examples: [
+      { kr: '음악을 들어요.', fr: 'J\'écoute de la musique.' },
+      { kr: '매일 30분 걸어요.', fr: 'Je marche 30 minutes chaque jour.' },
+      { kr: '노래를 들으세요.', fr: 'Écoutez la chanson.' },
+      { kr: '공원에서 걸었어요.', fr: 'J\'ai marché dans le parc.' },
+      { kr: '선물을 받았어요.', fr: 'J\'ai reçu un cadeau. (régulier)' },
+    ]
+  },
+  // TAB 23 — N에 가다/오다
+  {
+    title: 'N에 가다/오다',
+    subtitle: 'Direction / Destination',
+    desc: 'Se combine avec un nom (de lieu) pour indiquer la direction ou la destination d\'un déplacement (« aller à / venir à »).',
+    formulas: [
+      { label: 'Aller à', formula: '명사 + 에 가다', example: '학교 → 학교에 가다', trans: 'Aller à l\'école' },
+      { label: 'Venir à', formula: '명사 + 에 오다', example: '집 → 집에 오다', trans: 'Venir à la maison' },
+    ],
+    examples: [
+      { kr: '학교에 가요.', fr: 'Je vais à l\'école.' },
+      { kr: '친구가 집에 와요.', fr: 'Mon ami vient à la maison.' },
+      { kr: '어디에 가요?', fr: 'Où vas-tu ?' },
+      { kr: '병원에 가야 돼요.', fr: 'Je dois aller à l\'hôpital.' },
+      { kr: '한국에 왔어요.', fr: 'Je suis venu en Corée.' },
+    ]
+  },
+  // TAB 24 — Café Vocabulary & Useful Expressions
   {
     title: '☕ Vocabulaire : Café & Boissons',
     subtitle: '5과 식사와 음료',
@@ -1747,12 +2115,42 @@ const grammarData = [
 
 // Grammar points that are playable as Duolingo-style lessons
 const grammarLessons = [
-  { id: 'g0', type: 'grammar', gIdx: 0, icon: '🗣️', name: 'Proposer (-ㄹ래요)', color: '#7c6af7' },
-  { id: 'g1', type: 'grammar', gIdx: 1, icon: '💭', name: 'Le désir (-고 싶다)', color: '#4b9eff' },
-  { id: 'g2', type: 'grammar', gIdx: 2, icon: '🙏', name: 'Demande polie (-어/아 주세요)', color: '#34d47a' },
+  // ── Ordre pédagogique : du plus simple au plus avancé ──
+  // 1) Particules & noms (les bases de la phrase)
+  { id: 'g10', type: 'grammar', gIdx: 10, icon: '📢', name: '1. Thème (은/는)', color: '#ec407a' },
+  { id: 'g8', type: 'grammar', gIdx: 8, icon: '🤝', name: '2. Et / avec (과/와)', color: '#42a5f5' },
+  { id: 'g11', type: 'grammar', gIdx: 11, icon: '📦', name: '3. Localisation (있어요/없어요)', color: '#26a69a' },
+  { id: 'g23', type: 'grammar', gIdx: 23, icon: '🚶', name: '4. Aller / Venir (에 가다/오다)', color: '#42a5f5' },
+  { id: 'g5', type: 'grammar', gIdx: 5, icon: '📍', name: '5. Lieu & Raison (에/에서)', color: '#ffc107' },
+  { id: 'g12', type: 'grammar', gIdx: 12, icon: '🧭', name: '6. Direction ((으)로)', color: '#5c6bc0' },
+  { id: 'g20', type: 'grammar', gIdx: 20, icon: '↔️', name: '7. De... à... (부터/까지)', color: '#ffa726' },
+  // 2) Négation & contraires
+  { id: 'g3', type: 'grammar', gIdx: 3, icon: '🚫', name: '8. Négation (안)', color: '#ff7043' },
+  { id: 'g4', type: 'grammar', gIdx: 4, icon: '🔄', name: '9. Contraire (아/어)', color: '#ff9800' },
+  // 3) Désir, intention, demandes, interdiction
+  { id: 'g1', type: 'grammar', gIdx: 1, icon: '💭', name: '10. Le désir (-고 싶다)', color: '#4b9eff' },
+  { id: 'g0', type: 'grammar', gIdx: 0, icon: '🗣️', name: '11. Intention (-ㄹ래요)', color: '#7c6af7' },
+  { id: 'g17', type: 'grammar', gIdx: 17, icon: '🤔', name: '12. Proposer (ㄹ까요?)', color: '#26c6da' },
+  { id: 'g2', type: 'grammar', gIdx: 2, icon: '🙏', name: '13. Demande polie (-어/아 주세요)', color: '#34d47a' },
+  { id: 'g19', type: 'grammar', gIdx: 19, icon: '⛔', name: '14. Interdiction (지 마세요)', color: '#e53935' },
+  // 4) Capacité & obligation
+  { id: 'g13', type: 'grammar', gIdx: 13, icon: '💪', name: '15. Capacité (수 있다/없다)', color: '#ef5350' },
+  { id: 'g7', type: 'grammar', gIdx: 7, icon: '⚡', name: '16. Obligation (어야)', color: '#66bb6a' },
+  // 5) Temps & aspect
+  { id: 'g15', type: 'grammar', gIdx: 15, icon: '🎬', name: '17. En cours (고 있다)', color: '#29b6f6' },
+  { id: 'g16', type: 'grammar', gIdx: 16, icon: '🔮', name: '18. Futur (거예요)', color: '#7e57c2' },
+  // 6) Connecteurs & propositions
+  { id: 'g14', type: 'grammar', gIdx: 14, icon: '🔁', name: '19. Contraste (지만)', color: '#8d6e63' },
+  { id: 'g18', type: 'grammar', gIdx: 18, icon: '⚖️', name: '20. Condition ((으)면)', color: '#66bb6a' },
+  { id: 'g9', type: 'grammar', gIdx: 9, icon: '⏰', name: '21. Quand (을 때)', color: '#ab47bc' },
+  // 7) Suppositions
+  { id: 'g6', type: 'grammar', gIdx: 6, icon: '💭', name: '22. Supposition (것 같다)', color: '#9ccc65' },
+  { id: 'g21', type: 'grammar', gIdx: 21, icon: '🌤️', name: '23. Probabilité (겠)', color: '#9ccc65' },
+  // 8) Conjugaison irrégulière
+  { id: 'g22', type: 'grammar', gIdx: 22, icon: '🔀', name: '24. Irrégulier ㄷ (불규칙)', color: '#ab47bc' },
 ];
 
-// Exercises — word order (30 exercices)
+// Exercises — word order (expanded)
 const wordOrderExs = [
   { words: ['마실래요', '아메리카노를', '저는'], answer: '저는 아메리카노를 마실래요', trans: 'Je vais boire un americano.' },
   { words: ['싶어요', '케이크를', '먹고'], answer: '케이크를 먹고 싶어요', trans: 'Je veux manger un gâteau.' },
@@ -1787,9 +2185,25 @@ const wordOrderExs = [
   { words: ['약국에', '갑니다', '저는'], answer: '저는 약국에 갑니다', trans: 'Je vais à la pharmacie.' },
   { words: ['처방전을', '보여', '주세요'], answer: '처방전을 보여 주세요', trans: 'Montrez l\'ordonnance, s\'il vous plaît.' },
   { words: ['이 약을', '하루에', '세 번', '먹어야', '됩니다'], answer: '이 약을 하루에 세 번 먹어야 됩니다', trans: 'Vous devez prendre ce médicament trois fois par jour.' },
+  // NEW GRAMMAR EXERCISES
+  { words: ['안', '해요', '커피를', '마신'], answer: '나는 커피를 안 마셔요', trans: 'Je ne bois pas de café.' },
+  { words: ['가요', '학교에'], answer: '학교에 가요', trans: 'Je vais à l\'école.' },
+  { words: ['있어요', '카페에'], answer: '카페에 있어요', trans: 'Je suis au café.' },
+  { words: ['공부해요', '집에서'], answer: '집에서 공부해요', trans: 'J\'étudie à la maison.' },
+  { words: ['같아요', '것', '올', '비가'], answer: '비가 올 것 같아요', trans: 'Je pense qu\'il va pleuvoir.' },
+  { words: ['같아요', '것', '있을', '날씨가', '좋'], answer: '날씨가 좋을 것 같아요', trans: 'Je pense que le temps sera beau.' },
+  { words: ['돼요', '어야', '공부를', '해'], answer: '공부를 해야 돼요', trans: 'Je dois étudier.' },
+  { words: ['합니다', '어야', '먹', '약을'], answer: '약을 먹어야 합니다', trans: 'Vous devez prendre le médicament.' },
+  { words: ['갔어요', '친구와', '카페에'], answer: '친구와 카페에 갔어요', trans: 'Je suis allé au café avec mon ami.' },
+  { words: ['봤어요', '영화를', '형과'], answer: '형과 영화를 봤어요', trans: 'J\'ai regardé un film avec mon frère.' },
+  { words: ['만났어요', '친구를', '때', '갈', '학교에'], answer: '학교에 갈 때 친구를 만났어요', trans: 'Je suis tombé sur mon ami en allant à l\'école.' },
+  { words: ['왔어요', '전화가', '때', '먹을', '밥을'], answer: '밥을 먹을 때 전화가 왔어요', trans: 'Le téléphone a sonné pendant que je mangeais.' },
+  { words: ['있어요', '고양이는', '귀여워'], answer: '고양이는 귀여워요', trans: 'Le chat est mignon.' },
+  { words: ['바빠요', '은', '서울'], answer: '서울은 바빠요', trans: 'Séoul est occupée.' },
+  { words: ['재미있어요', '책은', '이'], answer: '이 책은 재미있어요', trans: 'Ce livre est intéressant.' },
 ];
 
-// Fill in the blank exercises (28 exercices)
+// Fill in the blank exercises (expanded)
 const fillExs = [
   { q: '아메리카노를 마시_____ 싶어요.', blank: '고', hint: '-고 싶어요 = Je veux...', choices: ['고','서','는','도'], answer: 0 },
   { q: '케이크를 먹_____래요.', blank: '을', hint: 'Batchim ㄱ → -을래요', choices: ['ㄹ','을','는','고'], answer: 1 },
@@ -1823,9 +2237,25 @@ const fillExs = [
   { q: '처방전을 _____ 주세요.', blank: '보여', hint: '-아/어 주세요 = s\'il vous plaît', choices: ['보여','주다','가져','읽다'], answer: 0 },
   { q: '감기에 걸리면 약을 _____야 합니다.', blank: '먹어', hint: '-어야 합니다 = obligation', choices: ['먹어','보다','사','주다'], answer: 0 },
   { q: '머리가 아프면 두통약을 _____세요.', blank: '드', hint: 'formule polie: 드세요', choices: ['드','먹','가','오'], answer: 0 },
+  // NEW EXERCISES
+  { q: '나는 커피를 _____ 마셔요.', blank: '안', hint: '안 + verbe = négation', choices: ['안','어','고','는'], answer: 0 },
+  { q: '오늘 날씨가 _____ 좋아요.', blank: '안', hint: '안 + adjectif = pas bon', choices: ['안','는','고','어'], answer: 0 },
+  { q: '공부를 _____ 했어요.', blank: '안', hint: '안 + verbe passé = n\'a pas...', choices: ['안','어','고','는'], answer: 0 },
+  { q: '_____ 카페에 있어요.', blank: '나는', hint: '는 après consonant finale', choices: ['나는','나가','나를','나도'], answer: 0 },
+  { q: '_____ 학교에 가요.', blank: '나는', hint: '는 particle de sujet', choices: ['나는','나가','나로','나도'], answer: 0 },
+  { q: '_____ 공부해요.', blank: '집에서', hint: '에서 = lieu d\'action', choices: ['집에서','집에','집으로','집에게'], answer: 0 },
+  { q: '3시_____ 만나요.', blank: '에', hint: '에 = heure spécifique', choices: ['에','에서','으로','를'], answer: 0 },
+  { q: '내일 날씨가 좋_____ 것 같아요.', blank: '을', hint: '을 것 같다 (adjectif avec batchim)', choices: ['ㄹ','을','는','고'], answer: 1 },
+  { q: '비가 _____ 것 같아요.', blank: '올', hint: '올 것 같다 (verbe sans batchim)', choices: ['오ㄹ','오','오는','오을'], answer: 0 },
+  { q: '공부를 _____ 돼요.', blank: '해야', hint: '-어야 돼요 = obligation familier', choices: ['해야','했','하고','할'], answer: 0 },
+  { q: '약을 _____ 합니다.', blank: '먹어야', hint: '-어야 합니다 = obligation formel', choices: ['먹어야','먹고','먹을','먹는'], answer: 0 },
+  { q: '친구_____ 카페에 갔어요.', blank: '와', hint: '와 after no consonant', choices: ['와','과','는','을'], answer: 0 },
+  { q: '형_____ 영화를 봤어요.', blank: '과', hint: '과 after consonant', choices: ['와','과','는','를'], answer: 1 },
+  { q: '학교에 _____ 친구를 만났어요.', blank: '갈 때', hint: '-ㄹ 때 = quand', choices: ['갈 때','가는 때','갔을 때','갈래'], answer: 0 },
+  { q: '밥을 먹_____ 전화가 왔어요.', blank: '을 때', hint: '-을 때 = quand (avec batchim)', choices: ['을 때','는 때','ㄹ 때','겠을'], answer: 0 },
 ];
 
-// QCM Traduction (Français → Coréen)
+// QCM Traduction (Français → Coréen) - expanded
 const translationExs = [
   { fr: 'Je vais boire un americano.', opts: ['저는 아메리카노를 마실래요.','저는 아메리카노를 먹을래요.','저는 아메리카노를 마시고 싶어요.','저는 아메리카노를 팔래요.'], answer: 0 },
   { fr: 'Je veux manger un gâteau.', opts: ['케이크를 먹고 싶어요.','케이크를 먹을래요.','케이크를 먹어 주세요.','케이크를 먹었어요.'], answer: 0 },
@@ -1846,15 +2276,39 @@ const translationExs = [
   { fr: 'Montrez l\'ordonnance, s\'il vous plaît.', opts: ['처방전을 주세요.','처방전을 보여 주세요.','처방전이 있어요.','처방전이 필요해요.'], answer: 1 },
   { fr: 'J\'ai mal à la tête.', opts: ['머리가 아파요.','머리가 좋아요.','머리가 없어요.','머리가 피곤해요.'], answer: 0 },
   { fr: 'J\'ai attrapé un rhume.', opts: ['감기에 걸렸어요.','감기에 걸려요.','감기예요.','감기합니다.'], answer: 0 },
+  // NEW TRANSLATIONS
+  { fr: 'Je ne bois pas de café.', opts: ['나는 커피를 안 마셔요.','나는 커피를 마셔요.','나는 커피를 마셨어요.','나는 커피를 마실래요.'], answer: 0 },
+  { fr: 'Je n\'ai pas étudié.', opts: ['공부했어요.','공부해요.','공부를 안 했어요.','공부를 해야 돼요.'], answer: 2 },
+  { fr: 'Aujourd\'hui le temps n\'est pas beau.', opts: ['오늘 날씨가 좋아요.','오늘 날씨가 안 좋아요.','오늘 날씨가 예뻐요.','오늘 날씨가 있어요.'], answer: 1 },
+  { fr: 'Cette nourriture n\'a pas bon goût.', opts: ['이 음식은 맛있어요.','이 음식은 맛이 있어요.','이 음식은 맛이 안 있어요.','이 음식은 맛이 없어요.'], answer: 2 },
+  { fr: 'Je suis au café.', opts: ['카페에 가요.','카페에 있어요.','카페에 왔어요.','카페에서 있어요.'], answer: 1 },
+  { fr: 'Je vais à l\'école.', opts: ['학교에 있어요.','학교에서 가요.','학교에 가요.','학교에 와요.'], answer: 2 },
+  { fr: 'J\'étudie à la maison.', opts: ['집에 공부해요.','집에 있어요.','집에서 공부해요.','집에서 있어요.'], answer: 2 },
+  { fr: 'On se rencontre à 3h.', opts: ['3시에 만나요.','3시에서 만나요.','3시를 만나요.','3시와 만나요.'], answer: 0 },
+  { fr: 'Je pense qu\'il va pleuvoir.', opts: ['비가 와요.','비가 올 것 같아요.','비를 올 것 같아요.','비에 올 것 같아요.'], answer: 1 },
+  { fr: 'Je pense que le temps sera beau demain.', opts: ['내일 날씨가 좋을 것 같아요.','내일 날씨가 좋아요.','내일 날씨를 좋을 것 같아요.','내일 날씨가 좋을 거예요.'], answer: 0 },
+  { fr: 'Je dois étudier.', opts: ['공부하고 싶어요.','공부해요.','공부를 해야 돼요.','공부를 할래요.'], answer: 2 },
+  { fr: 'Vous devez prendre le médicament.', opts: ['약을 마셔요.','약을 먹어야 돼요.','약을 먹어야 합니다.','약을 먹으세요.'], answer: 2 },
+  { fr: 'Je suis allé au café avec mon ami.', opts: ['친구와 카페에 갔어요.','친구가 카페에 갔어요.','친구를 카페에 갔어요.','친구에게 카페에 갔어요.'], answer: 0 },
+  { fr: 'J\'ai regardé un film avec mon frère.', opts: ['형이 영화를 봤어요.','형과 영화를 봤어요.','형을 영화를 봤어요.','형에게 영화를 봤어요.'], answer: 1 },
+  { fr: 'Je suis tombé sur mon ami en allant à l\'école.', opts: ['학교에 갈 때 친구를 만났어요.','학교에 가는 때 친구를 만났어요.','학교에 간 때 친구를 만났어요.','학교에 갔을 때 친구가 와요.'], answer: 0 },
+  { fr: 'Le téléphone a sonné pendant que je mangeais.', opts: ['밥을 먹을 때 전화가 왔어요.','밥을 먹는 때 전화가 왔어요.','밥을 먹었을 때 전화가 와요.','밥을 먹고 있을 때 전화가 왔어요.'], answer: 0 },
+  { fr: 'Le chat est mignon.', opts: ['고양이가 귀여워요.','고양이는 귀여워요.','고양이를 귀여워요.','고양이에게 귀여워요.'], answer: 1 },
+  { fr: 'Séoul est occupée.', opts: ['서울이 바빠요.','서울은 바빠요.','서울을 바빠요.','서울에 바빠요.'], answer: 1 },
+  { fr: 'Ce livre est intéressant.', opts: ['책이 재미있어요.','책은 재미있어요.','이 책은 재미있어요.','이 책이 재미있어요.'], answer: 2 },
 ];
 
-// Matching exercises (associer coréen <-> français)
+// Matching exercises (associer coréen <-> français) - expanded
 const matchingExs = [
   { left: ['아이스커피','카페','케이크','쿠키'], right: ['Café glacé','Café (lieu)','Gâteau','Cookie'] },
   { left: ['주문하다','기다리다','마시다','읽다'], right: ['Commander','Attendre','Boire','Lire'] },
   { left: ['봄','여름','겨울','가을'], right: ['Printemps','Été','Hiver','Automne'] },
   { left: ['사진을 찍다','자전거를 타다','영화를 보다','춤추다'], right: ['Prendre des photos','Faire du vélo','Regarder un film','Danser'] },
   { left: ['약국','처방전','두통약','마스크'], right: ['Pharmacie','Ordonnance','Médicament pour mal de tête','Masque'] },
+  { left: ['안 마셔요','안 했어요','안 좋아요','안 있어요'], right: ['Je ne suis pas','Je n\'ai pas','Ce n\'est pas beau','Je ne bois pas'] },
+  { left: ['것 같아요','해야 돼요','할 때','은/는'], right: ['Supposition','Obligation','Quand','Thème/sujet'] },
+  { left: ['카페에','학교에','집에서','3시에'], right: ['À l\'école','À la maison','Au café','À 3h'] },
+  { left: ['친구와','형과','엄마와','아빠와'], right: ['Avec maman','Avec papa','Avec mon ami','Avec mon frère'] },
 ];
 
 // Dictation exercises (listen and type)
@@ -1867,7 +2321,7 @@ const dictationExs = [
   { kr: '처방전을 보여 주세요', hint: 'Montrer l\'ordonnance' },
 ];
 
-// Reading comprehension texts (5 textes)
+// Reading comprehension texts (expanded - covers all grammar points)
 const readingTexts = [
   {
     title: '아이스커피를 마실래요',
@@ -1924,6 +2378,43 @@ const readingTexts = [
       { q: '환자가 무엇을 보여 줍니까?', opts: ['영수증', '처방전', '신분증', '지도'], answer: 1 },
       { q: '의사는 약을 하루에 몇 번 먹으라고 했나요?', opts: ['한 번', '두 번', '세 번', '네 번'], answer: 2 },
       { q: '약사는 누구입니까?', opts: ['요리사', '약사', '학생', '운전사'], answer: 1 },
+    ]
+  },
+  {
+    title: '날씨가 안 좋아요',
+    text: '오늘 날씨가 안 좋아요. 비가 올 것 같아요. 밖에 나가고 싶지 않아요. 집에서 책을 읽고 싶어요. 영화를 보고 싶어 해요. 친구와 함께 있으면 좋아요.',
+    questions: [
+      { q: '오늘 날씨가 어떻게 돼요?', opts: ['좋아요', '안 좋아요', '더워요', '추워요'], answer: 1 },
+      { q: '비가?', opts: ['왔어요', '왔을 것 같아요', '올 것 같아요', '온대요'], answer: 2 },
+      { q: '이 사람은 지금 뭐를 하고 싶어요?', opts: ['밖에 나가기', '책 읽기', '운동', '일'], answer: 1 },
+    ]
+  },
+  {
+    title: '학교에 갈 때',
+    text: '학교에 갈 때 친구를 만났어요. 우리는 함께 카페에 갔어요. 아이스커피를 마실래요? 친구가 물었어요. 나는 "네, 아메리카노를 마시고 싶어요." 라고 대답했어요.',
+    questions: [
+      { q: '언제 친구를 만났어요?', opts: ['집에서', '학교에서', '학교에 갈 때', '카페에서'], answer: 2 },
+      { q: '친구와 어디에 갔어요?', opts: ['식당', '카페', '집', '학교'], answer: 1 },
+      { q: '나는 뭐를 마시고 싶어요?', opts: ['아이스커피', '카페라테', '아메리카노', '주스'], answer: 2 },
+    ]
+  },
+  {
+    title: '약을 먹어야 해요',
+    text: '머리가 아파요. 약을 먹어야 해요. 약국에 가야 돼요. 의사는 약을 하루에 세 번 먹어야 합니다 라고 말했어요. 처방전을 보여 주세요 라고 약사가 했어요. 약을 삼일 동안 먹어야 해요.',
+    questions: [
+      { q: '뭐가 아파요?', opts: ['배', '손', '머리', '다리'], answer: 2 },
+      { q: '약을 하루에 몇 번 먹어야 돼요?', opts: ['한 번', '두 번', '세 번', '네 번'], answer: 2 },
+      { q: '약을 몇 일 동안 먹어야 해요?', opts: ['하루', '이틀', '사흘', '삼일'], answer: 3 },
+    ]
+  },
+  {
+    title: '내 취미는 독서예요',
+    text: '나의 취미는 독서예요. 카페에 가서 책을 읽는 것을 좋아해요. 친구와 함께 책을 읽고 싶어요. 한국 소설을 읽고 싶어요. 영화를 보는 것도 좋아해요. 주말에 영화관에 가고 싶어요.',
+    questions: [
+      { q: '화자의 취미는 뭐예요?', opts: ['영화 보기', '독서', '음악', '게임'], answer: 1 },
+      { q: '어디에서 책을 읽고 싶어요?', opts: ['집에서', '도서관에서', '카페에서', '학교에서'], answer: 2 },
+      { q: '친구와 무엇을 하고 싶어요?', opts: ['영화 보기', '게임하기', '책 읽기', '노래하기'], answer: 2 },
+      { q: '주말에 어디에 가고 싶어요?', opts: ['카페', '영화관', '도서관', '공원'], answer: 1 },
     ]
   },
 ];
